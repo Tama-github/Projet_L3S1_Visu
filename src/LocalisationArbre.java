@@ -93,7 +93,9 @@ public class LocalisationArbre {
         for (int i = 0; i < list.size(); i++) {
             c.add(list.get(i));
         }
+    }
 
+    public void addCapteurExt (double lat, double lon) {
 
     }
 }

@@ -45,6 +45,50 @@ public class ProtocolManager {
         return res;
     }
 
-    /*reception de donnee a gèrer*/
+    public String receptionVisu () throws IOException {
+        return this.servicesReseau.recevoir();
+    }
+
+    public String getTypeOfReceivedMessage (String message) {
+        int i = 0;
+        String type = "";
+        char c = message.charAt(0);
+        while (c != ';' || c != '\0') {
+            type += c;
+            i++;
+            c = message.charAt(i);
+        }
+
+        return type;
+    }
+
+    public String getFieldFromReceivedMessage (int index, String message) {
+        String res = ";erreur;";
+        int i = 0;
+        int j = 0;
+        char c = 'a';
+        if (index >= 0) {
+            while (i < index) {
+                c = message.charAt(j);
+                if (c == ';') {
+                    i++;
+                } else if (c == '\0') {
+                    i = -1;
+                    break;
+                }
+                j++;
+            }
+            if (i != -1) {
+                res = "";
+                c = message.charAt(j);
+                while (c != ';' || c !='\0') {
+                    res += c;
+                    j++;
+                    c = message.charAt(j);
+                }
+            }
+        }
+        return res;
+    }
 
 }

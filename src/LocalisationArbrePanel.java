@@ -23,7 +23,12 @@ public class LocalisationArbrePanel {
 
     public void addCapteurInt (String batiment, String etage, String salle, String id) {
         this.localisationArbre.addCapteurInt(batiment, etage, salle, id);
-        this.arbre = new JTree(localisationArbre.getArbre());
+        this.arbre = new JTree(this.localisationArbre.getArbre());
+    }
+
+    public void addCapteurExt (double lat, double lon) {
+        this.localisationArbre.addCapteurExt(lat, lon);
+        this.arbre = new JTree(this.localisationArbre.getArbre());
     }
 
 
