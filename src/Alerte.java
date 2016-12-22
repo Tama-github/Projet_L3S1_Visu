@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class Alerte extends JFrame {
+public class Alerte{
 
     private JFormattedTextField min = new JFormattedTextField();
     private JFormattedTextField max = new JFormattedTextField();
@@ -50,10 +50,8 @@ public class Alerte extends JFrame {
         pGlobal.add(pAppliquer);
         pGlobal.add(pErreur);
 
-        this.add(pGlobal);
 
         remplirListeType();
-        setVisible(true);
 
 
         appliquer.addMouseListener(new MouseAdapter() {

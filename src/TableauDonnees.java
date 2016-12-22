@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Created by jb on 19/12/16.
  */
-public class TableauDonnees /*extends JFrame*/{
+public class TableauDonnees{
 
     private JTable tableau;
     private int nbLignes;
@@ -57,10 +57,6 @@ public class TableauDonnees /*extends JFrame*/{
         remplirComboType();
         remplirComboLoc();
         ajoutTest();
-        //this.add(pGlobal);
-        //this.setContentPane(pGlobal);
-        //this.getContentPane().add(pGlobal);
-        //this.setVisible(true);
     }
 
     public JPanel getPanGlobal()
