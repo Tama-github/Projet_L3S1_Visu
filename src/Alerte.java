@@ -17,10 +17,6 @@ public class Alerte extends JFrame {
     private JPanel pGlobal = new JPanel();
 
     public Alerte() {
-        super("Alerte");
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400,150);
 
         JLabel lType = new JLabel("Type de données : ");
         JLabel lMin = new JLabel("Min : ");
@@ -78,6 +74,11 @@ public class Alerte extends JFrame {
 
     }
 
+    public JPanel getPanGlobal()
+    {
+        return pGlobal;
+    }
+
     private void setErreur(boolean isErreur)
     {
         if (isErreur) {
@@ -116,12 +117,6 @@ public class Alerte extends JFrame {
     {
 
     }
-
-
-     public static void main(String[] args)
-     {
-         Alerte alerte = new Alerte();
-     }
 
      private boolean verifInterval(int min, int max)
      {

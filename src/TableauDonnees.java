@@ -1,10 +1,11 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 /**
  * Created by jb on 19/12/16.
  */
-public class TableauDonnees extends JFrame{
+public class TableauDonnees /*extends JFrame*/{
 
     private JTable tableau;
     private int nbLignes;
@@ -16,9 +17,9 @@ public class TableauDonnees extends JFrame{
 
     public TableauDonnees()
     {
-        super("Tableau");
-        this.setSize(400, 200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //super("Tableau");
+     /*   this.setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);*/
 
         JLabel lType = new JLabel("Filtrer par type");
         JLabel lLoc = new JLabel("Filtrer par localisation");
@@ -31,8 +32,8 @@ public class TableauDonnees extends JFrame{
 
         tableau.setCellSelectionEnabled(false);
         //tableau.setDefaultRenderer(Object.class, new RenduCell());
-        tableau.setSize(400,50);
-        pTableau.setSize(400, 50);
+        /*tableau.setSize(400,50);
+        pTableau.setSize(400, 100);*/
         tableau.setEnabled(false);
         pTableau.add(tableau);
         panTableau.add(pTableau);
@@ -41,11 +42,10 @@ public class TableauDonnees extends JFrame{
 
         pLoc.add(lLoc);
         pLoc.add(comboLoc);
-
+        pGlobal.setLayout(new GridLayout(3,1));
         pGlobal.add(tableau);
         pGlobal.add(pType);
         pGlobal.add(pLoc);
-
 
         tableau.setVisible(true);
         pTableau.setVisible(true);
@@ -59,8 +59,13 @@ public class TableauDonnees extends JFrame{
         ajoutTest();
         //this.add(pGlobal);
         //this.setContentPane(pGlobal);
-        this.getContentPane().add(pGlobal);
-        this.setVisible(true);
+        //this.getContentPane().add(pGlobal);
+        //this.setVisible(true);
+    }
+
+    public JPanel getPanGlobal()
+    {
+        return pGlobal;
     }
 
     private void remplirComboType()
