@@ -3,7 +3,7 @@
 import java.io.IOException;
 
 /**
- * Thread qui gère l'envoi des données au serveur
+ * Thread qui gï¿½re l'envoi des donnï¿½es au serveur
  * @autor Ludovic BURG
  */
 public class ReceptionThread extends Thread implements Runnable {
@@ -43,9 +43,9 @@ public class ReceptionThread extends Thread implements Runnable {
 
                     } else if (type.equals("DesinscriptionCapteurKO")) {
 
-                    } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre a jour le tableai */
+                    } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destinÃ© a mettre Ã  jour le tableau */
 
-                    } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre a jour l'arbre  */
+                    } else if (type.equals("CapteurDeco")) { /* reception d'un message destinÃ© Ã  mettre Ã  jour l'arbre  */
 
                     }
                 }
