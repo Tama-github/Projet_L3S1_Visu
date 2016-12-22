@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Thread qui g�re l'envoi des donn�es au serveur
@@ -10,6 +12,7 @@ public class ReceptionThread extends Thread implements Runnable {
     private ProtocolManager protocolManager;
     private LocalisationArbrePanel localisationArbrePanel;
     private boolean running = true;
+    private HashMap<String, Capteur> capteurs = new HashMap<>();
 
     public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel) {
         this.protocolManager = protocolManager;
@@ -20,6 +23,7 @@ public class ReceptionThread extends Thread implements Runnable {
     public void run() {
         String recu;
         String type;
+        Capteur tmp;
         try {
             while (this.running) {
                 recu = this.protocolManager.receptionVisu();
@@ -27,6 +31,15 @@ public class ReceptionThread extends Thread implements Runnable {
                 if (!recu.equals("pas connecte")) {
                     if (type.equals("CapteurPresent")) { /* Reception d'un message destiner a mettre a jour l'arbre */
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
+                            tmp = new Capteur(
+                                        this.protocolManager.getFieldFromReceivedMessage(1, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(2, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(3, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(4, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(5, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(6, recu)
+                                    );
+                            this.capteurs.put(this.protocolManager.getFieldFromReceivedMessage(1, recu), tmp);
                             this.localisationArbrePanel.addCapteurInt(
                                     this.protocolManager.getFieldFromReceivedMessage(3, recu),
                                     this.protocolManager.getFieldFromReceivedMessage(4, recu),

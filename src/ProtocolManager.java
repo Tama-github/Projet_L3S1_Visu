@@ -9,11 +9,11 @@ public class ProtocolManager {
     private int port;
     private String idVisu;
 
-    public ProtocolManager (String ip, int port, String idVisu) {
+    public ProtocolManager (String ip, int port) {
         this.servicesReseau = new ServicesReseau();
         this.ip = ip;
         this.port = port;
-        this.idVisu = idVisu;
+        this.idVisu = "Visu_L3_Groupe3_ljbr";
     }
 
     public String connexionVisu () throws IOException {
