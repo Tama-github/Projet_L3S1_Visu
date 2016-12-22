@@ -1,56 +1,121 @@
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Created by jb on 19/12/16.
  */
-public class TableauDonnees extends AbstractTableModel{
+public class TableauDonnees extends JFrame{
 
-    private JTable tableau = new JTable();
-    private int nbCapteurs;
-    private ArrayList listeCapteurs = new ArrayList();
+    private JTable tableau;
+    private int nbLignes;
+    private Object[][] donnees = new Object[0][4];
+    private JComboBox<String> comboType = new JComboBox<>();
+    private JComboBox<String> comboLoc = new JComboBox<>();
+    private JPanel pGlobal = new JPanel();
+    private JScrollPane pTableau = new JScrollPane();
 
     public TableauDonnees()
     {
-        String ligne1[] = {"Nom", "Type de données", "Localisation", "Valeur"};
-        JScrollPane panelTableau = new JScrollPane();
+        super("Tableau");
+        this.setSize(400, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JLabel lType = new JLabel("Filtrer par type");
+        JLabel lLoc = new JLabel("Filtrer par localisation");
+        JPanel pType = new JPanel();
+        JPanel pLoc = new JPanel();
+        JPanel panTableau = new JPanel();
+        String[] titre = {"Nom","Type de donnees","Localisation","Valeur"};
+        ModeleTab model = new ModeleTab(donnees, titre);
+        tableau = new JTable(model);
+
+        tableau.setCellSelectionEnabled(false);
+        //tableau.setDefaultRenderer(Object.class, new RenduCell());
+        tableau.setSize(400,50);
+        pTableau.setSize(400, 50);
+        tableau.setEnabled(false);
+        pTableau.add(tableau);
+        panTableau.add(pTableau);
+        pType.add(lType);
+        pType.add(comboType);
+
+        pLoc.add(lLoc);
+        pLoc.add(comboLoc);
+
+        pGlobal.add(tableau);
+        pGlobal.add(pType);
+        pGlobal.add(pLoc);
 
 
-        panelTableau.add(tableau);
+        tableau.setVisible(true);
+        pTableau.setVisible(true);
+        panTableau.setVisible(true);
+        pGlobal.setVisible(true);
+
+
+        nbLignes = 0;
+        remplirComboType();
+        remplirComboLoc();
+        ajoutTest();
+        //this.add(pGlobal);
+        //this.setContentPane(pGlobal);
+        this.getContentPane().add(pGlobal);
+        this.setVisible(true);
     }
 
-    public Object getValueAt(int idL, int idC)
+    private void remplirComboType()
     {
-        return null;
-    }
-
-
-    public int getnbCapteurs()
-    {
-        return nbCapteurs;
-    }
-
-    public String getColumnName(int colonne)
-    {
-        switch (colonne)
+        int i;
+        String type[] = {"Tout","Temperature","Humidite","Luminosite", "Volume Sonore", "Consommation éclairage", "Eau froide", "Eau chaude", "Vitesse vent", "Pression Atmosphérique"};
+        for (i = 0; i < type.length; i++)
         {
-            case 0: return new String("Nom");
-            case 1: return new String("Type de donnees");
-            case 2: return new String("Localisation");
-            case 3: return new String("Valeur");
-            default: return null;
+            comboType.addItem(type[i]);
         }
     }
 
-    public int getRowCount()
+    public void remplirComboLoc()
     {
-        return this.getnbCapteurs();
+        int i;
+        String[] loc = {"Tout", "Exterieur", "Interieur"};
+        for (i = 0; i < loc.length; i++)
+        {
+            comboLoc.addItem(loc[i]);
+        }
     }
 
-    public int getColumnCount()
+    public void setAlert(boolean alert, int numLigne)
     {
-        return 4;
+        tableau.getCellRenderer(numLigne, 0).getTableCellRendererComponent(tableau, "a", false, false, numLigne, 0);
+        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
+    }
+
+    public void ajoutLigne(Object[] ligne)
+    {
+        ((ModeleTab) tableau.getModel()).addRow(ligne);
+    }
+
+    public void ajoutTest()
+    {
+        Object[] ligne = {"chauffage", "Temperature", "Exterieur", "5"};
+        ajoutLigne(ligne);
+        nbLignes++;
+        ajoutLigne(new Object[] {"Lumiere", "Consommation eclairage", "Interieur", "25"});
+        nbLignes++;
+        ajoutLigne(new Object[] {"Vent","Vitesse vent","Exterieur", "50"});
+        nbLignes++;
+        ajoutLigne(new Object[] {"Pression","Pression atmospherique","Exterieur", "15"});
+        nbLignes++;
+        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
+    }
+
+
+    public void removeAll()
+    {
+        for (int i = nbLignes; i >= 0; i--)
+        {
+            ((ModeleTab) tableau.getModel()).removeRow(i);
+        }
+        nbLignes = 0;
     }
 
 }
