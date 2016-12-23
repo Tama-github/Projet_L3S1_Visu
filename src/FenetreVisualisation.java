@@ -35,7 +35,7 @@ public class FenetreVisualisation extends JFrame{
         localisationArbrePanel.addCapteurInt("U3", "3eme", "308", "qsd");
         localisationArbrePanel.addCapteurInt("U2", "1er", "101", "nhj");
 
-        localisationArbrePanel.addCapteurExt(-12.123,15.154);
+        localisationArbrePanel.addCapteurExt(-12.123, 15.154);
         localisationArbrePanel.addCapteurExt(-13.25, 0);
         localisationArbrePanel.addCapteurExt(-12.123,21.0);
 
