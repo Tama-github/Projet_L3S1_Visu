@@ -38,5 +38,8 @@ public class FenetreVisualisation extends JFrame{
         localisationArbrePanel.addCapteurExt(-12.123,15.154);
         localisationArbrePanel.addCapteurExt(-13.25, 0);
         localisationArbrePanel.addCapteurExt(-12.123,21.0);
+
+        localisationArbrePanel.removeCapteurInt("nhj");
+        localisationArbrePanel.removeCapteurExt(-12.123, 21.0);
     }
 }

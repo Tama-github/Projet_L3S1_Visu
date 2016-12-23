@@ -152,4 +152,44 @@ public class LocalisationArbre {
             c.add(list.get(i));
         }
     }
+
+    public void removeCapteurInt (String id, DefaultMutableTreeNode c) {
+        DefaultMutableTreeNode tmp;
+        if (c == null) {
+            c = (DefaultMutableTreeNode)this.arbre.getChildAt(0);
+        }
+
+        int n = c.getChildCount();
+        boolean stop = false;
+        for (int i = 0; i < n && !stop; i++) {
+            tmp = (DefaultMutableTreeNode)c.getChildAt(i);
+            if (tmp.toString().equals(id)) {
+                c.remove(tmp);
+                stop = true;
+            } else if (tmp.getChildCount() != 0) {
+                removeCapteurInt(id, tmp);
+            }
+            n = c.getChildCount();
+        }
+        if (c != (DefaultMutableTreeNode)this.arbre.getChildAt(0) && c.getChildCount() == 0) {
+            ((DefaultMutableTreeNode)c.getParent()).remove(c);
+        }
+    }
+
+    public void removeCapteurExt (double lat, double lon) {
+        DefaultMutableTreeNode c = (DefaultMutableTreeNode)this.arbre.getChildAt(1);
+        DefaultMutableTreeNode tmp;
+        Double tmpLat, tmpLon;
+        boolean stop = false;
+        int n = c.getChildCount();
+        for (int i = 0; i < n && !stop; i++) {
+            tmp = (DefaultMutableTreeNode)c.getChildAt(i);
+            tmpLat = getLat(tmp.toString());
+            tmpLon = getLon(tmp.toString());
+            if (tmpLat == lat && tmpLon == lon) {
+                c.remove(tmp);
+                stop = true;
+            }
+        }
+    }
 }
