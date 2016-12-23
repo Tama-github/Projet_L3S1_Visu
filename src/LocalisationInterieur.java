@@ -24,7 +24,7 @@ public class LocalisationInterieur extends Localisation {
         this.infoSup = infoSup;
     }
 
-    public String getStringForConnexion() {
+    public String getString() {
         return this.batiment+";"+this.etage+";"+this.salle+";"+this.infoSup;
     }
 }

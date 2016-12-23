@@ -39,7 +39,7 @@ public class Capteur{
     }
 
     public String getLocalisation() {
-        return localisation.getStringForConnexion();
+        return localisation.getString();
     }
 
     public String getType()

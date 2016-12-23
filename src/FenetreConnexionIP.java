@@ -65,7 +65,7 @@ public class FenetreConnexionIP extends JFrame {
 		
 		ligneBas.setLayout(new BoxLayout(ligneBas, BoxLayout.LINE_AXIS));
 		ligneBas.add(buttonConnection);
-		ligneBas.add(buttonCancel);
+		//ligneBas.add(buttonCancel);
 	    
 
 	    container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));

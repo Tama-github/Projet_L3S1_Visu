@@ -33,7 +33,7 @@ public class ReceptionThread extends Thread implements Runnable {
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
                             tmp = new Capteur(
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
-                                        this.protocolManager.getFieldFromReceivedMessage(2, recu),
+                                        "interieur",
                                         this.protocolManager.getFieldFromReceivedMessage(3, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(4, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(5, recu),
@@ -47,6 +47,12 @@ public class ReceptionThread extends Thread implements Runnable {
                                     this.protocolManager.getFieldFromReceivedMessage(1, recu)
                             );
                         } else {
+                            tmp = new Capteur (
+                                        this.protocolManager.getFieldFromReceivedMessage(1, recu),
+                                        "exterieur",
+                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, recu)),
+                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, recu))
+                                    );
                             this.localisationArbrePanel.addCapteurExt(
                                     Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
                                     Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))
@@ -59,7 +65,13 @@ public class ReceptionThread extends Thread implements Runnable {
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
 
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
-
+                        String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
+                        tmp = this.capteurs.get(idCapteur);
+                        if (tmp.getType().equals("interieur")) {
+                            this.localisationArbrePanel.removeCapteurInt(idCapteur);
+                        } else if (tmp.getType().equals("exterieur")) {
+                            this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, tmp.getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, tmp.getLocalisation())));
+                        }
                     }
                 }
             }

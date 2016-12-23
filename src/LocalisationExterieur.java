@@ -18,7 +18,7 @@ public class LocalisationExterieur extends Localisation {
         this.longitude = longitude;
     }
 
-    public String getStringForConnexion() {
+    public String getString() {
         return this.latitude+";"+this.longitude;
     }
 }

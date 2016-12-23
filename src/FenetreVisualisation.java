@@ -30,17 +30,6 @@ public class FenetreVisualisation extends JFrame{
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.add(panGeneral);
-        localisationArbrePanel.addCapteurInt("U3", "2eme", "209", "zae");
-        localisationArbrePanel.addCapteurInt("U3", "2eme", "209", "azertyuiop");
-        localisationArbrePanel.addCapteurInt("U3", "3eme", "308", "qsd");
-        localisationArbrePanel.addCapteurInt("U2", "1er", "101", "nhj");
-
-        localisationArbrePanel.addCapteurExt(-12.123, 15.154);
-        localisationArbrePanel.addCapteurExt(-13.25, 0);
-        localisationArbrePanel.addCapteurExt(-12.123,21.0);
-
-        localisationArbrePanel.removeCapteurInt("nhj");
-        localisationArbrePanel.removeCapteurExt(-12.123, 21.0);
     }
 
     public void setProtocolManager(ProtocolManager protocolManager) {
