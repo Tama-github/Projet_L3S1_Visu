@@ -90,6 +90,7 @@ public class FenetreConnexionIP extends JFrame {
 						} else {
 							setVisible(false);
 							fenetreVisualisation.setProtocolManager(protocolManager);
+							fenetreVisualisation.setVisible(true);
 						}
 					} catch (IOException e1) {
 						printErr("Erreur lors de la connexion au serveur");
