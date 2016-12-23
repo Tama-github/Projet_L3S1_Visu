@@ -1,12 +1,18 @@
-import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 /**
  * Created by msi on 19/12/2016.
  */
 public class Main {
     public static void main (String args []) {
-        FenetreConnexionIP fenetreConnexionIP = new FenetreConnexionIP();
-        fenetreConnexionIP.setVisible(true);
         FenetreVisualisation fenetreVisualisation = new FenetreVisualisation();
+
+        FenetreConnexionIP fenetreConnexionIP = new FenetreConnexionIP(fenetreVisualisation);
+        fenetreConnexionIP.setVisible(true);
+
+
+
     }
 }

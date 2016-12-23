@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
@@ -27,10 +28,12 @@ public class FenetreConnexionIP extends JFrame {
 	
 	private JButton buttonConnection = new JButton("Connexion");
 	private JButton buttonCancel = new JButton("Annuler");
+	private ProtocolManager protocolManager;
+	private FenetreVisualisation fenetreVisualisation;
 	
-	
-	public FenetreConnexionIP(){
-		
+	public FenetreConnexionIP(FenetreVisualisation fenetreVisualisation){
+
+		this.fenetreVisualisation = fenetreVisualisation;
 		this.setTitle("Connexion");
 		this.setSize(500, 100);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,6 +74,31 @@ public class FenetreConnexionIP extends JFrame {
         container.add(labelError);
 			
 	    this.getContentPane().add(container);
+
+
+		this.getButtonConnexion().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				if (verifIP(getJtfIP().getText()) && (int) getJtfPORT().getValue() >= 0) {
+					getLabelError().setText("");
+					protocolManager = new ProtocolManager(getJtfIP().getText(), (int)getJtfPORT().getValue());
+
+					try {
+						if (protocolManager.connexionVisu().equals("ConnexionKO")) {
+							printErr("Erreur lors de la connexion au serveur");
+						} else {
+							setVisible(false);
+							fenetreVisualisation.setProtocolManager(protocolManager);
+						}
+					} catch (IOException e1) {
+						printErr("Erreur lors de la connexion au serveur");
+					}
+				} else {
+					printErr("L'adresse IP et le port doivent etre valide.");
+				}
+			}
+		});
 	}
 
 
@@ -99,7 +127,7 @@ public class FenetreConnexionIP extends JFrame {
 	 *
 	 *  @return JButton : Renvoi le bouton de connexion
 	 */
-	public JButton getButtonConnection() {
+	public JButton getButtonConnexion() {
 		return this.buttonConnection;
 	}
 

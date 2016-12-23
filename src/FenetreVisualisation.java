@@ -42,4 +42,9 @@ public class FenetreVisualisation extends JFrame{
         localisationArbrePanel.removeCapteurInt("nhj");
         localisationArbrePanel.removeCapteurExt(-12.123, 21.0);
     }
+
+    public void setProtocolManager(ProtocolManager protocolManager) {
+        this.protocolManager = protocolManager;
+        this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel);
+    }
 }

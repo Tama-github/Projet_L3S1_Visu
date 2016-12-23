@@ -16,6 +16,11 @@ public class ProtocolManager {
         this.idVisu = "Visu_L3_Groupe3_ljbr";
     }
 
+    public ProtocolManager () {
+        this.servicesReseau = new ServicesReseau();
+        this.idVisu = "Visu_L3_Groupe3_ljbr";
+    }
+
     public String connexionVisu () throws IOException {
         String res = "";
         if (!this.servicesReseau.estConnecte()) {
@@ -91,4 +96,11 @@ public class ProtocolManager {
         return res;
     }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
