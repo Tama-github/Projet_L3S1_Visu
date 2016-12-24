@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Thread qui g�re l'envoi des donn�es au serveur
+ * Thread qui gere l'envoi des donnees au serveur
  * @autor Ludovic BURG
  */
 public class ReceptionThread extends Thread implements Runnable {
