@@ -34,10 +34,12 @@ public class LocalisationArbrePanel {
     public void removeCapteurInt (String id) {
         this.localisationArbre.removeCapteurInt(id, null);
         this.arbre = new JTree(this.localisationArbre.getArbre());
+        this.arbre.updateUI();
     }
 
     public void removeCapteurExt (double lat, double lon) {
         this.localisationArbre.removeCapteurExt(lat, lon);
         this.arbre = new JTree(this.localisationArbre.getArbre());
+        this.arbre.updateUI();
     }
 }
