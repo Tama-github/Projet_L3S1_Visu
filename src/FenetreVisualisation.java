@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by msi on 20/12/2016.
@@ -10,16 +11,15 @@ public class FenetreVisualisation extends JFrame{
     private LocalisationArbrePanel localisationArbrePanel;
     private TableauDonnees tableauDonnees;
     private Alerte alerte;
-    private ArrayList<Capteur> capteurs;
+    private HashMap<String, Capteur> capteurs = new HashMap<>();
     private ReceptionThread receptionThread;
     private ProtocolManager protocolManager;
 
     public FenetreVisualisation () {
         super("Visualisation");
-        this.localisationArbrePanel = new LocalisationArbrePanel();
+        this.localisationArbrePanel = new LocalisationArbrePanel(this.capteurs);
         this.tableauDonnees = new TableauDonnees();
         this.alerte = new Alerte();
-        this.capteurs = new ArrayList<>();
 
         this.setSize(700, 400);
         JPanel panGeneral = new JPanel();
@@ -34,7 +34,7 @@ public class FenetreVisualisation extends JFrame{
 
     public void setProtocolManager(ProtocolManager protocolManager) {
         this.protocolManager = protocolManager;
-        this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel);
+        this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel, this.capteurs);
         this.receptionThread.start();
     }
 }

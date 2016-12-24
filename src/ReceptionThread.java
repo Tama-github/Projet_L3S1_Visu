@@ -12,9 +12,10 @@ public class ReceptionThread extends Thread implements Runnable {
     private ProtocolManager protocolManager;
     private LocalisationArbrePanel localisationArbrePanel;
     private boolean running = true;
-    private HashMap<String, Capteur> capteurs = new HashMap<>();
+    private HashMap<String, Capteur> capteurs;
 
-    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel) {
+    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel, HashMap<String, Capteur> capteurs) {
+        this.capteurs = capteurs;
         this.protocolManager = protocolManager;
         this.localisationArbrePanel = localisationArbrePanel;
     }

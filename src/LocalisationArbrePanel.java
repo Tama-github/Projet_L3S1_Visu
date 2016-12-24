@@ -1,5 +1,9 @@
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by msi on 19/12/2016.
@@ -8,14 +12,24 @@ public class LocalisationArbrePanel {
     private LocalisationArbre localisationArbre;
     private JPanel arbrePanel;
     private JTree arbre;
+    private HashMap<String, Capteur> capteurs;
+    private ArrayList<String> selectedItem = new ArrayList<>();
 
-    public LocalisationArbrePanel () {
+    public LocalisationArbrePanel (HashMap<String, Capteur> capteurs) {
+        this.capteurs = capteurs;
         this.localisationArbre = new LocalisationArbre();
         this.arbrePanel = new JPanel();
         //JScrollPane jScrollPane = new JScrollPane();
         this.arbre = new JTree (localisationArbre.getArbre());
         //jScrollPane.add(this.arbre);
         this.arbrePanel.add(this.arbre);
+
+        this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                
+            }
+        });
     }
 
     public JPanel getArbrePanel() {
