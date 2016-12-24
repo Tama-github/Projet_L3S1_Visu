@@ -28,6 +28,7 @@ public class ReceptionThread extends Thread implements Runnable {
             while (this.running) {
                 recu = this.protocolManager.receptionVisu();
                 type = this.protocolManager.getTypeOfReceivedMessage(recu);
+                System.out.println("message recu : "+recu);
                 if (!recu.equals("pas connecte")) {
                     if (type.equals("CapteurPresent")) { /* Reception d'un message destiner a mettre a jour l'arbre */
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
@@ -50,8 +51,8 @@ public class ReceptionThread extends Thread implements Runnable {
                             tmp = new Capteur (
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
                                         "exterieur",
-                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, recu)),
-                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, recu))
+                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
+                                        Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))
                                     );
                             this.localisationArbrePanel.addCapteurExt(
                                     Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),

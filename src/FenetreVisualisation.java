@@ -35,5 +35,6 @@ public class FenetreVisualisation extends JFrame{
     public void setProtocolManager(ProtocolManager protocolManager) {
         this.protocolManager = protocolManager;
         this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel);
+        this.receptionThread.start();
     }
 }

@@ -58,7 +58,7 @@ public class ProtocolManager {
         int i = 0;
         String type = "";
         char c = message.charAt(0);
-        while (c != ';' || c != '\0') {
+        while (c != ';' && c != '\0') {
             type += c;
             i++;
             c = message.charAt(i);
@@ -74,10 +74,11 @@ public class ProtocolManager {
         char c = 'a';
         if (index >= 0) {
             while (i < index) {
-                c = message.charAt(j);
+                if (j < message.length())
+                    c = message.charAt(j);
                 if (c == ';') {
                     i++;
-                } else if (c == '\0') {
+                } else if (j >= message.length()) {
                     i = -1;
                     break;
                 }
@@ -86,10 +87,11 @@ public class ProtocolManager {
             if (i != -1) {
                 res = "";
                 c = message.charAt(j);
-                while (c != ';' || c !='\0') {
+                while (c != ';' && j < message.length()) {
                     res += c;
                     j++;
-                    c = message.charAt(j);
+                    if (j < message.length())
+                        c = message.charAt(j);
                 }
             }
         }
