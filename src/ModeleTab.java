@@ -87,6 +87,6 @@ public class ModeleTab extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int ligne, int colonne){
-        return true;
+        return false;
     }
 }

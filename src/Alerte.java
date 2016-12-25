@@ -60,11 +60,15 @@ public class Alerte{
                 super.mouseClicked(appliMouse);
                 int minVal;
                 int maxVal;
-                minVal = Integer.valueOf(min.getText());
-                maxVal = Integer.valueOf(max.getText());
-                if (verifInterval(minVal, maxVal))
+                try {
+                    minVal = Integer.valueOf(min.getText());
+                    maxVal = Integer.valueOf(max.getText());
+                    if (verifInterval(minVal, maxVal)) {
+                        envoieDonneesAlerte(minVal, maxVal, typeDonnees.toString());
+                    }
+                }catch(java.lang.NumberFormatException nFe)
                 {
-                    envoieDonneesAlerte(minVal, maxVal, typeDonnees.toString());
+                    setErreur(true, "Erreur : Les valeurs doivent être des chiffres");
                 }
 
             }
@@ -77,10 +81,10 @@ public class Alerte{
         return pGlobal;
     }
 
-    private void setErreur(boolean isErreur)
+    private void setErreur(boolean isErreur, String msg)
     {
         if (isErreur) {
-            erreur.setText("Erreur : Min doit être inferieur que max");
+            erreur.setText(msg);
             erreur.setForeground(Color.red);
         }
         else
@@ -120,12 +124,12 @@ public class Alerte{
      {
          if (max < min)
          {
-             setErreur(true);
+             setErreur(true, "Erreur : La valeur max doit être supérieur à min");
              return false;
          }
          else
          {
-             setErreur(false);
+             setErreur(false, "");
              return true;
          }
      }
