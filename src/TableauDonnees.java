@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -9,6 +10,7 @@ import java.awt.event.*;
 public class TableauDonnees{
 
     private JTable tableau;
+    private Object [][] backupDonnees = new Object[0][4];
     private Object[][] donnees = new Object[0][4];
     private JComboBox<String> comboType = new JComboBox<>();
     private JComboBox<String> comboLoc = new JComboBox<>();
@@ -48,12 +50,14 @@ public class TableauDonnees{
         remplirComboType();
         remplirComboLoc();
         ajoutTest();
+        backup();
         //setAlert(true, 3);
 
         comboType.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent itemEvent) {
                 comboLoc.setSelectedItem("Tout");
+                filtrageTableau(comboLoc.getSelectedItem().toString(), comboType.getSelectedItem().toString());
             }
         });
 
@@ -61,10 +65,62 @@ public class TableauDonnees{
             @Override
             public void itemStateChanged(ItemEvent itemEventa) {
                 comboType.setSelectedItem("Tout");
+                filtrageTableau(comboLoc.getSelectedItem().toString(), comboType.getSelectedItem().toString());
             }
         });
 
 
+    }
+
+
+    private void backup()
+    {
+        int i,j;
+        backupDonnees = new Object[tableau.getRowCount()][4];
+        for (i = 0; i < tableau.getRowCount(); i++)
+        {
+            for (j = 0; j < 4; j++) {
+                backupDonnees[i][j] = tableau.getValueAt(i, j).toString();
+            }
+        }
+    }
+
+
+    private void filtrageTableau(String loc, String type)
+    {
+        removeAll();
+        int i;
+        if (!loc.equals("Tout") && type.equals("Tout"))
+        {
+            removeAll();
+            for (i = 0; i < backupDonnees.length; i++)
+            {
+                System.out.println(backupDonnees[i][2] + " = " + loc);
+                if (backupDonnees[i][2].equals(loc))
+                {
+                    ajoutLigne(backupDonnees[i]);
+                }
+            }
+        }
+        else if(!type.equals("Tout") && loc.equals("Tout"))
+        {
+            removeAll();
+            System.out.println("coucou");
+            for (i = 0; i < backupDonnees.length; i++) {
+                System.out.println(backupDonnees[i][1] + " = " + type);
+                if (backupDonnees[i][1].equals(type)) {
+                    ajoutLigne(backupDonnees[i]);
+                }
+            }
+        }
+        else
+        {
+            removeAll();
+            for (i = 0; i < backupDonnees.length; i++) {
+                ajoutLigne(backupDonnees[i]);
+            }
+        }
+        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
     }
 
     public JPanel getPanGlobal()
@@ -72,10 +128,11 @@ public class TableauDonnees{
         return pGlobal;
     }
 
+
     private void remplirComboType()
     {
         int i;
-        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume Sonore", "Consommation éclairage", "Eau froide", "Eau chaude", "Vitesse vent", "Pression Atmosphérique"};
+        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume sonore", "Consommation éclairage", "Eau froide", "Eau chaude", "Vitesse vent", "Pression atmosphérique"};
         for (i = 0; i < type.length; i++)
         {
             comboType.addItem(type[i]);
@@ -105,11 +162,11 @@ public class TableauDonnees{
 
     public void ajoutTest()
     {
-        Object[] ligne = {"chauffage", "Temperature", "Exterieur", "5"};
+        Object[] ligne = {"chauffage", "Température", "Exterieur", "5"};
         ajoutLigne(ligne);
-        ajoutLigne(new Object[] {"Lumiere", "Consommation eclairage", "Interieur", "25"});
+        ajoutLigne(new Object[] {"Lumiere", "Consommation éclairage", "Interieur", "25"});
         ajoutLigne(new Object[] {"Vent","Vitesse vent","Exterieur", "50"});
-        ajoutLigne(new Object[] {"Pression","Pression atmospherique","Exterieur", "15"});
+        ajoutLigne(new Object[] {"Pression","Pression atmosphérique","Exterieur", "15"});
         ((ModeleTab) tableau.getModel()).fireTableDataChanged();
     }
 
