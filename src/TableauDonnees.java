@@ -95,7 +95,6 @@ public class TableauDonnees{
             removeAll();
             for (i = 0; i < backupDonnees.length; i++)
             {
-                System.out.println(backupDonnees[i][2] + " = " + loc);
                 if (backupDonnees[i][2].equals(loc))
                 {
                     ajoutLigne(backupDonnees[i]);
@@ -105,9 +104,7 @@ public class TableauDonnees{
         else if(!type.equals("Tout") && loc.equals("Tout"))
         {
             removeAll();
-            System.out.println("coucou");
             for (i = 0; i < backupDonnees.length; i++) {
-                System.out.println(backupDonnees[i][1] + " = " + type);
                 if (backupDonnees[i][1].equals(type)) {
                     ajoutLigne(backupDonnees[i]);
                 }
