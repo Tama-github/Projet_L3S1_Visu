@@ -77,6 +77,14 @@ public class TableauDonnees{
             }
         });
 
+        alerte.getAnnuler().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent alerteAnnulerEvent) {
+                super.mouseClicked(alerteAnnulerEvent);
+                ((ModeleTab) tableau.getModel()).fireTableDataChanged();
+            }
+        });
+
     }
 
 
@@ -179,19 +187,4 @@ public class TableauDonnees{
         }
     }
 
-    public int getMinAlerte() {
-        return minAlerte;
-    }
-
-    public int getMaxAlerte() {
-        return maxAlerte;
-    }
-
-    public void setMinAlerte(int minAlerte) {
-        this.minAlerte = minAlerte;
-    }
-
-    public void setMaxAlerte(int maxAlerte) {
-        this.maxAlerte = maxAlerte;
-    }
 }

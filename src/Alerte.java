@@ -15,7 +15,8 @@ public class Alerte{
     private JLabel erreur = new JLabel();
     private ArrayList<String> comboListe = new ArrayList<>();
     private JPanel pGlobal = new JPanel();
-    private boolean isOkay = false;
+    private Boolean isOkay = false;
+    private JButton annuler = new JButton("Annuler");
 
     public Alerte() {
 
@@ -28,9 +29,12 @@ public class Alerte{
         JPanel pMax = new JPanel();
         JPanel pAppliquer = new JPanel();
         JPanel pErreur = new JPanel();
+        JPanel pAnnuler = new JPanel();
 
         min.setColumns(10);
         max.setColumns(10);
+
+        pAnnuler.add(annuler);
 
         pType.add(lType);
         pType.add(typeDonnees);
@@ -49,10 +53,20 @@ public class Alerte{
         pGlobal.add(pMin);
         pGlobal.add(pMax);
         pGlobal.add(pAppliquer);
+        pGlobal.add(pAnnuler);
         pGlobal.add(pErreur);
 
 
         remplirListeType();
+
+
+        annuler.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent annulerEvent) {
+                super.mouseClicked(annulerEvent);
+                isOkay = false;
+            }
+        });
 
 
         appliquer.addMouseListener(new MouseAdapter() {
@@ -61,23 +75,25 @@ public class Alerte{
                 super.mouseClicked(appliMouse);
                 int minVal;
                 int maxVal;
-                try {
-                    minVal = Integer.valueOf(min.getText());
-                    maxVal = Integer.valueOf(max.getText());
-                    isOkay = verifInterval(minVal, maxVal);
-                }catch(java.lang.NumberFormatException nFe)
+                if ((min.getText().equals("") && (max.getText().equals(""))))
                 {
                     isOkay = false;
-                    setErreur(true, "Erreur : Les valeurs doivent être des chiffres");
                 }
+                else
+                {
+                    try {
+                        minVal = Integer.valueOf(min.getText());
+                        maxVal = Integer.valueOf(max.getText());
 
+                        isOkay = verifInterval(minVal, maxVal);
+                    }catch(java.lang.NumberFormatException nFe)
+                    {
+                        setErreur(true, "Erreur : Les valeurs doivent être des chiffres");
+                    }
+                }
             }
         });
 
-    }
-
-    public boolean isOkay() {
-        return isOkay;
     }
 
     public JPanel getPanGlobal()
@@ -96,6 +112,11 @@ public class Alerte{
             erreur.setText("");
             erreur.setForeground(Color.black);
         }
+    }
+
+    public boolean isOkay()
+    {
+        return isOkay;
     }
 
     private void remplirListeType()
@@ -119,6 +140,7 @@ public class Alerte{
     }
 
 
+
     public Double getMin() {
         return Double.valueOf(min.getText());
     }
@@ -129,6 +151,10 @@ public class Alerte{
 
     public String getTypeDonnees() {
         return typeDonnees.getSelectedItem().toString();
+    }
+
+    public JButton getAppliquer() {
+        return appliquer;
     }
 
     private boolean verifInterval(int min, int max)
@@ -145,8 +171,8 @@ public class Alerte{
          }
      }
 
-    public JButton getAppliquer() {
-        return appliquer;
+    public JButton getAnnuler() {
+        return annuler;
     }
 
     public JPanel getpGlobal()
