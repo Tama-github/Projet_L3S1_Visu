@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,9 +16,12 @@ public class TableauDonnees{
     private JScrollPane pTableau = new JScrollPane();
     private int minAlerte;
     private int maxAlerte;
+    private Alerte alerte;
 
-    public TableauDonnees()
+    public TableauDonnees(Alerte alerte)
     {
+        this.alerte = alerte;
+
         JLabel lType = new JLabel("Filtrer par type");
         JLabel lLoc = new JLabel("Filtrer par localisation");
         JPanel pType = new JPanel();
@@ -30,7 +31,7 @@ public class TableauDonnees{
         tableau = new JTable(model);
 
         tableau.setCellSelectionEnabled(false);
-        tableau.setDefaultRenderer(Object.class, new RenduCell());
+        tableau.setDefaultRenderer(Object.class, new RenduCell(alerte));
         pTableau.setLayout(new ScrollPaneLayout());
         pTableau.setViewportView(tableau);
         tableau.setFillsViewportHeight(true);
@@ -51,11 +52,10 @@ public class TableauDonnees{
         remplirComboLoc();
         ajoutTest();
         backup();
-        //setAlert(true, 3);
 
         comboType.addItemListener(new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent itemEvent) {
+            public void itemStateChanged(ItemEvent comboTypeEvent) {
                 comboLoc.setSelectedItem("Tout");
                 filtrageTableau(comboLoc.getSelectedItem().toString(), comboType.getSelectedItem().toString());
             }
@@ -63,12 +63,19 @@ public class TableauDonnees{
 
         comboLoc.addItemListener(new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent itemEventa) {
+            public void itemStateChanged(ItemEvent comboLocEvent) {
                 comboType.setSelectedItem("Tout");
                 filtrageTableau(comboLoc.getSelectedItem().toString(), comboType.getSelectedItem().toString());
             }
         });
 
+        alerte.getAppliquer().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent alerteAppliquerEvent) {
+                super.mouseClicked(alerteAppliquerEvent);
+                ((ModeleTab) tableau.getModel()).fireTableDataChanged();
+            }
+        });
 
     }
 
@@ -146,11 +153,6 @@ public class TableauDonnees{
         }
     }
 
-    public void setAlert(boolean alert, int numLigne)
-    {
-        tableau.getCellRenderer(numLigne, 0).getTableCellRendererComponent(tableau, numLigne, false, false, numLigne, 0);
-        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
-    }
 
     public void ajoutLigne(Object[] ligne)
     {

@@ -15,6 +15,7 @@ public class Alerte{
     private JLabel erreur = new JLabel();
     private ArrayList<String> comboListe = new ArrayList<>();
     private JPanel pGlobal = new JPanel();
+    private boolean isOkay = false;
 
     public Alerte() {
 
@@ -63,17 +64,20 @@ public class Alerte{
                 try {
                     minVal = Integer.valueOf(min.getText());
                     maxVal = Integer.valueOf(max.getText());
-                    if (verifInterval(minVal, maxVal)) {
-                        envoieDonneesAlerte(minVal, maxVal, typeDonnees.toString());
-                    }
+                    isOkay = verifInterval(minVal, maxVal);
                 }catch(java.lang.NumberFormatException nFe)
                 {
+                    isOkay = false;
                     setErreur(true, "Erreur : Les valeurs doivent être des chiffres");
                 }
 
             }
         });
 
+    }
+
+    public boolean isOkay() {
+        return isOkay;
     }
 
     public JPanel getPanGlobal()
@@ -101,7 +105,7 @@ public class Alerte{
         comboListe.add("Humidité");
         comboListe.add("Luminosité");
         comboListe.add("Volume Sonore");
-        comboListe.add("Consomation éclairage");
+        comboListe.add("Consommation éclairage");
         comboListe.add("Eau froide");
         comboListe.add("Eau Chaude");
         comboListe.add("Vitesse vent");
@@ -115,12 +119,19 @@ public class Alerte{
     }
 
 
-    public void envoieDonneesAlerte(int min, int max, String typeDonnees)
-    {
-
+    public Double getMin() {
+        return Double.valueOf(min.getText());
     }
 
-     private boolean verifInterval(int min, int max)
+    public Double getMax() {
+        return Double.valueOf(max.getText());
+    }
+
+    public String getTypeDonnees() {
+        return typeDonnees.getSelectedItem().toString();
+    }
+
+    private boolean verifInterval(int min, int max)
      {
          if (max < min)
          {
@@ -134,7 +145,11 @@ public class Alerte{
          }
      }
 
-     public JPanel getpGlobal()
+    public JButton getAppliquer() {
+        return appliquer;
+    }
+
+    public JPanel getpGlobal()
      {
          return pGlobal;
      }

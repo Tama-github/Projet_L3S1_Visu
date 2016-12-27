@@ -18,8 +18,8 @@ public class FenetreVisualisation extends JFrame{
     public FenetreVisualisation () {
         super("Visualisation");
         this.localisationArbrePanel = new LocalisationArbrePanel(this.capteurs);
-        this.tableauDonnees = new TableauDonnees();
         this.alerte = new Alerte();
+        this.tableauDonnees = new TableauDonnees(this.alerte);
 
         this.setSize(700, 400);
         JPanel panGeneral = new JPanel();
