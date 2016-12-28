@@ -12,10 +12,8 @@ public class ReceptionThread extends Thread implements Runnable {
     private ProtocolManager protocolManager;
     private LocalisationArbrePanel localisationArbrePanel;
     private boolean running = true;
-    private HashMap<String, Capteur> capteurs;
 
-    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel, HashMap<String, Capteur> capteurs) {
-        this.capteurs = capteurs;
+    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel) {
         this.protocolManager = protocolManager;
         this.localisationArbrePanel = localisationArbrePanel;
     }
@@ -41,7 +39,7 @@ public class ReceptionThread extends Thread implements Runnable {
                                         this.protocolManager.getFieldFromReceivedMessage(5, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(6, recu)
                                     );
-                            this.capteurs.put(this.protocolManager.getFieldFromReceivedMessage(1, recu), tmp);
+                            this.localisationArbrePanel.getCapteurs().put(tmp.getNom(), tmp);
                             this.localisationArbrePanel.addCapteurInt(
                                     this.protocolManager.getFieldFromReceivedMessage(3, recu),
                                     this.protocolManager.getFieldFromReceivedMessage(4, recu),
@@ -55,6 +53,7 @@ public class ReceptionThread extends Thread implements Runnable {
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))
                                     );
+                            this.localisationArbrePanel.getCapteurs().put(tmp.getNom(), tmp);
                             this.localisationArbrePanel.addCapteurExt(
                                     Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
                                     Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))
@@ -68,7 +67,7 @@ public class ReceptionThread extends Thread implements Runnable {
 
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
-                        tmp = this.capteurs.get(idCapteur);
+                        tmp = this.localisationArbrePanel.getCapteurs().get(idCapteur);
                         if (tmp.getType().equals("interieur")) {
                             this.localisationArbrePanel.removeCapteurInt(idCapteur);
                         } else if (tmp.getType().equals("exterieur")) {

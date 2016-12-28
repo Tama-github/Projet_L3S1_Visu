@@ -1,9 +1,16 @@
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by msi on 19/12/2016.
@@ -13,21 +20,52 @@ public class LocalisationArbrePanel {
     private JPanel arbrePanel;
     private JTree arbre;
     private HashMap<String, Capteur> capteurs;
-    private ArrayList<String> selectedItem = new ArrayList<>();
+    private ArrayList<Capteur> selectedItem = new ArrayList<>();
+    private boolean ctrlPressed = false;
 
-    public LocalisationArbrePanel (HashMap<String, Capteur> capteurs) {
-        this.capteurs = capteurs;
+    public LocalisationArbrePanel () {
+        this.capteurs = new HashMap<>();
         this.localisationArbre = new LocalisationArbre();
         this.arbrePanel = new JPanel();
         //JScrollPane jScrollPane = new JScrollPane();
         this.arbre = new JTree (localisationArbre.getArbre());
+        this.arbre.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
         //jScrollPane.add(this.arbre);
         this.arbrePanel.add(this.arbre);
 
         this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                
+                if (ctrlPressed) {
+                    TreePath[] tp = e.getPaths();
+                    for (int i = 0; i < tp.length; i++) {
+                        getAllSelectedLeafs((DefaultMutableTreeNode) tp[i].getLastPathComponent());
+
+                    }
+                } else {
+                    selectedItem.removeAll(selectedItem);
+                    DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
+                    getAllSelectedLeafs(tmp);
+                }
+            }
+        });
+
+        this.arbre.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && !ctrlPressed) {
+                    ctrlPressed = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                ctrlPressed = false;
             }
         });
     }
@@ -70,5 +108,49 @@ public class LocalisationArbrePanel {
         if (arbre.getRowCount()!= nb) {
             ettendreArbre(arbre, nb, arbre.getRowCount());
         }
+    }
+
+    private Capteur getCapteurForString (String infoCapteur) {
+        boolean stop = false;
+        Capteur res = null;
+        for (int i = 0; i < infoCapteur.length() && !stop; i++) {
+            if (infoCapteur.charAt(i) == ';') {
+                stop = true;
+            }
+        }
+        if (!stop) {
+            res = this.capteurs.get(infoCapteur);
+        } else {
+            for (Map.Entry<String, Capteur> c : this.capteurs.entrySet()) {
+                if (c.getValue().getLocalisation().equals(infoCapteur)) {
+                    res = c.getValue();
+                }
+            }
+        }
+        return res;
+    }
+
+    private void getAllSelectedLeafs (DefaultMutableTreeNode node) {
+        if (node == null) {
+            return;
+        }
+        int n = node.getChildCount();
+        if (n == 0) {
+            if (!node.toString().equals("Interieur") && !node.toString().equals("Exterieur")) {
+                this.selectedItem.add(this.getCapteurForString(node.toString()));
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                this.getAllSelectedLeafs((DefaultMutableTreeNode) node.getChildAt(i));
+            }
+        }
+    }
+
+    public HashMap<String, Capteur> getCapteurs () {
+        return this.capteurs;
+    }
+
+    public ArrayList<Capteur> getSelectedItem() {
+        return selectedItem;
     }
 }
