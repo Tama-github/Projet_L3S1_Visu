@@ -43,7 +43,22 @@ public class FenetreVisualisation extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
-                    protocolManager.inscriptionCapteurs(localisationArbrePanel.getSelectedItem());
+                    ArrayList<Capteur> aInscrire = new ArrayList<Capteur>();
+                    ArrayList<Capteur> aDesinscrire = new ArrayList<Capteur>();
+                    for (int i = 0; i < localisationArbrePanel.getCapteurInscrit().size(); i++) {
+                        if (!localisationArbrePanel.getSelectedItem().contains(localisationArbrePanel.getCapteurInscrit().get(i))) {
+                            aDesinscrire.add(localisationArbrePanel.getCapteurInscrit().get(i));
+                            localisationArbrePanel.getCapteurInscrit().remove(localisationArbrePanel.getCapteurInscrit().get(i));
+                        }
+                    }
+                    for (int i = 0; i < localisationArbrePanel.getSelectedItem().size(); i++) {
+                        if (!localisationArbrePanel.getCapteurInscrit().contains(localisationArbrePanel.getSelectedItem().get(i))) {
+                            aInscrire.add(localisationArbrePanel.getSelectedItem().get(i));
+                            localisationArbrePanel.getCapteurInscrit().add(localisationArbrePanel.getSelectedItem().get(i));
+                        }
+                    }
+                    protocolManager.desinscriptionCapteurs(aDesinscrire);
+                    protocolManager.inscriptionCapteurs(aInscrire);
                 } catch (IOException e1) {
                     //----
                 }

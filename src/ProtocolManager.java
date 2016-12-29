@@ -59,10 +59,11 @@ public class ProtocolManager {
         int i = 0;
         String type = "";
         char c = message.charAt(0);
-        while (c != ';' && c != '\0') {
+        while (c != ';' && i < message.length()) {
             type += c;
             i++;
-            c = message.charAt(i);
+            if (i < message.length())
+                c = message.charAt(i);
         }
 
         return type;
@@ -99,12 +100,22 @@ public class ProtocolManager {
         return res;
     }
 
-    public void inscriptionCapteurs (ArrayList<Capteur> capteur) throws IOException {
+    public void inscriptionCapteurs (ArrayList<Capteur> capteurs) throws IOException {
         String envoie = "InscriptionCapteur";
-        for (int i = 0; i < capteur.size(); i++) {
-            envoie += ";"+capteur.get(i).getNom();
+        for (int i = 0; i < capteurs.size(); i++) {
+            envoie += ";"+capteurs.get(i).getNom();
         }
-        servicesReseau.envoyer(envoie+"\n");
+        if (capteurs.size() > 0)
+            servicesReseau.envoyer(envoie+"\n");
+    }
+
+    public void desinscriptionCapteurs (ArrayList<Capteur> capteurs) throws IOException {
+        String envoie = "DesinscriptionCapteur";
+        for (int i = 0; i < capteurs.size(); i++) {
+            envoie += ";"+capteurs.get(i).getNom();
+        }
+        if (capteurs.size() > 0)
+            servicesReseau.envoyer(envoie+"\n");
     }
 
     public void setIp(String ip) {

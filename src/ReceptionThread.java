@@ -63,8 +63,8 @@ public class ReceptionThread extends Thread implements Runnable {
                         String id = "";
                         int i = 1;
                         boolean stop = false;
+                        id = this.protocolManager.getFieldFromReceivedMessage(i, recu);
                         while (!id.equals(";erreur;")) {
-                            this.protocolManager.getFieldFromReceivedMessage(i, recu);
                             for (int j = 0; i < this.localisationArbrePanel.getCapteurs().size() && !stop; j++) {
                                 if (this.localisationArbrePanel.getCapteurs().get(j).getNom().equals(id)) {
                                     this.localisationArbrePanel.getCapteurs().remove(j);
@@ -73,20 +73,25 @@ public class ReceptionThread extends Thread implements Runnable {
                             }
                             stop = true;
                             i++;
+                            id = this.protocolManager.getFieldFromReceivedMessage(i, recu);
                         }
+                        System.out.println(this.localisationArbrePanel.getCapteurs());
                         //remplir le tableau
                     } else if (type.equals("DesinscriptionCapteurKO")) {
 
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
-
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
                         tmp = this.localisationArbrePanel.getCapteurs().get(idCapteur);
+
                         if (tmp.getType().equals("interieur")) {
                             this.localisationArbrePanel.removeCapteurInt(idCapteur);
                         } else if (tmp.getType().equals("exterieur")) {
                             this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, tmp.getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, tmp.getLocalisation())));
                         }
+                        this.localisationArbrePanel.getCapteurs().remove(idCapteur);
+                        this.localisationArbrePanel.getCapteurInscrit().remove(tmp);
+                        this.localisationArbrePanel.getSelectedItem().remove(tmp);
                     }
                 }
             }

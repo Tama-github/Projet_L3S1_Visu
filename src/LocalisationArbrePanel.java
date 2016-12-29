@@ -21,6 +21,7 @@ public class LocalisationArbrePanel {
     private JTree arbre;
     private HashMap<String, Capteur> capteurs;
     private ArrayList<Capteur> selectedItem = new ArrayList<>();
+    private ArrayList<Capteur> capteurInscrit = new ArrayList<>();
     private boolean ctrlPressed = false;
 
     public LocalisationArbrePanel () {
@@ -152,5 +153,9 @@ public class LocalisationArbrePanel {
 
     public ArrayList<Capteur> getSelectedItem() {
         return selectedItem;
+    }
+
+    public ArrayList<Capteur> getCapteurInscrit() {
+        return capteurInscrit;
     }
 }
