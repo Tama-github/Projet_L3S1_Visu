@@ -27,7 +27,7 @@ public class ReceptionThread extends Thread implements Runnable {
             while (this.running) {
                 recu = this.protocolManager.receptionVisu();
                 type = this.protocolManager.getTypeOfReceivedMessage(recu);
-                System.out.println("message recu : "+recu);
+                System.out.println("message recu : " + recu);
                 if (!recu.equals("pas connecte")) {
                     if (type.equals("CapteurPresent")) { /* Reception d'un message destiner a mettre a jour l'arbre */
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
@@ -60,7 +60,21 @@ public class ReceptionThread extends Thread implements Runnable {
                             );
                         }
                     } else if (type.equals("InscriptionCapteurKO")) {
-
+                        String id = "";
+                        int i = 1;
+                        boolean stop = false;
+                        while (!id.equals(";erreur;")) {
+                            this.protocolManager.getFieldFromReceivedMessage(i, recu);
+                            for (int j = 0; i < this.localisationArbrePanel.getCapteurs().size() && !stop; j++) {
+                                if (this.localisationArbrePanel.getCapteurs().get(j).getNom().equals(id)) {
+                                    this.localisationArbrePanel.getCapteurs().remove(j);
+                                    stop = true;
+                                }
+                            }
+                            stop = true;
+                            i++;
+                        }
+                        //remplir le tableau
                     } else if (type.equals("DesinscriptionCapteurKO")) {
 
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */

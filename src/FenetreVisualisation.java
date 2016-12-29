@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,7 +42,11 @@ public class FenetreVisualisation extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                try {
+                    protocolManager.inscriptionCapteurs(localisationArbrePanel.getSelectedItem());
+                } catch (IOException e1) {
+                    //----
+                }
             }
         });
     }

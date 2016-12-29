@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by msi on 19/12/2016.
@@ -96,6 +97,14 @@ public class ProtocolManager {
             }
         }
         return res;
+    }
+
+    public void inscriptionCapteurs (ArrayList<Capteur> capteur) throws IOException {
+        String envoie = "InscriptionCapteur";
+        for (int i = 0; i < capteur.size(); i++) {
+            envoie += ";"+capteur.get(i).getNom();
+        }
+        servicesReseau.envoyer(envoie+"\n");
     }
 
     public void setIp(String ip) {
