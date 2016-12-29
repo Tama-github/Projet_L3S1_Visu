@@ -77,9 +77,14 @@ public class ReceptionThread extends Thread implements Runnable {
                         }
                         System.out.println(this.localisationArbrePanel.getCapteurs());
                         //remplir le tableau
+                    } else if (type.equals("InscriptionCapteurOK")) {
+
+                    } else if (type.equals("DesinscriptionCapteurOK")) {
+
                     } else if (type.equals("DesinscriptionCapteurKO")) {
 
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
+
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
                         tmp = this.localisationArbrePanel.getCapteurs().get(idCapteur);

@@ -43,8 +43,8 @@ public class FenetreVisualisation extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
-                    ArrayList<Capteur> aInscrire = new ArrayList<Capteur>();
-                    ArrayList<Capteur> aDesinscrire = new ArrayList<Capteur>();
+                    ArrayList<Capteur> aInscrire = new ArrayList<>();
+                    ArrayList<Capteur> aDesinscrire = new ArrayList<>();
                     for (int i = 0; i < localisationArbrePanel.getCapteurInscrit().size(); i++) {
                         if (!localisationArbrePanel.getSelectedItem().contains(localisationArbrePanel.getCapteurInscrit().get(i))) {
                             aDesinscrire.add(localisationArbrePanel.getCapteurInscrit().get(i));
