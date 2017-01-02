@@ -42,6 +42,11 @@ public class Capteur{
         return localisation.getString();
     }
 
+    public Localisation getLoc()
+    {
+        return localisation;
+    }
+
     public String getType()
     {
         return this.type;

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * Created by jb on 19/12/16.
@@ -50,7 +51,7 @@ public class TableauDonnees{
 
         remplirComboType();
         remplirComboLoc();
-        ajoutTest();
+        //ajoutTest();
         backup();
 
         comboType.addItemListener(new ItemListener() {
@@ -177,6 +178,10 @@ public class TableauDonnees{
         ((ModeleTab) tableau.getModel()).fireTableDataChanged();
     }
 
+    public void raffraichirDonnees()
+    {
+        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
+    }
 
     public void removeAll()
     {
@@ -185,6 +190,93 @@ public class TableauDonnees{
         {
             ((ModeleTab) tableau.getModel()).removeRow(i);
         }
+    }
+
+    public void supprimerLigne(int ligne)
+    {
+        ((ModeleTab) tableau.getModel()).removeRow(ligne);
+    }
+
+    public void changerValeur(String idCapteur, String valeur)
+    {
+        int i;
+        int nbLignes = tableau.getRowCount() - 1;
+        //suppression de tous les capteurs non inscrit
+        for (i = nbLignes; i >= 0; i--)
+        {
+            if (tableau.getValueAt(i, 0).toString().equals(idCapteur))
+            {
+                tableau.setValueAt(valeur, i, 3);
+                raffraichirDonnees();
+            }
+        }
+    }
+
+    private boolean contient(ArrayList<Capteur> listeCapteurs, String valeur)
+    {
+        int i;
+        for (i = 0; i < listeCapteurs.size(); i++)
+        {
+            if (listeCapteurs.get(i).getNom().equals(valeur))
+            {
+                System.out.println(listeCapteurs.get(i).getNom() + " égual à " + valeur);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void suppressionCapteursNonInscrits(ArrayList<Capteur> listeCapteurs)
+    {
+        int i;
+        int nbLignes = tableau.getRowCount() - 1;
+        //suppression de tous les capteurs non inscrit
+        for (i = nbLignes; i >= 0; i--)
+        {
+            if (!contient(listeCapteurs, tableau.getValueAt(i, 0).toString()))
+            {
+                supprimerLigne(i);
+            }
+            //System.out.println(listeCapteurs.get(i).getNom() + " égual à " + tableau.getValueAt(i, 0).toString());
+        }
+    }
+
+    public boolean existe(String capteur)
+    {
+        int i;
+        int nbLignes = tableau.getRowCount() - 1;
+        for (i = nbLignes; i >= 0; i--)
+        {
+            if (tableau.getValueAt(i, 0).toString().equals(capteur))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void ajoutListeCapteurs(ArrayList<Capteur> listeCapteurs)
+    {
+        Capteur capteurCourant;
+        int i;
+        for (i = 0; i < listeCapteurs.size(); i++) {
+            if (!existe(listeCapteurs.get(i).getNom()))
+            {
+                Object[] ligne = new Object[4];
+                capteurCourant = listeCapteurs.get(i);
+                //{"Nom","Type de donnees","Localisation","Valeur"};
+                ligne[0] = capteurCourant.getNom();
+                ligne[1] = capteurCourant.getType();
+                if (capteurCourant.getLoc().getType().equals("exterieur")) {
+                    ligne[2] = "Exterieur";
+                } else {
+                    ligne[2] = "Interieur";
+                }
+                ligne[3] = "";
+                ajoutLigne(ligne);
+            }
+        }
+
     }
 
 }

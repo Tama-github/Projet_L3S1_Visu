@@ -11,11 +11,13 @@ import java.util.HashMap;
 public class ReceptionThread extends Thread implements Runnable {
     private ProtocolManager protocolManager;
     private LocalisationArbrePanel localisationArbrePanel;
+    private TableauDonnees tableauDonnees;
     private boolean running = true;
 
-    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel) {
+    public ReceptionThread(ProtocolManager protocolManager, LocalisationArbrePanel localisationArbrePanel, TableauDonnees tableauDonnees) {
         this.protocolManager = protocolManager;
         this.localisationArbrePanel = localisationArbrePanel;
+        this.tableauDonnees = tableauDonnees;
     }
 
     @Override
@@ -80,12 +82,18 @@ public class ReceptionThread extends Thread implements Runnable {
                         System.out.println(this.localisationArbrePanel.getCapteurs());
                         //remplir le tableau
                     } else if (type.equals("InscriptionCapteurOK")) {
+                        this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
+                        this.tableauDonnees.ajoutListeCapteurs(this.localisationArbrePanel.getCapteurInscrit());
+                        System.out.println("Appui bouton");
 
                     } else if (type.equals("DesinscriptionCapteurOK")) {
-
+                        this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     } else if (type.equals("DesinscriptionCapteurKO")) {
 
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
+                        this.tableauDonnees.changerValeur(this.protocolManager.getFieldFromReceivedMessage(1, recu), this.protocolManager.getFieldFromReceivedMessage(2, recu));
+                        System.out.println("Je dois changer la valeur " + this.protocolManager.getFieldFromReceivedMessage(1, recu) + " " + this.protocolManager.getFieldFromReceivedMessage(2, recu));
+
 
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);

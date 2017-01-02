@@ -26,7 +26,7 @@ public class FenetreVisualisation extends JFrame{
         this.setSize(700, 400);
         JPanel panGeneral = new JPanel();
         panGeneral.setLayout(new GridLayout(2, 2));
-        JButton inscription = new JButton("Inscrir capteur(s)");
+        JButton inscription = new JButton("Inscrire capteur(s)");
         JPanel arbrePan = new JPanel();
         arbrePan.add(localisationArbrePanel.getArbrePanel());
         arbrePan.add(inscription);
@@ -68,7 +68,7 @@ public class FenetreVisualisation extends JFrame{
 
     public void setProtocolManager(ProtocolManager protocolManager) {
         this.protocolManager = protocolManager;
-        this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel);
+        this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel, tableauDonnees);
         this.receptionThread.start();
     }
 }

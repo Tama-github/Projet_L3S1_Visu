@@ -25,14 +25,16 @@ public class LocalisationArbrePanel {
     private boolean ctrlPressed = false;
 
     public LocalisationArbrePanel () {
+        JScrollPane arbreScroll = new JScrollPane();
+        arbreScroll.setLayout(new ScrollPaneLayout());
+
         this.capteurs = new HashMap<>();
         this.localisationArbre = new LocalisationArbre();
         this.arbrePanel = new JPanel();
-        //JScrollPane jScrollPane = new JScrollPane();
-        this.arbre = new JTree (localisationArbre.getArbre());
+        this.arbre = new JTree (this.localisationArbre.getArbre());
         this.arbre.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-        //jScrollPane.add(this.arbre);
-        this.arbrePanel.add(this.arbre);
+        arbreScroll.setViewportView(this.arbre);
+        this.arbrePanel.add(arbreScroll);
 
         this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
