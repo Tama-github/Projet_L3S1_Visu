@@ -33,6 +33,7 @@ public class ReceptionThread extends Thread implements Runnable {
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
                             tmp = new Capteur(
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(2, recu),
                                         "interieur",
                                         this.protocolManager.getFieldFromReceivedMessage(3, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(4, recu),
@@ -49,6 +50,7 @@ public class ReceptionThread extends Thread implements Runnable {
                         } else {
                             tmp = new Capteur (
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
+                                        this.protocolManager.getFieldFromReceivedMessage(2, recu),
                                         "exterieur",
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))

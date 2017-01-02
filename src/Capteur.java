@@ -6,11 +6,11 @@ public class Capteur{
     private String type;
     private Localisation localisation;
 
-    Capteur(String id, String type, double lat, double lon)
+    Capteur(String id, String type, String typeLoc, double lat, double lon)
     {
         this.id = id;
         this.type = type;
-        if (type.equals("exterieur"))
+        if (typeLoc.equals("exterieur"))
         {
             try {
                 localisation = new LocalisationExterieur("exterieur", lat, lon);
@@ -20,11 +20,11 @@ public class Capteur{
         }
     }
 
-    Capteur(String id, String type, String batiment, String etage, String salle, String infoSup)
+    Capteur(String id, String type, String typeLoc, String batiment, String etage, String salle, String infoSup)
     {
         this.id = id;
         this.type = type;
-        if (this.type.equals("interieur"))
+        if (typeLoc.equals("interieur"))
         {
             try {
                 localisation = new LocalisationInterieur("interieur", batiment, etage, salle, infoSup);
