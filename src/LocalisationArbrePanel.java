@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,18 +24,23 @@ public class LocalisationArbrePanel {
     private ArrayList<Capteur> selectedItem = new ArrayList<>();
     private ArrayList<Capteur> capteurInscrit = new ArrayList<>();
     private boolean ctrlPressed = false;
+    private  JScrollPane arbreScroll;
 
     public LocalisationArbrePanel () {
-        JScrollPane arbreScroll = new JScrollPane();
-        arbreScroll.setLayout(new ScrollPaneLayout());
 
         this.capteurs = new HashMap<>();
         this.localisationArbre = new LocalisationArbre();
         this.arbrePanel = new JPanel();
         this.arbre = new JTree (this.localisationArbre.getArbre());
         this.arbre.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-        arbreScroll.setViewportView(this.arbre);
-        this.arbrePanel.add(arbreScroll);
+        this.arbre.setPreferredSize(new Dimension(150, 200));
+        this.arbrePanel.setPreferredSize(new Dimension(150, 200));
+
+        arbreScroll = new JScrollPane(this.arbre);
+        this.arbreScroll.setPreferredSize(new Dimension(150, 200));
+        arbreScroll.setLayout(new ScrollPaneLayout());
+
+        this.arbrePanel.add(arbreScroll, BorderLayout.CENTER);
 
         this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
             @Override

@@ -89,11 +89,9 @@ public class ReceptionThread extends Thread implements Runnable {
                     } else if (type.equals("DesinscriptionCapteurOK")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     } else if (type.equals("DesinscriptionCapteurKO")) {
-
+                        this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
                         this.tableauDonnees.changerValeur(this.protocolManager.getFieldFromReceivedMessage(1, recu), this.protocolManager.getFieldFromReceivedMessage(2, recu));
-                        System.out.println("Je dois changer la valeur " + this.protocolManager.getFieldFromReceivedMessage(1, recu) + " " + this.protocolManager.getFieldFromReceivedMessage(2, recu));
-
 
                     } else if (type.equals("CapteurDeco")) { /* reception d'un message destiné à mettre à jour l'arbre  */
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
