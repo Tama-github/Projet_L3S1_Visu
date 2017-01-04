@@ -1,3 +1,5 @@
+import sun.awt.AWTIcon32_java_icon16_png;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -5,6 +7,10 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static javax.swing.Box.createHorizontalGlue;
+import static javax.swing.Box.createRigidArea;
+import static javax.swing.Box.createVerticalGlue;
 
 /**
  * Created by msi on 20/12/2016.
@@ -23,20 +29,53 @@ public class FenetreVisualisation extends JFrame{
         this.alerte = new Alerte();
         this.tableauDonnees = new TableauDonnees(this.alerte);
 
-        this.setSize(700, 400);
-        JPanel panGeneral = new JPanel();
-        panGeneral.setLayout(new GridLayout(2, 2));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(600, 450);
+        this.setMinimumSize(new Dimension(600, 450));
+
         JButton inscription = new JButton("Inscrire capteur(s)");
-        JPanel arbrePan = new JPanel();
-        arbrePan.add(localisationArbrePanel.getArbrePanel());
-        arbrePan.add(inscription);
-        panGeneral.add(arbrePan);
+        JButton graphique = new JButton("Afficher graphique");
+        JButton deconnection = new JButton("Déconnexion");
 
-        panGeneral.add(tableauDonnees.getPanGlobal());
-        panGeneral.add(alerte.getPanGlobal());
+        JPanel panGeneral = new JPanel();
+        JPanel hTreeTab = new JPanel();
+        JPanel vTreeBouton = new JPanel();
+        JPanel hAlerteBoutons = new JPanel();
+        JPanel vBoutons = new JPanel();
 
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        panGeneral.setLayout(new BoxLayout(panGeneral, BoxLayout.Y_AXIS));
+        hTreeTab.setLayout(new BoxLayout(hTreeTab, BoxLayout.X_AXIS));
+        hAlerteBoutons.setLayout(new BoxLayout(hAlerteBoutons, BoxLayout.X_AXIS));
+        vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
+        vTreeBouton.setLayout(new BoxLayout(vTreeBouton, BoxLayout.Y_AXIS));
+
+        vTreeBouton.add(localisationArbrePanel.getArbrePanel());
+        vTreeBouton.add(createRigidArea(new Dimension(5,0)));
+        vTreeBouton.add(inscription);
+        vTreeBouton.add(createVerticalGlue());
+        vTreeBouton.setAlignmentX(5);
+
+        hTreeTab.add(vTreeBouton);
+        hTreeTab.add(createVerticalGlue());
+        hTreeTab.add(tableauDonnees.getPanGlobal());
+
+        vBoutons.add(createVerticalGlue());
+        vBoutons.add(createHorizontalGlue());
+        vBoutons.add(graphique);
+        vBoutons.add(deconnection);
+        vBoutons.add(createHorizontalGlue());
+        vBoutons.add(createVerticalGlue());
+
+        hAlerteBoutons.add(alerte.getPanGlobal());
+        hAlerteBoutons.add(createHorizontalGlue());
+        hAlerteBoutons.add(vBoutons);
+
+        panGeneral.add(hTreeTab);
+        panGeneral.add(createHorizontalGlue());
+        panGeneral.add(hAlerteBoutons);
+
         this.add(panGeneral);
+        this.setVisible(true);
 
         inscription.addMouseListener(new MouseAdapter() {
             @Override

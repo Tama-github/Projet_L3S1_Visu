@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import static javax.swing.Box.createHorizontalGlue;
+import static javax.swing.Box.createVerticalBox;
+
 /**
  * Created by jb on 19/12/16.
  */
@@ -37,7 +40,7 @@ public class TableauDonnees{
         pTableau.setViewportView(tableau);
         tableau.setFillsViewportHeight(true);
         tableau.setEnabled(false);
-        pTableau.setSize(new Dimension(100,100));
+        pTableau.setPreferredSize(new Dimension(100,80));
         pType.add(lType);
         pType.add(comboType);
 
@@ -45,13 +48,14 @@ public class TableauDonnees{
         pLoc.add(comboLoc);
         pGlobal.setLayout(new BoxLayout(pGlobal, BoxLayout.Y_AXIS));
         pGlobal.add(pTableau);
+        pGlobal.add(createVerticalBox());
         pGlobal.add(pType);
         pGlobal.add(pLoc);
+        pGlobal.add(createVerticalBox());
         pGlobal.setVisible(true);
 
         remplirComboType();
         remplirComboLoc();
-        //ajoutTest();
         backup();
 
         comboType.addItemListener(new ItemListener() {

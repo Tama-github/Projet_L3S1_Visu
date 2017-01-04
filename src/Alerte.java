@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import static javax.swing.Box.createVerticalGlue;
+
 public class Alerte{
 
     private JFormattedTextField min = new JFormattedTextField();
@@ -31,6 +33,8 @@ public class Alerte{
         JPanel pErreur = new JPanel();
         JPanel pAnnuler = new JPanel();
 
+        pGlobal.setLayout(new BoxLayout(pGlobal, BoxLayout.Y_AXIS));
+        pGlobal.setAlignmentX(0);
         min.setColumns(10);
         max.setColumns(10);
 
@@ -49,12 +53,14 @@ public class Alerte{
 
         pErreur.add(erreur);
 
+        pGlobal.add(createVerticalGlue());
         pGlobal.add(pType);
         pGlobal.add(pMin);
         pGlobal.add(pMax);
         pGlobal.add(pAppliquer);
         pGlobal.add(pAnnuler);
         pGlobal.add(pErreur);
+        pGlobal.add(createVerticalGlue());
 
 
         remplirListeType();
