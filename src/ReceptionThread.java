@@ -102,9 +102,9 @@ public class ReceptionThread extends Thread implements Runnable {
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
                         tmp = this.localisationArbrePanel.getCapteurs().get(idCapteur);
 
-                        if (tmp.getType().equals("interieur")) {
+                        if (tmp.getLoc().getType().equals("interieur")) {
                             this.localisationArbrePanel.removeCapteurInt(idCapteur);
-                        } else if (tmp.getType().equals("exterieur")) {
+                        } else if (tmp.getLoc().getType().equals("exterieur")) {
                             this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, tmp.getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, tmp.getLocalisation())));
                         }
                         this.localisationArbrePanel.getCapteurs().remove(idCapteur);
