@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 
 import javax.swing.*;
 
+/*
+* Credit icone Maxim Basinski
+* */
+
 
 public class FenetreConnexionIP extends JFrame {
 	private JPanel container = new JPanel();
@@ -40,7 +44,7 @@ public class FenetreConnexionIP extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 
-		ImageIcon icone = new ImageIcon("icon.png");
+		ImageIcon icone = new ImageIcon("Icon.png");
 		this.setIconImage(icone.getImage());
 
 		Font police = new Font("Arial", Font.BOLD, 12);
@@ -74,7 +78,7 @@ public class FenetreConnexionIP extends JFrame {
         container.add(labelError);
 			
 	    this.getContentPane().add(container);
-		this.setVisible(true);
+        this.setVisible(true);
 
 
 		this.getButtonConnexion().addMouseListener(new MouseAdapter() {

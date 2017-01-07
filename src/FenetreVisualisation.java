@@ -12,6 +12,8 @@ import static javax.swing.Box.createVerticalGlue;
 
 /**
  * Created by msi on 20/12/2016.
+ *
+ * Credit icone Maxim Basinski
  */
 public class FenetreVisualisation extends JFrame{
 
@@ -24,6 +26,7 @@ public class FenetreVisualisation extends JFrame{
 
     public FenetreVisualisation () {
         super("Visualisation");
+        this.setIconImage(new ImageIcon("Icon.png").getImage());
         this.localisationArbrePanel = new LocalisationArbrePanel();
         this.alerte = new Alerte();
         this.tableauDonnees = new TableauDonnees(this.alerte);
@@ -82,6 +85,8 @@ public class FenetreVisualisation extends JFrame{
         panGeneral.add(hTreeTab);
         panGeneral.add(createHorizontalGlue());
         panGeneral.add(hAlerteBoutons);
+
+        //this.fenetreConnexionIP.setIconImage(new ImageIcon("Icon.png").getImage());
 
         this.add(panGeneral);
         this.setVisible(false);
