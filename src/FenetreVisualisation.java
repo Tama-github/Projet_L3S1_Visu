@@ -1,7 +1,4 @@
-import com.sun.org.apache.xml.internal.utils.MutableAttrListImpl;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,8 +29,8 @@ public class FenetreVisualisation extends JFrame{
         this.tableauDonnees = new TableauDonnees(this.alerte);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(800, 450);
-        this.setMinimumSize(new Dimension(800, 450));
+        this.setSize(850, 600);
+        this.setMinimumSize(new Dimension(850, 600));
 
         JButton inscription = new JButton("Inscrire capteur(s)");
         JButton graphique = new JButton("Afficher le graphique");
@@ -45,15 +42,25 @@ public class FenetreVisualisation extends JFrame{
         JPanel hAlerteBoutons = new JPanel();
         JPanel vBoutons = new JPanel();
 
+        JPanel pGraphique = new JPanel();
+        JPanel pDeconnexion = new JPanel();
+
+        pGraphique.add(graphique);
+        pDeconnexion.add(deconnection);
+
         panGeneral.setLayout(new BoxLayout(panGeneral, BoxLayout.Y_AXIS));
         hTreeTab.setLayout(new BoxLayout(hTreeTab, BoxLayout.X_AXIS));
         hAlerteBoutons.setLayout(new BoxLayout(hAlerteBoutons, BoxLayout.X_AXIS));
-        vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
         vTreeBouton.setLayout(new BoxLayout(vTreeBouton, BoxLayout.Y_AXIS));
+        vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
+
+
+
 
         tableauDonnees.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs inscrits"));
         localisationArbrePanel.getArbrePanel().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs connectés"));
         alerte.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Alertes"));
+
 
         vTreeBouton.add(localisationArbrePanel.getArbrePanel());
         vTreeBouton.add(createRigidArea(new Dimension(5, 0)));
@@ -65,12 +72,8 @@ public class FenetreVisualisation extends JFrame{
         hTreeTab.add(createVerticalGlue());
         hTreeTab.add(tableauDonnees.getPanGlobal());
 
-        vBoutons.add(createVerticalGlue());
-        vBoutons.add(createHorizontalGlue());
-        vBoutons.add(graphique);
-        vBoutons.add(deconnection);
-        vBoutons.add(createHorizontalGlue());
-        vBoutons.add(createVerticalGlue());
+        vBoutons.add(pGraphique);
+        vBoutons.add(pDeconnexion);
 
         hAlerteBoutons.add(alerte.getPanGlobal());
         hAlerteBoutons.add(createHorizontalGlue());

@@ -39,8 +39,8 @@ public class TableauDonnees{
         pTableau.setViewportView(tableau);
         tableau.setFillsViewportHeight(true);
         tableau.setEnabled(false);
-        //pTableau.setPreferredSize(new Dimension(100,80));
-        pTableau.setMaximumSize(new Dimension(600, 300));
+
+        pTableau.setMaximumSize(new Dimension(900, 250));
         pTableau.setMinimumSize(new Dimension(600, 150));
         pType.add(lType);
         pType.add(comboType);
