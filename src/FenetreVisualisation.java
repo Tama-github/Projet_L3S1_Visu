@@ -1,4 +1,3 @@
-import sun.awt.AWTIcon32_java_icon16_png;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createRigidArea;

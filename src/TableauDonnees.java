@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createVerticalBox;
 
 /**

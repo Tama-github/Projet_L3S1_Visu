@@ -13,7 +13,5 @@ public class Main {
         FenetreConnexionIP fenetreConnexionIP = new FenetreConnexionIP(fenetreVisualisation);
         fenetreConnexionIP.setVisible(true);
 
-
-
     }
 }
