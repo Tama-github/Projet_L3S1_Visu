@@ -33,11 +33,19 @@ public class LocalisationArbrePanel {
         this.arbrePanel = new JPanel();
         this.arbre = new JTree (this.localisationArbre.getArbre());
         this.arbre.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-        this.arbre.setPreferredSize(new Dimension(150, 200));
-        this.arbrePanel.setPreferredSize(new Dimension(150, 200));
 
         arbreScroll = new JScrollPane(this.arbre);
-        this.arbreScroll.setPreferredSize(new Dimension(150, 200));
+
+        this.arbreScroll.setMinimumSize(new Dimension(1000, 150));
+        this.arbre.setMinimumSize(new Dimension(1000, 150));
+
+        this.arbreScroll.setMaximumSize(new Dimension(1000, 200));
+        this.arbre.setMaximumSize(new Dimension(1000, 200));
+
+        this.arbrePanel.setMinimumSize(new Dimension(200, 400));
+        this.arbrePanel.setMaximumSize(new Dimension(300, 500));
+
+
         arbreScroll.setLayout(new ScrollPaneLayout());
 
         this.arbrePanel.add(arbreScroll, BorderLayout.CENTER);

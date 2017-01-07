@@ -79,8 +79,8 @@ public class Alerte{
             @Override
             public void mouseClicked(MouseEvent appliMouse) {
                 super.mouseClicked(appliMouse);
-                int minVal;
-                int maxVal;
+                double minVal;
+                double maxVal;
                 if ((min.getText().equals("") && (max.getText().equals(""))))
                 {
                     isOkay = false;
@@ -88,8 +88,8 @@ public class Alerte{
                 else
                 {
                     try {
-                        minVal = Integer.valueOf(min.getText());
-                        maxVal = Integer.valueOf(max.getText());
+                        minVal = Double.parseDouble(min.getText());
+                        maxVal = Double.parseDouble(max.getText());
 
                         isOkay = verifInterval(minVal, maxVal);
                     }catch(java.lang.NumberFormatException nFe)
@@ -148,11 +148,11 @@ public class Alerte{
 
 
     public Double getMin() {
-        return Double.valueOf(min.getText());
+        return Double.parseDouble(min.getText());
     }
 
     public Double getMax() {
-        return Double.valueOf(max.getText());
+        return Double.parseDouble(max.getText());
     }
 
     public String getTypeDonnees() {
@@ -163,7 +163,7 @@ public class Alerte{
         return appliquer;
     }
 
-    private boolean verifInterval(int min, int max)
+    private boolean verifInterval(double min, double max)
      {
          if (max < min)
          {

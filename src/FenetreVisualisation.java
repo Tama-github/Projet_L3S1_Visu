@@ -1,5 +1,7 @@
+import com.sun.org.apache.xml.internal.utils.MutableAttrListImpl;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,11 +32,11 @@ public class FenetreVisualisation extends JFrame{
         this.tableauDonnees = new TableauDonnees(this.alerte);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(600, 450);
-        this.setMinimumSize(new Dimension(600, 450));
+        this.setSize(800, 450);
+        this.setMinimumSize(new Dimension(800, 450));
 
         JButton inscription = new JButton("Inscrire capteur(s)");
-        JButton graphique = new JButton("Afficher graphique");
+        JButton graphique = new JButton("Afficher le graphique");
         JButton deconnection = new JButton("Déconnexion");
 
         JPanel panGeneral = new JPanel();
@@ -48,6 +50,10 @@ public class FenetreVisualisation extends JFrame{
         hAlerteBoutons.setLayout(new BoxLayout(hAlerteBoutons, BoxLayout.X_AXIS));
         vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
         vTreeBouton.setLayout(new BoxLayout(vTreeBouton, BoxLayout.Y_AXIS));
+
+        tableauDonnees.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs inscrits"));
+        localisationArbrePanel.getArbrePanel().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs connectés"));
+        alerte.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Alertes"));
 
         vTreeBouton.add(localisationArbrePanel.getArbrePanel());
         vTreeBouton.add(createRigidArea(new Dimension(5, 0)));
@@ -75,7 +81,7 @@ public class FenetreVisualisation extends JFrame{
         panGeneral.add(hAlerteBoutons);
 
         this.add(panGeneral);
-        this.setVisible(true);
+        this.setVisible(false);
 
         inscription.addMouseListener(new MouseAdapter() {
             @Override
@@ -116,6 +122,7 @@ public class FenetreVisualisation extends JFrame{
                     receptionThread.setRunning(false);
                     receptionThread.interrupt();
                     clearArbre();
+                    tableauDonnees.removeAll();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

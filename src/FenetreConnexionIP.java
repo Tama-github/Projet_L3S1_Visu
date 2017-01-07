@@ -74,6 +74,7 @@ public class FenetreConnexionIP extends JFrame {
         container.add(labelError);
 			
 	    this.getContentPane().add(container);
+		this.setVisible(true);
 
 
 		this.getButtonConnexion().addMouseListener(new MouseAdapter() {
