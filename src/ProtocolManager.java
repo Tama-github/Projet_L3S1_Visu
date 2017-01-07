@@ -41,12 +41,12 @@ public class ProtocolManager {
         String res = "DeconnexionKO";
         if (this.servicesReseau.estConnecte()) {
             this.servicesReseau.envoyer("DeconnexionVisu\n");
-            res = this.servicesReseau.recevoir();
+            /*res = this.servicesReseau.recevoir();
             if (res.equals("DeconnexionOK")) {
                 this.servicesReseau.deconnexion();
             } else {
                 this.servicesReseau.deconnexion();
-            }
+            }*/
         }
         return res;
     }
@@ -124,5 +124,9 @@ public class ProtocolManager {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public ServicesReseau getServicesReseau() {
+        return servicesReseau;
     }
 }

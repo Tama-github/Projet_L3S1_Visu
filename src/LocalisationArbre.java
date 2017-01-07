@@ -108,6 +108,8 @@ public class LocalisationArbre {
         return Double.parseDouble(d);
     }
 
+
+
     private Double getLon (String data) {
         String d = "";
         boolean stop = false;

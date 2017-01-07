@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createRigidArea;
@@ -20,6 +21,7 @@ public class FenetreVisualisation extends JFrame{
     private Alerte alerte;
     private ReceptionThread receptionThread;
     private ProtocolManager protocolManager;
+    private FenetreConnexionIP fenetreConnexionIP;
 
     public FenetreVisualisation () {
         super("Visualisation");
@@ -48,7 +50,7 @@ public class FenetreVisualisation extends JFrame{
         vTreeBouton.setLayout(new BoxLayout(vTreeBouton, BoxLayout.Y_AXIS));
 
         vTreeBouton.add(localisationArbrePanel.getArbrePanel());
-        vTreeBouton.add(createRigidArea(new Dimension(5,0)));
+        vTreeBouton.add(createRigidArea(new Dimension(5, 0)));
         vTreeBouton.add(inscription);
         vTreeBouton.add(createVerticalGlue());
         vTreeBouton.setAlignmentX(5);
@@ -101,11 +103,50 @@ public class FenetreVisualisation extends JFrame{
                 }
             }
         });
+
+        deconnection.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                try {
+                    protocolManager.deconnexionVisu();
+                    protocolManager.getServicesReseau().deconnexion();
+                    setVisible(false);
+                    fenetreConnexionIP.setVisible(true);
+                    receptionThread.setRunning(false);
+                    receptionThread.interrupt();
+                    clearArbre();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void setFenetreConnexionIP(FenetreConnexionIP fenetreConnexionIP) {
+        this.fenetreConnexionIP = fenetreConnexionIP;
     }
 
     public void setProtocolManager(ProtocolManager protocolManager) {
         this.protocolManager = protocolManager;
         this.receptionThread = new ReceptionThread(protocolManager, this.localisationArbrePanel, tableauDonnees);
         this.receptionThread.start();
+    }
+
+    private void clearArbre () {
+        System.out.println("bonjour");
+        for (Map.Entry<String, Capteur> entry : localisationArbrePanel.getCapteurs().entrySet()) {
+            System.out.println(entry.getValue().getType());
+            if (entry.getValue().getLoc().getType().equals("interieur")) {
+                System.out.println("loli");
+                this.localisationArbrePanel.removeCapteurInt(entry.getKey());
+            } else if (entry.getValue().getLoc().getType().equals("exterieur")) {
+                System.out.println("lole");
+                this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, entry.getValue().getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, entry.getValue().getLocalisation())));
+            }
+        }
+        this.localisationArbrePanel.getCapteurInscrit().removeAll(this.localisationArbrePanel.getCapteurInscrit());
+        this.localisationArbrePanel.getSelectedItem().removeAll(this.localisationArbrePanel.getSelectedItem());
+        this.localisationArbrePanel.getCapteurs().clear();
     }
 }

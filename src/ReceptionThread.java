@@ -28,6 +28,11 @@ public class ReceptionThread extends Thread implements Runnable {
         try {
             while (this.running) {
                 recu = this.protocolManager.receptionVisu();
+                System.out.println(recu);
+                if (recu == null) {
+                    this.setRunning(false);
+                    this.interrupt();
+                }
                 type = this.protocolManager.getTypeOfReceivedMessage(recu);
                 System.out.println("message recu : " + recu);
                 if (!recu.equals("pas connecte")) {

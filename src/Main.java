@@ -11,6 +11,7 @@ public class Main {
         fenetreVisualisation.setVisible(false);
 
         FenetreConnexionIP fenetreConnexionIP = new FenetreConnexionIP(fenetreVisualisation);
+        fenetreVisualisation.setFenetreConnexionIP(fenetreConnexionIP);
         fenetreConnexionIP.setVisible(true);
 
     }
