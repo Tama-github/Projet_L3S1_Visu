@@ -89,10 +89,16 @@ public class ReceptionThread extends Thread implements Runnable {
                     } else if (type.equals("InscriptionCapteurOK")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                         this.tableauDonnees.ajoutListeCapteurs(this.localisationArbrePanel.getCapteurInscrit());
-                        System.out.println("Appui bouton");
 
                     } else if (type.equals("DesinscriptionCapteurOK")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
+                        System.out.println();
+                        System.out.println("Liste des capteurs inscrits");
+                        for (int i = 0; i < this.localisationArbrePanel.getCapteurInscrit().size(); i++)
+                        {
+                            System.out.print(this.localisationArbrePanel.getCapteurInscrit().get(i).getNom() + ", ");
+                        }
+                        System.out.println();
                     } else if (type.equals("DesinscriptionCapteurKO")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */

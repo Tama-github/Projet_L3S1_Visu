@@ -16,29 +16,27 @@ public class RenduCell extends DefaultTableCellRenderer
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
         final Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if (alerte.isOkay())
-        {
+        if (alerte.isOkay()) {
             //verif type et valeur
-            if (table.getValueAt(row, 1).toString().equals(alerte.getTypeDonnees()))
-            {
-                if (Double.valueOf(table.getValueAt(row, 3).toString()) < alerte.getMin() || Double.valueOf(table.getValueAt(row, 3).toString()) > alerte.getMax())
-                {
-                    cellComponent.setBackground(Color.red);
-                }
-                else
-                {
+            try {
+                if (table.getValueAt(row, 1).toString().equals(alerte.getTypeDonnees())) {
+                    if (Double.parseDouble(table.getValueAt(row, 3).toString()) < alerte.getMin() || Double.parseDouble(table.getValueAt(row, 3).toString()) > alerte.getMax()) {
+                        cellComponent.setBackground(Color.red);
+                    } else {
+                        cellComponent.setBackground(Color.white);
+                    }
+                } else {
                     cellComponent.setBackground(Color.white);
                 }
+            }catch (NumberFormatException nfe)
+            {
+                cellComponent.setBackground(Color.white);
+            }
             }
             else
             {
                 cellComponent.setBackground(Color.white);
             }
-        }
-        else
-        {
-            cellComponent.setBackground(Color.white);
-        }
         return cellComponent;
     }
 
