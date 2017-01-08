@@ -54,16 +54,31 @@ public class LocalisationArbrePanel {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
                 if (ctrlPressed) {
-                    TreePath[] tp = e.getPaths();
-                    for (int i = 0; i < tp.length; i++) {
-                        getAllSelectedLeafs((DefaultMutableTreeNode) tp[i].getLastPathComponent());
 
+                    //DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
+                    TreePath[] tp = e.getPaths();
+
+                    //getAllSelectedLeafs(tmp);
+                    for (int i = 0; i < tp.length; i++) {
+                        if (e.isAddedPath(i)) {
+                            getAllSelectedLeafs((DefaultMutableTreeNode) tp[i].getLastPathComponent());
+                            System.out.println("added");
+                        } else {
+                            removeLeafOfNode((DefaultMutableTreeNode) tp[i].getLastPathComponent());
+                        }
                     }
                 } else {
                     selectedItem.removeAll(selectedItem);
+                    for (int i = 0; i < selectedItem.size(); i++) {
+                        System.out.println(selectedItem.get(i).getNom());
+                    }
                     DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
                     getAllSelectedLeafs(tmp);
                 }
+                for (int i = 0; i < selectedItem.size(); i++) {
+                    System.out.println(selectedItem.get(i).getNom());
+                }
+                System.out.println("________________");
             }
         });
 
@@ -159,6 +174,22 @@ public class LocalisationArbrePanel {
         } else {
             for (int i = 0; i < n; i++) {
                 this.getAllSelectedLeafs((DefaultMutableTreeNode) node.getChildAt(i));
+            }
+        }
+    }
+
+    private void removeLeafOfNode (DefaultMutableTreeNode node) {
+        if (node == null) {
+            return;
+        }
+        int n = node.getChildCount();
+        if (n == 0) {
+            if (!node.toString().equals("Interieur") && !node.toString().equals("Exterieur")) {
+                this.selectedItem.remove(this.getCapteurForString(node.toString()));
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                this.removeLeafOfNode((DefaultMutableTreeNode) node.getChildAt(i));
             }
         }
     }

@@ -102,12 +102,14 @@ public class FenetreVisualisation extends JFrame{
                         if (!localisationArbrePanel.getSelectedItem().contains(localisationArbrePanel.getCapteurInscrit().get(i))) {
                             aDesinscrire.add(localisationArbrePanel.getCapteurInscrit().get(i));
                             localisationArbrePanel.getCapteurInscrit().remove(localisationArbrePanel.getCapteurInscrit().get(i));
+                            System.out.println("removed");
                         }
                     }
                     for (int i = 0; i < localisationArbrePanel.getSelectedItem().size(); i++) {
                         if (!localisationArbrePanel.getCapteurInscrit().contains(localisationArbrePanel.getSelectedItem().get(i))) {
                             aInscrire.add(localisationArbrePanel.getSelectedItem().get(i));
                             localisationArbrePanel.getCapteurInscrit().add(localisationArbrePanel.getSelectedItem().get(i));
+                            System.out.println("addeda  zaqezfq");
                         }
                     }
                     protocolManager.desinscriptionCapteurs(aDesinscrire);
