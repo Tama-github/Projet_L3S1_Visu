@@ -96,13 +96,24 @@ public class FenetreVisualisation extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
+                    int j = 0;
+                    System.out.println("**************inscription button deb*******************");
                     ArrayList<Capteur> aInscrire = new ArrayList<>();
                     ArrayList<Capteur> aDesinscrire = new ArrayList<>();
+                    for (int i = 0; i < localisationArbrePanel.getSelectedItem().size(); i++) {
+                        System.out.println(localisationArbrePanel.getSelectedItem().get(i).getNom());
+                        j++;
+                    }
+                    if (j == 0) {
+                        System.out.println("aucun item selectionné.");
+                    }
                     for (int i = 0; i < localisationArbrePanel.getCapteurInscrit().size(); i++) {
+                        System.out.println(localisationArbrePanel.getCapteurInscrit().get(i).getNom() + "------ taille tableau :" + localisationArbrePanel.getCapteurInscrit().size());
                         if (!localisationArbrePanel.getSelectedItem().contains(localisationArbrePanel.getCapteurInscrit().get(i))) {
                             aDesinscrire.add(localisationArbrePanel.getCapteurInscrit().get(i));
                             localisationArbrePanel.getCapteurInscrit().remove(localisationArbrePanel.getCapteurInscrit().get(i));
                             System.out.println("removed");
+                            i--;
                         }
                     }
                     for (int i = 0; i < localisationArbrePanel.getSelectedItem().size(); i++) {
@@ -117,6 +128,7 @@ public class FenetreVisualisation extends JFrame{
                 } catch (IOException e1) {
                     //----
                 }
+                System.out.println("**************inscription button fin*******************");
             }
         });
 
