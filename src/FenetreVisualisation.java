@@ -31,8 +31,8 @@ public class FenetreVisualisation extends JFrame{
         this.tableauDonnees = new TableauDonnees(this.alerte);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(850, 600);
-        this.setMinimumSize(new Dimension(850, 600));
+        this.setSize(900, 650);
+        this.setMinimumSize(new Dimension(900, 650));
 
         JButton inscription = new JButton("Inscrire capteur(s)");
         JButton graphique = new JButton("Afficher le graphique");
