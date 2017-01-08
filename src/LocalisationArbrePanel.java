@@ -53,8 +53,9 @@ public class LocalisationArbrePanel {
         this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
+                System.out.println("*******************selection listner deb **********************");
                 if (ctrlPressed) {
-
+                    System.out.println("ctrl");
                     //DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
                     TreePath[] tp = e.getPaths();
 
@@ -68,6 +69,7 @@ public class LocalisationArbrePanel {
                         }
                     }
                 } else {
+                    System.out.println("!ctrl");
                     selectedItem.removeAll(selectedItem);
                     for (int i = 0; i < selectedItem.size(); i++) {
                         System.out.println(selectedItem.get(i).getNom());
@@ -78,14 +80,16 @@ public class LocalisationArbrePanel {
                 for (int i = 0; i < selectedItem.size(); i++) {
                     System.out.println(selectedItem.get(i).getNom());
                 }
-                System.out.println("________________");
+                System.out.println("*******************selection listner fin **********************");
             }
         });
 
         this.arbre.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
+                if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && !ctrlPressed) {
+                    ctrlPressed = true;
+                }
             }
 
             @Override
