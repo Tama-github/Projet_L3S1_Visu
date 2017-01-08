@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -148,6 +147,27 @@ public class FenetreVisualisation extends JFrame{
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+            }
+        });
+
+        inscription.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && !localisationArbrePanel.isCtrlPressed()) {
+                    localisationArbrePanel.setCtrlPressed(true);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && !localisationArbrePanel.isCtrlPressed()) {
+                    localisationArbrePanel.setCtrlPressed(true);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                localisationArbrePanel.setCtrlPressed(false);
             }
         });
     }

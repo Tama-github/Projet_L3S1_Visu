@@ -209,4 +209,12 @@ public class LocalisationArbrePanel {
     public ArrayList<Capteur> getCapteurInscrit() {
         return capteurInscrit;
     }
+
+    public void setCtrlPressed(boolean ctrlPressed) {
+        this.ctrlPressed = ctrlPressed;
+    }
+
+    public boolean isCtrlPressed() {
+        return ctrlPressed;
+    }
 }
