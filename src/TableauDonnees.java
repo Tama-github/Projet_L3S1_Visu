@@ -57,7 +57,6 @@ public class TableauDonnees{
 
         remplirComboType();
         remplirComboLoc();
-        backup();
 
         comboType.addItemListener(new ItemListener() {
             @Override
@@ -110,6 +109,7 @@ public class TableauDonnees{
     private void filtrageTableau(String loc, String type)
     {
         removeAll();
+        System.out.println("Loc = " + loc + ", type = " + type);
         int i;
         if (!loc.equals("Tout") && type.equals("Tout"))
         {
@@ -173,15 +173,6 @@ public class TableauDonnees{
         ((ModeleTab) tableau.getModel()).addRow(ligne);
     }
 
-    public void ajoutTest()
-    {
-        Object[] ligne = {"chauffage", "Température", "Exterieur", "5"};
-        ajoutLigne(ligne);
-        ajoutLigne(new Object[] {"Lumiere", "Consommation éclairage", "Interieur", "25"});
-        ajoutLigne(new Object[] {"Vent","Vitesse vent","Exterieur", "50"});
-        ajoutLigne(new Object[] {"Pression","Pression atmosphérique","Exterieur", "15"});
-        ((ModeleTab) tableau.getModel()).fireTableDataChanged();
-    }
 
     public void raffraichirDonnees()
     {
@@ -200,6 +191,7 @@ public class TableauDonnees{
     public void supprimerLigne(int ligne)
     {
         ((ModeleTab) tableau.getModel()).removeRow(ligne);
+        backup();
     }
 
     public void changerValeur(String idCapteur, String valeur)
@@ -281,7 +273,7 @@ public class TableauDonnees{
                 ajoutLigne(ligne);
             }
         }
-
+        backup();
     }
 
 }
