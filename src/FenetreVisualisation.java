@@ -57,8 +57,6 @@ public class FenetreVisualisation extends JFrame{
         vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
 
 
-
-
         tableauDonnees.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs inscrits"));
         localisationArbrePanel.getArbrePanel().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs connectés"));
         alerte.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Alertes"));
@@ -67,8 +65,7 @@ public class FenetreVisualisation extends JFrame{
         vTreeBouton.add(localisationArbrePanel.getArbrePanel());
         vTreeBouton.add(createRigidArea(new Dimension(5, 0)));
         vTreeBouton.add(inscription);
-        vTreeBouton.add(createVerticalGlue());
-        vTreeBouton.setAlignmentX(5);
+        vTreeBouton.add(createHorizontalGlue());
 
         hTreeTab.add(vTreeBouton);
         hTreeTab.add(createVerticalGlue());
