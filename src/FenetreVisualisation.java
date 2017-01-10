@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.io.FileNotFoundException;
+import java.lang.InterruptedException;
 
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createRigidArea;
@@ -14,7 +16,7 @@ import static javax.swing.Box.createVerticalGlue;
  *
  * Credit icone Maxim Basinski
  */
-public class FenetreVisualisation extends JFrame{
+public class FenetreVisualisation extends JFrame {
 
     private LocalisationArbrePanel localisationArbrePanel;
     private TableauDonnees tableauDonnees;
@@ -46,6 +48,26 @@ public class FenetreVisualisation extends JFrame{
 
         JPanel pGraphique = new JPanel();
         JPanel pDeconnexion = new JPanel();
+
+        graphique.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                try {
+                    if(e.getSource() == graphique){
+                        Graphique.graphique nouveauGraphe = new Graphique.graphique();
+                        nouveauGraphe.creationGraphique();
+                    }
+                }
+
+                catch (FileNotFoundException err) {
+                    System.out.println("2!");
+                }
+
+                catch(InterruptedException err) {
+                    System.out.println("3!");
+                }
+
+            }
+        });
 
         pGraphique.add(graphique);
         pDeconnexion.add(deconnection);
