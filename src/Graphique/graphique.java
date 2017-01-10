@@ -116,7 +116,7 @@ public class graphique extends JFrame {
 
     public void creationGraphique () throws FileNotFoundException, InterruptedException {
         //Création de l'objet File
-        File f = new File("Images/test2");
+        File f = new File("Images/test");
         if (f == null) {
             System.out.println("Erreur : Problème lors de la recherche du fichier !");
             setVisible(false);
