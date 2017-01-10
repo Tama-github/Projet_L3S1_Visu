@@ -1,3 +1,5 @@
+package Interface;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,7 +31,7 @@ public class TableauDonnees{
         JLabel lLoc = new JLabel("Filtrer par localisation");
         JPanel pType = new JPanel();
         JPanel pLoc = new JPanel();
-        String[] titre = {"Nom","Type de donnees","Localisation","Valeur"};
+        String[] titre = {"Nom","Type de donnees","Interface.Localisation","Valeur"};
         ModeleTab model = new ModeleTab(donnees, titre);
         tableau = new JTable(model);
 
@@ -261,7 +263,7 @@ public class TableauDonnees{
             {
                 Object[] ligne = new Object[4];
                 capteurCourant = listeCapteurs.get(i);
-                //{"Nom","Type de donnees","Localisation","Valeur"};
+                //{"Nom","Type de donnees","Interface.Localisation","Valeur"};
                 ligne[0] = capteurCourant.getNom();
                 ligne[1] = capteurCourant.getType();
                 if (capteurCourant.getLoc().getType().equals("exterieur")) {

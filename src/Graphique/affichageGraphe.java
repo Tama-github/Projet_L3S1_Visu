@@ -71,14 +71,14 @@ public class affichageGraphe extends JFrame {
     public void verifLieu(capteur capt) {
         if (capt.getLocalisation().lieu == 0) {
             //LOC += loc.inside.batiment + " " + loc.inside.etage + " " + loc.inside.salle;
-            this.descriptionLoc = new JLabel("     Localisation :  Intérieur");
+            this.descriptionLoc = new JLabel("     Interface.Localisation :  Intérieur");
             this.batiment = new JLabel("               Bâtiment " + capt.getLocalisation().inside.batiment);
             this.etage = new JLabel("               " + Integer.toString(capt.getLocalisation().inside.etage) + "ème étage");
             this.salle = new JLabel("               Salle " + Integer.toString(capt.getLocalisation().inside.salle));
         }
         else {
             //LOC += "Extérieur";
-            this.descriptionLoc = new JLabel("     Localisation :  Extérieur");
+            this.descriptionLoc = new JLabel("     Interface.Localisation :  Extérieur");
             this.latitude = new JLabel("          Latitude    :  " + capt.getLocalisation().outside.latitude);
             this.longitude = new JLabel("          Longitude :  " + capt.getLocalisation().outside.longitude);
         }
@@ -94,6 +94,9 @@ public class affichageGraphe extends JFrame {
     public affichageGraphe(ArrayList<capteur> lC) { //, int choice) {
         listeCapteurs = lC;
         listeGraphes = new ArrayList<Graphe>();
+
+        ImageIcon iconeFenetre = new ImageIcon("Icon.png");
+        this.setIconImage(iconeFenetre.getImage());
 
         capteur capt = null;
 
@@ -193,6 +196,7 @@ public class affichageGraphe extends JFrame {
 
         //TODO: gauche -> pas de maximum de taille
         //gauche.setPreferredSize(new Dimension(200, 600));
+        gauche.setMaximumSize(new Dimension(250, 600));
         gauche.setLayout(new BoxLayout(gauche, BoxLayout.PAGE_AXIS));
         gauche.setBorder(BorderFactory.createTitledBorder("Informations"));
         gauche.add(this.haut);

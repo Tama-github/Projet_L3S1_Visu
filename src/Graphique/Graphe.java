@@ -140,7 +140,6 @@ public class Graphe extends JPanel {
             tailleVal++;
             i = i/10;
         }
-        System.out.println("Taille mx = " + tailleVal);
         g.drawString(Integer.toString(listeMesures.get(0).max), xDep_V - 14 * tailleVal, yArr_V + 58);
 
         //Origine
@@ -258,49 +257,42 @@ public class Graphe extends JPanel {
                         }
                         maximum = maximum * tailleMax / mesureX.max;;
                         test = test * tailleMax / mesureX.max;
-                        System.out.println("Pourcentage détecté");
                         break;
 
                     case "°C" :
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 60;
-                        System.out.println("Température détectée");
                         break;
 
                     case "lum" : //A modifier !!
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 100;
-                        System.out.println("Luminosité détectée");
                         break;
 
                     case "dB" : //A modifier !!
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 60;
-                        System.out.println("Volume sonore détecté");
                         break;
 
                     case "W" : //A modifier !!
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 3000;
-                        System.out.println("Consommation élcairage détectée");
                         break;
 
                     case "l" : //A modifier !!
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 60;
-                        System.out.println("Quantité d'eau (froide ou chaude) détectée");
                         break;
 
                     case "km/h" : //A modifier !!
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 100;
-                        System.out.println("Vitesse vent détectée");
                         break;
 
                     case "hPa" : //A modifier !!
@@ -316,7 +308,6 @@ public class Graphe extends JPanel {
                         else {
                             //test = test * tailleMax / 100;
                         }
-                        System.out.println("Pression atmosphérique détectée = " + test);
                         break;
 
                     default :
@@ -350,7 +341,6 @@ public class Graphe extends JPanel {
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 60;
-                        System.out.println("Température détectée");
                         break;
 
                     default :
@@ -367,13 +357,11 @@ public class Graphe extends JPanel {
 				}
 				else
 					test *= -2;*/
-                System.out.println("test = " + test);
                 //Vérification de pourcentage ≥ 0 % (au cas où)
 				/*if (mesureX.unite != "°C") {
 					System.out.println("Erreur logique : valeur négative (impossible) !");
 					System.exit(0);
 				}*/
-                System.out.println("\"" + mesureX.unite + "\"");
 
                 while (test > tailleMax)
                     test = test % tailleMax;

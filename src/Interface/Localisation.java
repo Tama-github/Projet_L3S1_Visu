@@ -1,3 +1,5 @@
+package Interface;
+
 /**
  * Created by msi on 23/11/2016.
  */
@@ -8,7 +10,7 @@ public abstract class Localisation {
         if (type.equals("exterieur") || type.equals("interieur")) {
             this.type = type;
         } else {
-            throw new Exception("Localisation exception : localisation inconnu.");
+            throw new Exception("Interface.Localisation exception : localisation inconnu.");
         }
     }
 
