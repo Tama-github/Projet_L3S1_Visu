@@ -236,13 +236,24 @@ public class Graphe extends JPanel {
      * @param xPoint2	: coordonnée 'x' du deuxième point
      * @param yPoint2	: coordonnée 'y' du deuxième point
      */
-    public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2) {
-        //g.setColor(new Color(58, 137, 35));  //Couleur verte
+    public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2) {//}, boolean verif1, boolean verif2, boolean supZero) {
+        /*if ((verif1) && (verif2))
+            g.setColor(new Color(58, 137, 35));  //Couleur verte
+        else if ((!verif1) && (!verif2)) {
+            if (supZero)
+                g.setColor(Color.RED);
+            else
+                g.setColor(Color.BLUE);
+        }
+        else
+            g.setColor(new Color(157, 69, 18));  //Couleur jaune*/
+
+        g.setColor(new Color(58, 137, 35));  //Couleur verte
         g.drawLine(xPoint1, yPoint1, xPoint2, yPoint2);
         g.drawLine(xPoint1 + 1, yPoint1, xPoint2 + 1, yPoint2);
         g.drawLine(xPoint1, yPoint1 + 1, xPoint2, yPoint2 + 1);
         g.drawLine(xPoint1 + 1, yPoint1 + 1, xPoint2 + 1, yPoint2 + 1);
-        //g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
     }
 
 
@@ -256,7 +267,7 @@ public class Graphe extends JPanel {
      *
      * @param tailleMax	: distance [origine ; valeurMax]
      */
-    public void affichageMesures (Graphics g, int xDep_H, int yDep_H, int tailleMax) {
+    public void affichageMesures (Graphics g, int xDep_H, int xArr_H, int yDep_H, int tailleMax) {
         int xDeb1;
         int xFin1;
         int yDeb1;
@@ -264,13 +275,18 @@ public class Graphe extends JPanel {
 
         int xPoint1 = 0;
         int yPoint1 = 0;
-        int xPoint2 = 0;
-        int yPoint2 = 0;
+        int xPoint2;
+        int yPoint2;
+
+        boolean verifMax1 = true, verifMax2 = true, supZero = true;
+
+        int nbElements = this.listeMesures.size();
+        int distance = (xArr_H - xDep_H) / nbElements;
 
         int i = 0;
 
         for (ListIterator<Mesure> iter = this.listeMesures.listIterator(); iter.hasNext(); ) {
-            xDeb1 = xDep_H + (2 * i + 1) * 5;
+            xDeb1 = xDep_H + i * distance;
             xFin1 = 15;
 
             Mesure mesureX = iter.next();
@@ -413,12 +429,17 @@ public class Graphe extends JPanel {
             if (test > 0) {
                 yDeb1 = yDep_H - test;
                 yFin1 = 10;
+                //supZero = true;
 
-                if (test <= maximum)
-                    g.setColor(new Color(58, 137, 35));	//Couleur verte
+                if (test <= maximum) {
+                    g.setColor(new Color(58, 137, 35));    //Couleur verte
                     //g.setColor(Color.GREEN);
-                else if (test > maximum)
+                    //verifMax2 = true;
+                }
+                else if (test > maximum) {
                     g.setColor(Color.RED);
+                    //verifMax2 = false;
+                }
                 xDeb1 = xDeb1 + (xFin1 / 2);
                 yDeb1 = yDeb1 + (yFin1 / 2);
                 g.fillRect(xDeb1, yDeb1, 2, 2);
@@ -427,11 +448,16 @@ public class Graphe extends JPanel {
                 if (i > 0) {
                     xPoint2 = xDeb1;
                     yPoint2 = yDeb1;
-                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);//, verifMax1, verifMax2, supZero);
                     xPoint1 = xPoint2;
                     yPoint1 = yPoint2;
+                    //verifMax1 = verifMax2;
                 }
                 else {
+                    /*if (test <= maximum)
+                        verifMax1 = true;
+                    else
+                        verifMax1 = false;*/
                     xPoint1 = xDeb1;
                     yPoint1 = yDeb1;
                 }
@@ -440,6 +466,7 @@ public class Graphe extends JPanel {
             else {
                 yDeb1 = yDep_H - test;
                 yFin1 = 10;
+                //supZero = false;
 
                 g.setColor(Color.BLUE);
                 g.fillRect(xDeb1, yDeb1, 2, 2);
@@ -449,11 +476,14 @@ public class Graphe extends JPanel {
                 if (i > 0) {
                     xPoint2 = xDeb1;
                     yPoint2 = yDeb1;
-                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
+                    //verifMax2 = false;
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);//, verifMax1, verifMax2, supZero);
                     xPoint1 = xPoint2;
                     yPoint1 = yPoint2;
+                    verifMax1 = verifMax2;
                 }
                 else {
+                    //verifMax1 = false;
                     xPoint1 = xDeb1;
                     yPoint1 = yDeb1;
                 }
@@ -488,9 +518,7 @@ public class Graphe extends JPanel {
 
         //X Horizontal
         int xDep_H = 120;								//Coordonnée 'x' de départ (trait horizontal)
-        //int xArr_H = xDep_H + (2 * iMax + 1) * 15;	    //Coordonnée 'x' d'arrivée (trait horizontal)
-        int xArr_H = xDep_H + (2 * iMax + 1) * 5;	    	//Coordonnée 'x' d'arrivée (trait horizontal)
-
+        int xArr_H = xDep_H + this.xMax;
 
 
         //Y Vertical
@@ -515,7 +543,7 @@ public class Graphe extends JPanel {
 
         pointilles(g, xDep_V, xArr_H, xArr_V, yArr_V, yArr_VNeg, tailleMax);
 
-        affichageMesures(g, xDep_H, yDep_H, tailleMax);
+        affichageMesures(g, xDep_H, xArr_H, yDep_H, tailleMax);
     }
 }
 

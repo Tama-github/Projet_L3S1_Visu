@@ -210,11 +210,13 @@ public class AffichageGraphe extends JFrame {
         bas.add(this.buttonClose, BorderLayout.SOUTH);
         bas.setAlignmentX(0);
 
+        int largeurGauche = 240;
+
         //TODO: gauche -> pas de maximum de taille
         //gauche.setPreferredSize(new Dimension(200, 600));
-        gauche.setMinimumSize(new Dimension(240, 620));
-        gauche.setPreferredSize(new Dimension(240, 620));
-        gauche.setMaximumSize(new Dimension(240, 4000));
+        gauche.setMinimumSize(new Dimension(largeurGauche, 620));
+        gauche.setPreferredSize(new Dimension(largeurGauche, 620));
+        gauche.setMaximumSize(new Dimension(largeurGauche, 4000));
         gauche.setLayout(new BoxLayout(gauche, BoxLayout.PAGE_AXIS));
         gauche.setBorder(BorderFactory.createTitledBorder("Informations"));
         gauche.add(this.haut);
@@ -223,11 +225,14 @@ public class AffichageGraphe extends JFrame {
         gauche.add(new JLabel(" "));
         gauche.add(this.bas);
 
-        //taille = 400 + (2 * listeInformationsCapteurs.get(1).getListeMesures().size() + 1) * 45;
-        taille = listeGraphes.get(0).getxMax() + 250 + 20;
+        int largeurDroite = 2*120 + listeGraphes.get(0).getxMax();
 
-        droite.setMinimumSize(new Dimension(listeGraphes.get(0).getxMax(), 600));
-        droite.setPreferredSize(new Dimension(listeGraphes.get(0).getxMax(), 600));
+        //taille = 400 + (2 * listeInformationsCapteurs.get(1).getListeMesures().size() + 1) * 45;
+        //taille = listeGraphes.get(0).getxMax() + 250 + 20;
+        taille = largeurGauche + largeurDroite + 30;
+
+        droite.setMinimumSize(new Dimension(largeurDroite, 600));
+        droite.setPreferredSize(new Dimension(largeurDroite, 600));
         //droite.setMaximumSize(new Dimension(taille - gauche.getWidth() - 20, 620));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
