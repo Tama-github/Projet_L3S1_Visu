@@ -1,5 +1,3 @@
-package Interface;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,8 +36,8 @@ public class FenetreVisualisation extends JFrame {
         this.setSize(900, 650);
         this.setMinimumSize(new Dimension(900, 650));
 
-        JButton inscription = new JButton("Inscrire capteur(s)");
-        JButton graphique = new JButton("Afficher le graphique");
+        JButton inscription = new JButton("Inscrire InformationsCapteur(s)");
+        JButton graphique = new JButton("Afficher le Graphique");
         JButton deconnection = new JButton("Déconnexion");
 
         JPanel panGeneral = new JPanel();
@@ -55,7 +53,7 @@ public class FenetreVisualisation extends JFrame {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 try {
                     if(e.getSource() == graphique){
-                        Graphique.graphique nouveauGraphe = new Graphique.graphique();
+                        Graphique nouveauGraphe = new Graphique();
                         nouveauGraphe.creationGraphique();
                     }
                 }
@@ -207,10 +205,10 @@ public class FenetreVisualisation extends JFrame {
         System.out.println("bonjour");
         for (Map.Entry<String, Capteur> entry : localisationArbrePanel.getCapteurs().entrySet()) {
             System.out.println(entry.getValue().getType());
-            if (entry.getValue().getLoc().getType().equals("interieur")) {
+            if (entry.getValue().getLoc().getType().equals("Interieur")) {
                 System.out.println("loli");
                 this.localisationArbrePanel.removeCapteurInt(entry.getKey());
-            } else if (entry.getValue().getLoc().getType().equals("exterieur")) {
+            } else if (entry.getValue().getLoc().getType().equals("Exterieur")) {
                 System.out.println("lole");
                 this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, entry.getValue().getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, entry.getValue().getLocalisation())));
             }

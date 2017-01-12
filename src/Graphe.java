@@ -1,5 +1,3 @@
-package Graphique;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -7,14 +5,23 @@ import java.util.ListIterator;
 
 public class Graphe extends JPanel {
     /*** Paramètre ***/
-    private ArrayList<mesure> listeMesures;	//Contient la liste des mesures faites par le capteur
+    private ArrayList<Mesure> listeMesures;	//Contient la liste des mesures faites par le InformationsCapteur
+    private int xMax = 250;
+
+    public int getxMax() {
+        return xMax;
+    }
+
+    public void setxMax(int x) {
+        this.xMax = x;
+    }
 
 
     /*** Fonctions ***/
 
     /** Liste des fonctions :
      *
-     * public void setValeur (ArrayList<mesure> liste)
+     * public void setValeur (ArrayList<Mesure> liste)
      *
      * public void traitHorizontal(Graphics g, int xDep_H, int yDep_H, int xArr_H, int yArr_H)
      *
@@ -24,6 +31,8 @@ public class Graphe extends JPanel {
      *
      * public void pointilles(Graphics g, int xDep_V, int xArr_H, int xArr_V, int yArr_V, int yArr_VNeg, int tailleMax)
      *
+     * public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2)
+     *
      * public void affichageMesures (Graphics g, int xDep_H, int yDep_H, int tailleMax)
      *
      * public void paint(Graphics g)
@@ -32,12 +41,12 @@ public class Graphe extends JPanel {
 
 
     /**
-     * La fonction 'setValeur' enregistre la liste des mesures faites par le capteur avant de commencer à dessiner
+     * La fonction 'setValeur' enregistre la liste des mesures faites par le InformationsCapteur avant de commencer à dessiner
      * /!\ Important : il faut lancer cette fonction avant toute autre fonction de cette classe /!\
      *
-     * @param liste		: contient la liste des mesures faites par le capteur
+     * @param liste		: contient la liste des mesures faites par le InformationsCapteur
      */
-    public void setValeur (ArrayList<mesure> liste) {
+    public void setValeur (ArrayList<Mesure> liste) {
         this.listeMesures = liste;
     }
 
@@ -158,7 +167,7 @@ public class Graphe extends JPanel {
 
         //Légende axe abscisses
         g.setFont(new Font("Arial", Font.BOLD, 14));
-        g.drawString("Temps", xArr_H - 15, yArr_H + 30);
+        g.drawString("Temps (" + listeMesures.get(0).uniteTemps + ")", xArr_H - 15, yArr_H + 30);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
     }
 
@@ -218,6 +227,26 @@ public class Graphe extends JPanel {
 
 
     /**
+     * La fonction 'relierPoints' trace les traits entre 2 points du graphes
+     *
+     * @param g : Graphics g est la base du dessin
+     *
+     * @param xPoint1	: coordonnée 'x' du premier  point
+     * @param yPoint1	: coordonnée 'y' du premier  point
+     * @param xPoint2	: coordonnée 'x' du deuxième point
+     * @param yPoint2	: coordonnée 'y' du deuxième point
+     */
+    public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2) {
+        //g.setColor(new Color(58, 137, 35));  //Couleur verte
+        g.drawLine(xPoint1, yPoint1, xPoint2, yPoint2);
+        g.drawLine(xPoint1 + 1, yPoint1, xPoint2 + 1, yPoint2);
+        g.drawLine(xPoint1, yPoint1 + 1, xPoint2, yPoint2 + 1);
+        g.drawLine(xPoint1 + 1, yPoint1 + 1, xPoint2 + 1, yPoint2 + 1);
+        //g.setColor(Color.BLACK);
+    }
+
+
+    /**
      * La fonction 'affichageMesures' affiche toutes les mesures relevées dans la base de données (température, humidité, etc.)
      *
      * @param g : Graphics g est la base du dessin
@@ -233,18 +262,29 @@ public class Graphe extends JPanel {
         int yDeb1;
         int yFin1;
 
+        int xPoint1 = 0;
+        int yPoint1 = 0;
+        int xPoint2 = 0;
+        int yPoint2 = 0;
+
         int i = 0;
 
-        for (ListIterator<mesure> iter = this.listeMesures.listIterator(); iter.hasNext(); ) {
-            xDeb1 = xDep_H + (2 * i + 1) * 45;
-            xFin1 = 45;
+        for (ListIterator<Mesure> iter = this.listeMesures.listIterator(); iter.hasNext(); ) {
+            xDeb1 = xDep_H + (2 * i + 1) * 5;
+            xFin1 = 15;
 
-            mesure mesureX = iter.next();
+            Mesure mesureX = iter.next();
             int maximum = mesureX.max;
+            int test;
 
-            int test = 0;
+            //Vérification des valeurs mesurées en fonction des unités
+            /*test = Graphique.verifTypage(mesureX, tailleMax);
 
-            //Si la valeur de la mesure actuelle est positive :
+            if (mesureX.unite.equals("hPa")) {
+                maximum -= 1000;
+                maximum = maximum * tailleMax / 100;
+            }*/
+
             if (mesureX.val >= 0) {
                 test = mesureX.val;
 
@@ -252,8 +292,8 @@ public class Graphe extends JPanel {
                     case "%" :
                         //Vérification de pourcentage ≤ 100 % (au cas où)
                         if (test > 100) {
-                            System.out.println("Erreur logique : pourcentage supérieur à 100 !");
-                            System.exit(99);
+                            AffichageGraphe erreur = new AffichageGraphe();
+                            erreur.fermerFenetreErreur();
                         }
                         maximum = maximum * tailleMax / mesureX.max;;
                         test = test * tailleMax / mesureX.max;
@@ -317,19 +357,6 @@ public class Graphe extends JPanel {
                         //System.exit(99);
                         break;
                 }
-
-				/*while (test > tailleMax)
-					test = test % tailleMax;
-				if (test == 0)
-					test = tailleMax;*/
-
-				/*yDeb1 = yDep_H - test;
-				yFin1 = test;
-
-				g.setColor(Color.RED);
-				g.fillRect(xDeb1, yDeb1, xFin1, yFin1);
-				g.setColor(Color.BLACK);
-				g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 - 5);*/
             }
 
             //... Sinon :
@@ -351,34 +378,14 @@ public class Graphe extends JPanel {
                         break;
                 }
 
-				/*if (mesureX.unite == "°C") {
-					test = test * tailleMax / 60;
-					System.out.println("ça marche : °C");
-				}
-				else
-					test *= -2;*/
-                //Vérification de pourcentage ≥ 0 % (au cas où)
-				/*if (mesureX.unite != "°C") {
-					System.out.println("Erreur logique : valeur négative (impossible) !");
-					System.exit(0);
-				}*/
-
                 while (test > tailleMax)
                     test = test % tailleMax;
                 if (test == 0)
                     test = tailleMax;
-
-				/*yDeb1 = yDep_H + 5;
-				yFin1 = test;
-
-				g.setColor(Color.BLUE);
-				g.fillRect(xDeb1, yDeb1, xFin1, yFin1);
-				g.setColor(Color.BLACK);
-				g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 + yFin1 + 12);
-				g.setColor(Color.WHITE);*/
             }
 
-            if (test > 0) {
+            //Histogramme
+            /*if (test > 0) {
                 yDeb1 = yDep_H - test;
                 yFin1 = test;
 
@@ -400,16 +407,67 @@ public class Graphe extends JPanel {
                 g.setColor(Color.BLACK);
                 g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 + yFin1 + 12);
                 g.setColor(Color.WHITE);
+            }*/
+
+            //Courbe
+            if (test > 0) {
+                yDeb1 = yDep_H - test;
+                yFin1 = 10;
+
+                if (test <= maximum)
+                    g.setColor(new Color(58, 137, 35));	//Couleur verte
+                    //g.setColor(Color.GREEN);
+                else if (test > maximum)
+                    g.setColor(Color.RED);
+                xDeb1 = xDeb1 + (xFin1 / 2);
+                yDeb1 = yDeb1 + (yFin1 / 2);
+                g.fillRect(xDeb1, yDeb1, 2, 2);
+                //g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 - 5);
+
+                if (i > 0) {
+                    xPoint2 = xDeb1;
+                    yPoint2 = yDeb1;
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
+                    xPoint1 = xPoint2;
+                    yPoint1 = yPoint2;
+                }
+                else {
+                    xPoint1 = xDeb1;
+                    yPoint1 = yDeb1;
+                }
+                g.setColor(Color.BLACK);
+            }
+            else {
+                yDeb1 = yDep_H - test;
+                yFin1 = 10;
+
+                g.setColor(Color.BLUE);
+                g.fillRect(xDeb1, yDeb1, 2, 2);
+                //g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 + yFin1 + 12);
+                //g.setColor(Color.WHITE);
+
+                if (i > 0) {
+                    xPoint2 = xDeb1;
+                    yPoint2 = yDeb1;
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
+                    xPoint1 = xPoint2;
+                    yPoint1 = yPoint2;
+                }
+                else {
+                    xPoint1 = xDeb1;
+                    yPoint1 = yDeb1;
+                }
+                g.setColor(Color.BLACK);
             }
 
             //g.drawString(mesureX.typeUnite, xDeb1 + 5, yDep_H + 30);
             g.setColor(Color.BLACK);
 
-            g.drawLine(xDeb1 + 20, yDep_H, xDeb1 + 20, yDep_H + 10);
+            /*g.drawLine(xDeb1 + 20, yDep_H, xDeb1 + 20, yDep_H + 10);
             g.drawLine(xDeb1 + 21, yDep_H, xDeb1 + 21, yDep_H + 10);
             g.drawLine(xDeb1 + 22, yDep_H, xDeb1 + 22, yDep_H + 10);
             g.drawLine(xDeb1 + 23, yDep_H, xDeb1 + 23, yDep_H + 10);
-            g.drawLine(xDeb1 + 24, yDep_H, xDeb1 + 24, yDep_H + 10);
+            g.drawLine(xDeb1 + 24, yDep_H, xDeb1 + 24, yDep_H + 10);*/
 
             i++;
         }
@@ -426,11 +484,14 @@ public class Graphe extends JPanel {
         super.paint(g);
         g.setColor(Color.BLACK);
         int iMax = listeMesures.size();		//Nombre d'éléments dans la liste des mesures
-        int tailleMax = 250;				//Distance [origine ; valeurMax]
+        int tailleMax = 250;				//Distance verticale [origine ; valeurMax]
 
         //X Horizontal
         int xDep_H = 120;								//Coordonnée 'x' de départ (trait horizontal)
-        int xArr_H = xDep_H + (2 * iMax + 1) * 45;		//Coordonnée 'x' d'arrivée (trait horizontal)
+        //int xArr_H = xDep_H + (2 * iMax + 1) * 15;	    //Coordonnée 'x' d'arrivée (trait horizontal)
+        int xArr_H = xDep_H + (2 * iMax + 1) * 5;	    	//Coordonnée 'x' d'arrivée (trait horizontal)
+
+
 
         //Y Vertical
         int yDep_V = 350;								//Coordonnée 'y' de départ (trait vertical)

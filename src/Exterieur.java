@@ -1,11 +1,9 @@
-package Graphique;
-
-public class exterieur {
+public class Exterieur {
 
     protected int latitude;
     protected int longitude;
 
-    public exterieur (int lat, int longi) {
+    public Exterieur(int lat, int longi) {
         this.latitude = lat;
         this.longitude = longi;
     }

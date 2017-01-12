@@ -1,19 +1,17 @@
-package Graphique;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 
-public class affichageGraphe extends JFrame {
+public class AffichageGraphe extends JFrame {
     private JLayeredPane container = new JLayeredPane();
 
     private JPanel droite = new JPanel();
 
     //private JSplitPane gauche = null;
     private JPanel gauche = new JPanel();
+    private JPanel bas = new JPanel();
     private JPanel haut = new JPanel();
-    private JPanel milieu = new JPanel();
 
     private JLabel labelError = new JLabel();
 
@@ -57,28 +55,38 @@ public class affichageGraphe extends JFrame {
     private JButton buttonClose;
 
     private ArrayList<Graphe> listeGraphes;
-    private ArrayList<capteur> listeCapteurs;
-    //private capteur capt;
+    private ArrayList<InformationsCapteur> listeInformationsCapteurs;
+    //private InformationsCapteur capt;
     private int typeGraphe = 0;
     private int nbMaxGraphe = 1;
 
+    public AffichageGraphe() {
+
+    }
+
+
+    public void fermerFenetreErreur() {
+        System.out.println("Erreur logique : pourcentage supérieur à 100 !");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
 
     /**
-     * La fonction 'verifLieu' vérifie où se trouve le capteur (intérieur/extérieur) et affiche les valeurs en conséquence.
+     * La fonction 'verifLieu' vérifie où se trouve le InformationsCapteur (intérieur/extérieur) et affiche les valeurs en conséquence.
      *
-     * @param capt : il s'agit du capteur à visualiser
+     * @param capt : il s'agit du InformationsCapteur à visualiser
      */
-    public void verifLieu(capteur capt) {
+    public void verifLieu(InformationsCapteur capt) {
         if (capt.getLocalisation().lieu == 0) {
             //LOC += loc.inside.batiment + " " + loc.inside.etage + " " + loc.inside.salle;
-            this.descriptionLoc = new JLabel("     Interface.Localisation :  Intérieur");
+            this.descriptionLoc = new JLabel("     LieuCapteur :  Intérieur");
             this.batiment = new JLabel("               Bâtiment " + capt.getLocalisation().inside.batiment);
             this.etage = new JLabel("               " + Integer.toString(capt.getLocalisation().inside.etage) + "ème étage");
             this.salle = new JLabel("               Salle " + Integer.toString(capt.getLocalisation().inside.salle));
         }
         else {
             //LOC += "Extérieur";
-            this.descriptionLoc = new JLabel("     Interface.Localisation :  Extérieur");
+            this.descriptionLoc = new JLabel("     LieuCapteur :  Extérieur");
             this.latitude = new JLabel("          Latitude    :  " + capt.getLocalisation().outside.latitude);
             this.longitude = new JLabel("          Longitude :  " + capt.getLocalisation().outside.longitude);
         }
@@ -86,45 +94,46 @@ public class affichageGraphe extends JFrame {
 
 
     /**
-     * La fonction 'affichageGraphe' créé les différentes partie de la fenêtre
+     * La fonction 'creationGraphe' créé les différentes partie de la fenêtre
      *
      * @param lC : cette liste contient tous les capteurs à visualiser
      */
-    //public affichageGraphe(String nom, ArrayList<mesure> listeMesures, localisation loc) {
-    public affichageGraphe(ArrayList<capteur> lC) { //, int choice) {
-        listeCapteurs = lC;
+    //public creationGraphe(String nom, ArrayList<Mesure> listeMesures, LieuCapteur loc) {
+    public void creationGraphe(ArrayList<InformationsCapteur> lC) { //, int choice) {
+
+        listeInformationsCapteurs = lC;
         listeGraphes = new ArrayList<Graphe>();
 
         ImageIcon iconeFenetre = new ImageIcon("Icon.png");
         this.setIconImage(iconeFenetre.getImage());
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        capteur capt = null;
+        InformationsCapteur capt = null;
 
-        nbMaxGraphe = listeCapteurs.size();
+        nbMaxGraphe = listeInformationsCapteurs.size();
         int taille = 0;
 
         for (int cmpt = 0 ; cmpt < nbMaxGraphe ; cmpt ++) {
-            //capt = listeCapteurs.get(cmpt);
-            taille = 400 + (2 * listeCapteurs.get(cmpt).getListeMesures().size() + 1) * 45;
+            //capt = listeInformationsCapteurs.get(cmpt);
+            taille = 400 + (2 * listeInformationsCapteurs.get(cmpt).getListeMesures().size() + 1) * 45;
 
             Graphe jc = new Graphe();
-            jc.setValeur(listeCapteurs.get(cmpt).getListeMesures());
+            jc.setValeur(listeInformationsCapteurs.get(cmpt).getListeMesures());
             jc.setBackground(Color.WHITE);
             jc.setPreferredSize(new Dimension(taille-250,500));
+            jc.setxMax(200 + (2 * listeInformationsCapteurs.get(cmpt).getListeMesures().size() + 1) * 5);
 
             listeGraphes.add(jc);
         }
 
-        taille = 400 + (2 * listeCapteurs.get(0).getListeMesures().size() + 1) * 45;
+        capt = listeInformationsCapteurs.get(0);
 
-        capt = listeCapteurs.get(0);
-
-        String ID = "     ID : " + capt.getType();
+        String ID = capt.getType();
         verifLieu(capt);
-        this.id = new JLabel(ID);
+        //this.id = new JLabel(ID);
 
 
-        Icon icone;
+        /*Icon icone;
 
         Image imageClose = Toolkit.getDefaultToolkit().getImage("Images/close.png");
 
@@ -134,7 +143,10 @@ public class affichageGraphe extends JFrame {
         }
         else {
             this.buttonClose = new JButton("Fermer");
-        }
+        }*/
+
+        this.buttonClose = new JButton("Fermer");
+
         this.buttonClose.setMaximumSize(new Dimension(200, 150));
 
         this.buttonClose.addActionListener(new java.awt.event.ActionListener() {
@@ -147,65 +159,76 @@ public class affichageGraphe extends JFrame {
             }
         });
 
-        this.setTitle("Graphe");
-        this.setSize(taille, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
 
         //Font police = new Font("Arial", Font.BOLD, 12);
 
-        //milieu.setMaximumSize(new Dimension(200, 175));
-        milieu.setBorder(BorderFactory.createTitledBorder("Informations du capteur"));
-        milieu.setLayout(new BoxLayout(milieu, BoxLayout.PAGE_AXIS));
-        milieu.setBackground(Color.WHITE);
-        milieu.add(this.id);
-        milieu.add(new JLabel(" "));
-        milieu.add(this.descriptionLoc);
+        haut.setMinimumSize(new Dimension(240, 150));
+        haut.setMaximumSize(new Dimension(240, 150));
+        haut.setBorder(BorderFactory.createTitledBorder(ID));
+        haut.setLayout(new BoxLayout(haut, BoxLayout.PAGE_AXIS));
+        haut.setAlignmentX(0);
+        haut.setBackground(Color.WHITE);
+        haut.add(new JLabel(" "));
+        haut.add(this.descriptionLoc);
         if (capt.getLocalisation().lieu == 0) {
-            milieu.add(this.batiment);
-            milieu.add(this.etage);
-            milieu.add(this.salle);
+            haut.add(this.batiment);
+            haut.add(this.etage);
+            haut.add(this.salle);
         }
         else {
-            milieu.add(this.latitude);
-            milieu.add(this.longitude);
+            haut.add(this.latitude);
+            haut.add(this.longitude);
         }
-        milieu.add(new JLabel(" "));
+        haut.add(new JLabel(" "));
 
         //La couleur des ensembleCapteurs
         JComboBox ensembleCapteurs = new JComboBox();
         ensembleCapteurs.setMaximumSize(new Dimension(200, 60));
-        for (int i = 0 ; i < listeCapteurs.size() ; i++) {
-            ensembleCapteurs.addItem(listeCapteurs.get(i).getType());
+        for (int i = 0; i < listeInformationsCapteurs.size() ; i++) {
+            ensembleCapteurs.addItem(listeInformationsCapteurs.get(i).getType());
         }
 
-        JPanel bas = new JPanel();
-        bas.setMaximumSize(new Dimension(200, 100));
-        bas.setLayout(new BoxLayout(bas, BoxLayout.PAGE_AXIS));
-        bas.setBackground(Color.white);
-        bas.setBorder(BorderFactory.createTitledBorder("Capteurs"));
-        bas.add(new JLabel(" "));
-        bas.add(ensembleCapteurs);
-        bas.add(new JLabel(" "));
+        JPanel milieu = new JPanel();
+        milieu.setMinimumSize(new Dimension(240, 80));
+        milieu.setMaximumSize(new Dimension(240, 80));
+        milieu.setLayout(new BoxLayout(milieu, BoxLayout.PAGE_AXIS));
+        milieu.setAlignmentX(0);
+        milieu.setBackground(Color.white);
+        milieu.setBorder(BorderFactory.createTitledBorder("Choix du capteurs"));
+        milieu.add(new JLabel(" "));
+        milieu.add(ensembleCapteurs);
+        milieu.add(new JLabel(" "));
 
-        //haut.setMaximumSize(new Dimension(200, 300));
-        //haut.setLayout(new BoxLayout(haut, BoxLayout.PAGE_AXIS));
-        //haut.add(this.buttonGraph, BorderLayout.CENTER);
-        haut.add(this.buttonClose, BorderLayout.SOUTH);
+        //bas.setMaximumSize(new Dimension(200, 300));
+        //bas.setLayout(new BoxLayout(bas, BoxLayout.PAGE_AXIS));
+        //bas.add(this.buttonGraph, BorderLayout.CENTER);
+        bas.setMinimumSize(new Dimension(240, 60));
+        bas.setMaximumSize(new Dimension(240, 60));
+        bas.setAlignmentX(0);
+        bas.setBackground(Color.white);
+        bas.setBorder(BorderFactory.createTitledBorder("Fermer la fenêtre"));
+        bas.add(this.buttonClose, BorderLayout.SOUTH);
+        bas.setAlignmentX(0);
 
         //TODO: gauche -> pas de maximum de taille
         //gauche.setPreferredSize(new Dimension(200, 600));
-        gauche.setMaximumSize(new Dimension(250, 600));
+        gauche.setMinimumSize(new Dimension(240, 620));
+        gauche.setPreferredSize(new Dimension(240, 620));
+        gauche.setMaximumSize(new Dimension(240, 4000));
         gauche.setLayout(new BoxLayout(gauche, BoxLayout.PAGE_AXIS));
         gauche.setBorder(BorderFactory.createTitledBorder("Informations"));
         gauche.add(this.haut);
         gauche.add(new JLabel(" "));
-        gauche.add(this.milieu);
+        gauche.add(milieu);
         gauche.add(new JLabel(" "));
-        gauche.add(bas);
+        gauche.add(this.bas);
 
-        droite.setPreferredSize(new Dimension(620, 620));
+        //taille = 400 + (2 * listeInformationsCapteurs.get(1).getListeMesures().size() + 1) * 45;
+        taille = listeGraphes.get(0).getxMax() + 250 + 20;
+
+        droite.setMinimumSize(new Dimension(listeGraphes.get(0).getxMax(), 600));
+        droite.setPreferredSize(new Dimension(listeGraphes.get(0).getxMax(), 600));
+        //droite.setMaximumSize(new Dimension(taille - gauche.getWidth() - 20, 620));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
         droite.add(listeGraphes.get(typeGraphe));
@@ -214,7 +237,6 @@ public class affichageGraphe extends JFrame {
         //baseGlobale = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gauche, this.droite);
         //baseGlobale.setDividerLocation(200);
         baseGlobale.setPreferredSize(new Dimension(800, 650));
-        container.setMaximumSize(new Dimension(1000, 800));
         baseGlobale.setLayout(new BoxLayout(baseGlobale, BoxLayout.LINE_AXIS));
         baseGlobale.add(gauche);
         baseGlobale.add(new JLabel(" "));
@@ -222,8 +244,16 @@ public class affichageGraphe extends JFrame {
 
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         container.setMinimumSize(new Dimension(800, 700));
+        container.setMaximumSize(new Dimension(1000, 800));
         container.setPreferredSize(new Dimension(800, 750));
+        container.setMaximumSize(new Dimension(1920, 1080));
         container.add(baseGlobale);
+
+
+        this.setTitle("Graphe");
+        this.setSize(taille, 650);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
 
 
@@ -241,26 +271,26 @@ public class affichageGraphe extends JFrame {
                     droite.revalidate();
                     droite.repaint();
 
-                    id = new JLabel("     ID : " + listeCapteurs.get(numCapteur).getType());
+                    id = new JLabel("     ID : " + listeInformationsCapteurs.get(numCapteur).getType());
 
-                    milieu.removeAll();
-                    milieu.add(new JLabel(" "));
-                    milieu.add(id);
-                    milieu.add(new JLabel(" "));
-                    verifLieu(listeCapteurs.get(numCapteur));
-                    milieu.add(descriptionLoc);
-                    if (listeCapteurs.get(numCapteur).getLocalisation().lieu == 0) {
-                        milieu.add(batiment);
-                        milieu.add(etage);
-                        milieu.add(salle);
+                    haut.removeAll();
+                    haut.setBorder(BorderFactory.createTitledBorder(listeInformationsCapteurs.get(numCapteur).getType()));
+                    haut.add(new JLabel(" "));
+                    verifLieu(listeInformationsCapteurs.get(numCapteur));
+                    haut.add(descriptionLoc);
+                    if (listeInformationsCapteurs.get(numCapteur).getLocalisation().lieu == 0) {
+                        haut.add(batiment);
+                        haut.add(etage);
+                        haut.add(salle);
                     }
                     else {
-                        milieu.add(latitude);
-                        milieu.add(longitude);
+                        haut.add(latitude);
+                        haut.add(longitude);
                     }
+                    haut.add(new JLabel(" "));
 
-                    milieu.revalidate();
-                    milieu.repaint();
+                    haut.revalidate();
+                    haut.repaint();
                 }
 
             }
@@ -282,31 +312,31 @@ public class affichageGraphe extends JFrame {
                     droite.revalidate();
                     droite.repaint();
 
-                    String ID = "     ID : " + listeCapteurs.get(typeGraphe).type;
+                    String ID = "     ID : " + listeInformationsCapteurs.get(typeGraphe).type;
                     id = new JLabel(ID);
-                    //milieu.remove(1);
-                    //milieu.add(id, 1);
+                    //haut.remove(1);
+                    //haut.add(id, 1);
 
-                    milieu.removeAll();
-                    milieu.add(new JLabel(" "));
-                    milieu.add(id);
-                    milieu.add(new JLabel(" "));
-                    verifLieu(listeCapteurs.get(typeGraphe));
-                    milieu.add(descriptionLoc);
-                    if (listeCapteurs.get(typeGraphe).loc.lieu == 0) {
-                        milieu.add(batiment);
-                        milieu.add(etage);
-                        milieu.add(salle);
+                    haut.removeAll();
+                    haut.add(new JLabel(" "));
+                    haut.add(id);
+                    haut.add(new JLabel(" "));
+                    verifLieu(listeInformationsCapteurs.get(typeGraphe));
+                    haut.add(descriptionLoc);
+                    if (listeInformationsCapteurs.get(typeGraphe).loc.lieu == 0) {
+                        haut.add(batiment);
+                        haut.add(etage);
+                        haut.add(salle);
                     }
                     else {
-                        milieu.add(latitude);
-                        milieu.add(longitude);
+                        haut.add(latitude);
+                        haut.add(longitude);
                     }
 
 
 
-                    milieu.revalidate();
-                    milieu.repaint();
+                    haut.revalidate();
+                    haut.repaint();
                 }
 
             }

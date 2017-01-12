@@ -1,4 +1,4 @@
-package Interface; /**
+/**
  * Created by jb on 21/12/16.
  */
 import javax.swing.*;

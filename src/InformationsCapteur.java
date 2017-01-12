@@ -1,17 +1,15 @@
-package Graphique;
-
 import java.util.ArrayList;
 
-public class capteur {
+public class InformationsCapteur {
 
     private String type;
-    private localisation loc;
+    private LieuCapteur loc;
     /*protected String typeUnite;
     protected String unite;
     protected int valeur;*/
-    private ArrayList<mesure> listeMesures;
+    private ArrayList<Mesure> listeMesures;
 
-    public capteur (String nom, ArrayList<mesure> mes, localisation where) {
+    public InformationsCapteur(String nom, ArrayList<Mesure> mes, LieuCapteur where) {
         this.type = nom;
         this.loc = where;
         this.listeMesures = mes;
@@ -22,12 +20,12 @@ public class capteur {
     }
 
 
-    public localisation getLocalisation() {
+    public LieuCapteur getLocalisation() {
         return loc;
     }
 
 
-    public ArrayList<mesure> getListeMesures() {
+    public ArrayList<Mesure> getListeMesures() {
         return listeMesures;
     }
 }

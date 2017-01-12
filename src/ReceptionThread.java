@@ -1,5 +1,3 @@
-package Interface;
-
 import java.io.IOException;
 
 /**
@@ -39,7 +37,7 @@ public class ReceptionThread extends Thread implements Runnable {
                             tmp = new Capteur(
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(2, recu),
-                                        "interieur",
+                                        "Interieur",
                                         this.protocolManager.getFieldFromReceivedMessage(3, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(4, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(5, recu),
@@ -56,7 +54,7 @@ public class ReceptionThread extends Thread implements Runnable {
                             tmp = new Capteur (
                                         this.protocolManager.getFieldFromReceivedMessage(1, recu),
                                         this.protocolManager.getFieldFromReceivedMessage(2, recu),
-                                        "exterieur",
+                                        "Exterieur",
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(3, recu)),
                                         Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(4, recu))
                                     );
@@ -106,9 +104,9 @@ public class ReceptionThread extends Thread implements Runnable {
                         String idCapteur = this.protocolManager.getFieldFromReceivedMessage(1, recu);
                         tmp = this.localisationArbrePanel.getCapteurs().get(idCapteur);
 
-                        if (tmp.getLoc().getType().equals("interieur")) {
+                        if (tmp.getLoc().getType().equals("Interieur")) {
                             this.localisationArbrePanel.removeCapteurInt(idCapteur);
-                        } else if (tmp.getLoc().getType().equals("exterieur")) {
+                        } else if (tmp.getLoc().getType().equals("Exterieur")) {
                             this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, tmp.getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, tmp.getLocalisation())));
                         }
                         this.localisationArbrePanel.getCapteurs().remove(idCapteur);

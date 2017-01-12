@@ -1,5 +1,3 @@
-package Interface;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import java.lang.reflect.Array;
@@ -12,7 +10,7 @@ public class LocalisationArbre {
     private DefaultMutableTreeNode arbre;
 
     public LocalisationArbre () {
-        this.arbre = new DefaultMutableTreeNode("Interface.Localisation");
+        this.arbre = new DefaultMutableTreeNode("Interface.LieuCapteur");
         this.arbre.add(new DefaultMutableTreeNode("Interieur"));
         this.arbre.add(new DefaultMutableTreeNode("Exterieur"));
     }
@@ -76,7 +74,7 @@ public class LocalisationArbre {
             c = tmp;
         }
 
-        //Ajout du capteur dans l'arbre
+        //Ajout du InformationsCapteur dans l'arbre
         stop = false;
         n = c.getChildCount();
         ArrayList<DefaultMutableTreeNode> list = new ArrayList<>();

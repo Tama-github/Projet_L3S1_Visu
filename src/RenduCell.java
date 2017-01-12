@@ -1,5 +1,3 @@
-package Interface;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;

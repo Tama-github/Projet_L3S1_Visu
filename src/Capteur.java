@@ -1,5 +1,3 @@
-package Interface;
-
 /**
  * Created by jb on 19/12/16.
  */
@@ -12,10 +10,10 @@ public class Capteur{
     {
         this.id = id;
         this.type = type;
-        if (typeLoc.equals("exterieur"))
+        if (typeLoc.equals("Exterieur"))
         {
             try {
-                localisation = new LocalisationExterieur("exterieur", lat, lon);
+                localisation = new LocalisationExterieur("Exterieur", lat, lon);
             } catch (Exception jLang1) {
                 jLang1.printStackTrace();
             }
@@ -26,10 +24,10 @@ public class Capteur{
     {
         this.id = id;
         this.type = type;
-        if (typeLoc.equals("interieur"))
+        if (typeLoc.equals("Interieur"))
         {
             try {
-                localisation = new LocalisationInterieur("interieur", batiment, etage, salle, infoSup);
+                localisation = new LocalisationInterieur("Interieur", batiment, etage, salle, infoSup);
             } catch (Exception jLang1) {
                 jLang1.printStackTrace();
             }

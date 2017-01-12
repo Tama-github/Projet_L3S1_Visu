@@ -1,5 +1,3 @@
-package Interface;
-
 /**
  * Created by msi on 23/11/2016.
  */

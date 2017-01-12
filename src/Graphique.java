@@ -1,5 +1,3 @@
-package Graphique;
-
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,15 +5,38 @@ import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class graphique extends JFrame {
+public class Graphique extends JFrame {
 
-    /*protected capteur grapheCapteur;
+    /*protected InformationsCapteur grapheCapteur;
 
-    public graphique (capteur donnees) {
+    public Graphique (InformationsCapteur donnees) {
         this.grapheCapteur = donnees;
     }*/
 
-    public graphique () {
+    public Graphique() {
+    }
+
+
+    /**
+     * La fonction 'verifTypage' renvoie la valeur maximale possible suivant le type
+     *
+     * @param unite 	: la mesure observée
+     * @param valeur    : la valeur à vérifier
+     *
+     * @return boolean  : renvoie 'true' si les valeurs correspondent à l'unité
+     */
+    protected static boolean verifTypage(String unite, int valeur) {
+        if ((unite.equals("%")) && ((valeur > 100) || (valeur < 0)))
+            return false;
+        else if (unite.equals("°C")) {
+            if (valeur < -273)
+                return false;
+            return true;
+        }
+        else if (valeur < 0)
+            return false;
+        else
+            return true;
     }
 
 
@@ -114,7 +135,23 @@ public class graphique extends JFrame {
     }
 
 
+    /**
+     * La fonction 'verifierTemps' vérifie si l'unité de temps correspond à une unité connue.
+     *
+     * @param unite	: unité de temps à vérifier
+     *
+     * @return String : retourne le paramètre 'unite' si elle existe, "?" sinon
+     */
+    private static String verifierTemps(String unite) {
+        if ((unite.equals("ms")) || (unite.equals("s")) || (unite.equals("min")) || (unite.equals("h")) || (unite.equals("jour")) || (unite.equals("mois")) || (unite.equals("annee"))) {
+            return unite;
+        }
+        return "?";
+    }
+
+
     public void creationGraphique () throws FileNotFoundException, InterruptedException {
+
         //Création de l'objet File
         File f = new File("Images/test");
         if (f == null) {
@@ -129,12 +166,12 @@ public class graphique extends JFrame {
             Boolean finFichier = false, erreurTypage = false;
             String line = null;
 
-            affichageGraphe graphe = null;
-            ArrayList<capteur> listeCapteurs = new ArrayList<capteur>();
+            AffichageGraphe graphe = new AffichageGraphe();
+            ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<InformationsCapteur>();
 
-            localisation where = null;
-            interieur in = null;
-            exterieur out = null;
+            LieuCapteur where = null;
+            Interieur in = null;
+            Exterieur out = null;
 
             String nom = null;
             String lieu = null;
@@ -142,8 +179,10 @@ public class graphique extends JFrame {
             int etage = 0, salle = 0;
             String typeUnite = null;
             String unite = null;
+            String typeTemps = null;
+            String uniteTemps = null;
 
-            ArrayList<mesure> mesures = new ArrayList<mesure>();
+            ArrayList<Mesure> mesures = new ArrayList<Mesure>();
 
             String[] mots = null;
         /*for(int i=0;i<mots.length;i++){
@@ -151,10 +190,10 @@ public class graphique extends JFrame {
         }*/
 
             while ((scanner.hasNextLine()) && (!finFichier)) {
-                //capteur capt = null;
+                //InformationsCapteur capt = null;
                 int cmpt = 0;
                 Boolean fin = false;
-                mesures = new ArrayList<mesure>();
+                mesures = new ArrayList<Mesure>();
                 in = null;
                 out = null;
 
@@ -185,11 +224,11 @@ public class graphique extends JFrame {
 
 
                                     if (lieu.equalsIgnoreCase("Interieur") || lieu.equalsIgnoreCase("Intérieur")) {
-                                        in = new interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
-                                        where = new localisation(0, in, out);
+                                        in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
+                                        where = new LieuCapteur(0, in, out);
                                     } else if (lieu.equalsIgnoreCase("Exterieur") || lieu.equalsIgnoreCase("Extérieur")) {
-                                        out = new exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
-                                        where = new localisation(1, in, out);
+                                        out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
+                                        where = new LieuCapteur(1, in, out);
                                     } else
                                         erreurTypage = true;
 
@@ -202,8 +241,17 @@ public class graphique extends JFrame {
                                         erreurTypage = true;
                                     break;
 
+                                case 3:
+                                    uniteTemps = mots[1];
+                                    if (!verifierType(typeUnite, unite))
+                                        erreurTypage = true;
+                                    break;
+
                                 default:
-                                    mesures.add(new mesure(typeUnite, unite, Integer.parseInt(mots[1]), verifierMax(unite)));
+                                    if (!verifTypage(unite, Integer.parseInt(mots[1])))
+                                        erreurTypage = true;
+                                    else
+                                        mesures.add(new Mesure(typeUnite, unite, Integer.parseInt(mots[1]), verifierMax(unite), verifierTemps(uniteTemps)));
                                     break;
                             }
 
@@ -216,21 +264,26 @@ public class graphique extends JFrame {
 
                 if (erreurTypage) {
                     System.out.println("Type de valeur non reconnu...");
-                } else if (cmpt > 2) {
+                    while (!mots[0].equals("end")) {
+                        line = scanner.nextLine();
+                        mots = line.split(" ");
+                    }
+                    cmpt = 0;
+                } else if (cmpt > 3) {
                     if (!scanner.hasNextLine()) {
                         finFichier = true;
                     } else {
                         scanner.nextLine();
                     }
-                    listeCapteurs.add(new capteur(nom, mesures, where));
+                    listeInformationsCapteurs.add(new InformationsCapteur(nom, mesures, where));
                     //capt.listeMesures = mesures;
                     //capt.loc = where;
                 }
 
             }
 
-            graphe = new affichageGraphe(listeCapteurs);
-            //test = new affichageGraphe(listeCapteurs.get(0));
+            graphe.creationGraphe(listeInformationsCapteurs);
+            //test = new creationGraphe(listeInformationsCapteurs.get(0));
         }
     }
 

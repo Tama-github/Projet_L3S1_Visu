@@ -1,5 +1,3 @@
-package Interface;
-
 /**
  * Created by msi on 23/11/2016.
  */
@@ -7,10 +5,10 @@ public abstract class Localisation {
 
     private String type;
     public Localisation (String type) throws Exception{
-        if (type.equals("exterieur") || type.equals("interieur")) {
+        if (type.equals("Exterieur") || type.equals("Interieur")) {
             this.type = type;
         } else {
-            throw new Exception("Interface.Localisation exception : localisation inconnu.");
+            throw new Exception("Interface.LieuCapteur exception : LieuCapteur inconnu.");
         }
     }
 
