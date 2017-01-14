@@ -17,8 +17,6 @@ public class TableauDonnees{
     private JComboBox<String> comboLoc = new JComboBox<>();
     private JPanel pGlobal = new JPanel();
     private JScrollPane pTableau = new JScrollPane();
-    private int minAlerte;
-    private int maxAlerte;
     private Alerte alerte;
 
     public TableauDonnees(Alerte alerte)
@@ -26,15 +24,16 @@ public class TableauDonnees{
         this.alerte = alerte;
 
         JLabel lType = new JLabel("Filtrer par type");
-        JLabel lLoc = new JLabel("Filtrer par LieuCapteur");
+        JLabel lLoc = new JLabel("Filtrer par localisation");
         JPanel pType = new JPanel();
         JPanel pLoc = new JPanel();
-        String[] titre = {"Nom","Type de donnees","Interface.LieuCapteur","Valeur"};
-        ModeleTab model = new ModeleTab(donnees, titre);
+        String[] titre = {"Nom","Type de donnees","Localisation","Valeur"};
+        ModeleTab model = new ModeleTab(donnees, titre, alerte);
         tableau = new JTable(model);
+        model.setTableau(tableau);
 
         tableau.setCellSelectionEnabled(false);
-        tableau.setDefaultRenderer(Object.class, new RenduCell(alerte));
+        tableau.setDefaultRenderer(Object.class, new RenduCell(model));
         pTableau.setLayout(new ScrollPaneLayout());
         pTableau.setViewportView(tableau);
         tableau.setFillsViewportHeight(true);
@@ -74,7 +73,7 @@ public class TableauDonnees{
             }
         });
 
-        alerte.getAppliquer().addMouseListener(new MouseAdapter() {
+        alerte.getAjouter().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent alerteAppliquerEvent) {
                 super.mouseClicked(alerteAppliquerEvent);
@@ -82,7 +81,7 @@ public class TableauDonnees{
             }
         });
 
-        alerte.getAnnuler().addMouseListener(new MouseAdapter() {
+        alerte.getSupprimer().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent alerteAnnulerEvent) {
                 super.mouseClicked(alerteAnnulerEvent);
@@ -109,7 +108,6 @@ public class TableauDonnees{
     private void filtrageTableau(String loc, String type)
     {
         removeAll();
-        System.out.println("Loc = " + loc + ", type = " + type);
         int i;
         if (!loc.equals("Tout") && type.equals("Tout"))
         {
@@ -216,7 +214,6 @@ public class TableauDonnees{
         {
             if (listeCapteurs.get(i).getNom().equals(valeur))
             {
-                System.out.println(listeCapteurs.get(i).getNom() + " égual à " + valeur);
                 return true;
             }
         }
@@ -234,7 +231,6 @@ public class TableauDonnees{
             {
                 supprimerLigne(i);
             }
-            //System.out.println(listeCapteurs.get(i).getNom() + " égual à " + tableau.getValueAt(i, 0).toString());
         }
     }
 
@@ -261,10 +257,10 @@ public class TableauDonnees{
             {
                 Object[] ligne = new Object[4];
                 capteurCourant = listeCapteurs.get(i);
-                //{"Nom","Type de donnees","Interface.LieuCapteur","Valeur"};
+                //{"Nom","Type de donnees","Interface.Localisation","Valeur"};
                 ligne[0] = capteurCourant.getNom();
                 ligne[1] = capteurCourant.getType();
-                if (capteurCourant.getLoc().getType().equals("Exterieur")) {
+                if (capteurCourant.getLoc().getType().equals("exterieur") || capteurCourant.getLoc().getType().equals("Exterieur")) {
                     ligne[2] = "Exterieur";
                 } else {
                     ligne[2] = "Interieur";

@@ -10,7 +10,7 @@ public class LocalisationArbre {
     private DefaultMutableTreeNode arbre;
 
     public LocalisationArbre () {
-        this.arbre = new DefaultMutableTreeNode("Interface.LieuCapteur");
+        this.arbre = new DefaultMutableTreeNode("LieuCapteur");
         this.arbre.add(new DefaultMutableTreeNode("Interieur"));
         this.arbre.add(new DefaultMutableTreeNode("Exterieur"));
     }

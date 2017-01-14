@@ -8,7 +8,7 @@ public abstract class Localisation {
         if (type.equals("Exterieur") || type.equals("Interieur")) {
             this.type = type;
         } else {
-            throw new Exception("Interface.LieuCapteur exception : LieuCapteur inconnu.");
+            throw new Exception("LieuCapteur exception : LieuCapteur inconnu.");
         }
     }
 

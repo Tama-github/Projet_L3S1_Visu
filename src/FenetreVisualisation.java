@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,38 +36,21 @@ public class FenetreVisualisation extends JFrame {
         this.setSize(900, 650);
         this.setMinimumSize(new Dimension(900, 650));
 
-        JButton inscription = new JButton("Inscrire InformationsCapteur(s)");
-        JButton graphique = new JButton("Afficher le Graphique");
+        JButton inscription = new JButton("Inscrire capteur(s)");
+        JButton graphique = new JButton("Afficher le graphique");
         JButton deconnection = new JButton("Déconnexion");
 
         JPanel panGeneral = new JPanel();
         JPanel hTreeTab = new JPanel();
         JPanel vTreeBouton = new JPanel();
         JPanel hAlerteBoutons = new JPanel();
-        JPanel vBoutons = new JPanel();
+        JPanel hBouttonsGraphDeco = new JPanel();
 
         JPanel pGraphique = new JPanel();
         JPanel pDeconnexion = new JPanel();
+        JPanel hBouttonsSupprAlerte = new JPanel();
+        JPanel vBouttons = new JPanel();
 
-        graphique.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                try {
-                    if(e.getSource() == graphique){
-                        Graphique nouveauGraphe = new Graphique();
-                        nouveauGraphe.creationGraphique();
-                    }
-                }
-
-                catch (FileNotFoundException err) {
-                    System.out.println("2!");
-                }
-
-                catch(InterruptedException err) {
-                    System.out.println("3!");
-                }
-
-            }
-        });
 
         pGraphique.add(graphique);
         pDeconnexion.add(deconnection);
@@ -76,13 +59,16 @@ public class FenetreVisualisation extends JFrame {
         hTreeTab.setLayout(new BoxLayout(hTreeTab, BoxLayout.X_AXIS));
         hAlerteBoutons.setLayout(new BoxLayout(hAlerteBoutons, BoxLayout.X_AXIS));
         vTreeBouton.setLayout(new BoxLayout(vTreeBouton, BoxLayout.Y_AXIS));
-        vBoutons.setLayout(new BoxLayout(vBoutons, BoxLayout.Y_AXIS));
+        hBouttonsGraphDeco.setLayout(new BoxLayout(hBouttonsGraphDeco, BoxLayout.X_AXIS));
+        hBouttonsSupprAlerte.setLayout(new BoxLayout(hBouttonsSupprAlerte, BoxLayout.X_AXIS));
+        vBouttons.setLayout(new BoxLayout(vBouttons, BoxLayout.Y_AXIS));
 
 
         tableauDonnees.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs inscrits"));
         localisationArbrePanel.getArbrePanel().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Capteurs connectés"));
-        alerte.getPanGlobal().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Alertes"));
+        alerte.getpAjoutGen().setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(5), "Création alertes"));
 
+        hBouttonsSupprAlerte.add(alerte.getpSupprGen());
 
         vTreeBouton.add(localisationArbrePanel.getArbrePanel());
         vTreeBouton.add(createRigidArea(new Dimension(5, 0)));
@@ -93,12 +79,15 @@ public class FenetreVisualisation extends JFrame {
         hTreeTab.add(createVerticalGlue());
         hTreeTab.add(tableauDonnees.getPanGlobal());
 
-        vBoutons.add(pGraphique);
-        vBoutons.add(pDeconnexion);
+        hBouttonsGraphDeco.add(pGraphique);
+        hBouttonsGraphDeco.add(pDeconnexion);
 
-        hAlerteBoutons.add(alerte.getPanGlobal());
+        vBouttons.add(alerte.getpSupprGen());
+        vBouttons.add(hBouttonsGraphDeco);
+
+        hAlerteBoutons.add(alerte.getpAjoutGen());
         hAlerteBoutons.add(createHorizontalGlue());
-        hAlerteBoutons.add(vBoutons);
+        hAlerteBoutons.add(vBouttons);
 
         panGeneral.add(hTreeTab);
         panGeneral.add(createHorizontalGlue());
@@ -108,6 +97,23 @@ public class FenetreVisualisation extends JFrame {
 
         this.add(panGeneral);
         this.setVisible(false);
+
+        graphique.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                try {
+                    Graphique nouveauGraphe = new Graphique();
+                    nouveauGraphe.creationGraphique();
+                }
+                catch (FileNotFoundException err) {
+                    System.out.println("2!");
+                }
+                catch(InterruptedException err) {
+                    System.out.println("3!");
+                }
+            }
+        });
 
         inscription.addMouseListener(new MouseAdapter() {
             @Override
@@ -205,10 +211,10 @@ public class FenetreVisualisation extends JFrame {
         System.out.println("bonjour");
         for (Map.Entry<String, Capteur> entry : localisationArbrePanel.getCapteurs().entrySet()) {
             System.out.println(entry.getValue().getType());
-            if (entry.getValue().getLoc().getType().equals("Interieur")) {
+            if (entry.getValue().getLoc().getType().equals("interieur")) {
                 System.out.println("loli");
                 this.localisationArbrePanel.removeCapteurInt(entry.getKey());
-            } else if (entry.getValue().getLoc().getType().equals("Exterieur")) {
+            } else if (entry.getValue().getLoc().getType().equals("exterieur")) {
                 System.out.println("lole");
                 this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, entry.getValue().getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, entry.getValue().getLocalisation())));
             }
