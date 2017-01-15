@@ -477,9 +477,9 @@ public class Alerte{
         comboListe.add("Humidité");
         comboListe.add("Luminosité");
         comboListe.add("Volume Sonore");
-        comboListe.add("Consomation éclairage");
+        comboListe.add("Consommation éclairage");
         comboListe.add("Eau froide");
-        comboListe.add("Eau Chaude");
+        comboListe.add("Eau chaude");
         comboListe.add("Vitesse vent");
         comboListe.add("Pression atmosphérique");
 

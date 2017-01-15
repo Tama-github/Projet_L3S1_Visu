@@ -114,7 +114,7 @@ public class TableauDonnees{
             removeAll();
             for (i = 0; i < backupDonnees.length; i++)
             {
-                if (backupDonnees[i][2].equals(loc))
+                if ((backupDonnees[i][2].toString()).equalsIgnoreCase(loc))
                 {
                     ajoutLigne(backupDonnees[i]);
                 }
@@ -124,7 +124,12 @@ public class TableauDonnees{
         {
             removeAll();
             for (i = 0; i < backupDonnees.length; i++) {
-                if (backupDonnees[i][1].equals(type)) {
+                String typeCourant = backupDonnees[i][1].toString();
+                if (typeCourant.equalsIgnoreCase("Consomation éclairage"))
+                {
+                    typeCourant = "Consommation éclairage";
+                }
+                if (typeCourant.equalsIgnoreCase(type)) {
                     ajoutLigne(backupDonnees[i]);
                 }
             }
@@ -148,7 +153,7 @@ public class TableauDonnees{
     private void remplirComboType()
     {
         int i;
-        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume Sonore", "Consomation éclairage", "Eau froide", "Eau Chaude", "Vitesse vent", "Pression atmosphérique"};
+        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume Sonore", "Consommation éclairage", "Eau froide", "Eau Chaude", "Vitesse vent", "Pression atmosphérique"};
         for (i = 0; i < type.length; i++)
         {
             comboType.addItem(type[i]);

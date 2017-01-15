@@ -94,8 +94,12 @@ public class ModeleTab extends AbstractTableModel {
         try {
             for (i = 0; i < listeAlertes.size(); i++) {
                 AlerteData courant = listeAlertes.get(i);
-
-                if (courant.getType().equals(tableau.getValueAt(row, 1))) {
+                String typeCourant = courant.getType();
+                if (typeCourant.equals("Consommation éclairage"))
+                {
+                    typeCourant = "Consomation éclairage";
+                }
+                if (typeCourant.equalsIgnoreCase(tableau.getValueAt(row, 1).toString())) {
                     if (!courant.getInferieurA().equals("") && !courant.getSuperieurA().equals("")) {
                         if (Double.parseDouble(tableau.getValueAt(row, 3).toString()) < Double.parseDouble(courant.getInferieurA()) || Double.parseDouble(tableau.getValueAt(row, 3).toString()) > Double.parseDouble(courant.getSuperieurA())) {
                             return Color.red;
