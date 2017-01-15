@@ -167,6 +167,7 @@ public class FenetreVisualisation extends JFrame {
                     fenetreConnexionIP.setVisible(true);
                     receptionThread.setRunning(false);
                     receptionThread.interrupt();
+                    System.out.println(localisationArbrePanel.getCapteurs().size());
                     clearArbre();
                     tableauDonnees.removeAll();
                 } catch (IOException e1) {
@@ -210,11 +211,11 @@ public class FenetreVisualisation extends JFrame {
     private void clearArbre () {
         System.out.println("bonjour");
         for (Map.Entry<String, Capteur> entry : localisationArbrePanel.getCapteurs().entrySet()) {
-            System.out.println(entry.getValue().getType());
-            if (entry.getValue().getLoc().getType().equals("interieur")) {
+            System.out.println(entry.getValue().getLoc().getType());
+            if (entry.getValue().getLoc().getType().equalsIgnoreCase("interieur")) {
                 System.out.println("loli");
                 this.localisationArbrePanel.removeCapteurInt(entry.getKey());
-            } else if (entry.getValue().getLoc().getType().equals("exterieur")) {
+            } else if (entry.getValue().getLoc().getType().equalsIgnoreCase("exterieur")) {
                 System.out.println("lole");
                 this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, entry.getValue().getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, entry.getValue().getLocalisation())));
             }
