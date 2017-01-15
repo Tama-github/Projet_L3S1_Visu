@@ -148,7 +148,7 @@ public class TableauDonnees{
     private void remplirComboType()
     {
         int i;
-        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume sonore", "Consommation éclairage", "Eau froide", "Eau chaude", "Vitesse vent", "Pression atmosphérique"};
+        String type[] = {"Tout","Température","Humidité","Luminosité", "Volume Sonore", "Consomation éclairage", "Eau froide", "Eau Chaude", "Vitesse vent", "Pression atmosphérique"};
         for (i = 0; i < type.length; i++)
         {
             comboType.addItem(type[i]);

@@ -112,6 +112,7 @@ public class ReceptionThread extends Thread implements Runnable {
                         this.localisationArbrePanel.getCapteurs().remove(idCapteur);
                         this.localisationArbrePanel.getCapteurInscrit().remove(tmp);
                         this.localisationArbrePanel.getSelectedItem().remove(tmp);
+                        this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     }
                 }
             }
