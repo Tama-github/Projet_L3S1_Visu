@@ -6,6 +6,7 @@ import java.util.ListIterator;
 public class Graphe extends JPanel {
     /*** Paramètre ***/
     private int tailleMax;				//Distance verticale [origine ; valeurMax]
+    private int marge;				    //Distance verticale entre la plus haute valeur et la flèche verticale
 
     //X Horizontal
     private int xDep_H;					//Coordonnée 'x' de départ (trait horizontal)
@@ -145,11 +146,14 @@ public class Graphe extends JPanel {
         //A modifier : risque de dépassement du cadre en x :
         g.drawString(listeMesures.get(0).typeUnite, xDep_V - (listeMesures.get(0).typeUnite.length() * 10), yArr_V + 25);
 
-        int yMax = yArr_V + 50;
+        int yMax = yArr_V + marge;
         int ecart = tailleMax / 10;
         int valeurMax = listeMesures.get(0).max;
         int valeurMin = listeMesures.get(0).min;
+
+        //Affichage des espaces de valeurs positives
         int valeur = valeurMax - valeurMin;
+
         for (int i = 9 ; i > -1 ; i--) {
             int y = yMax + ecart * i;
             int x = valeur - valeur * i / 10;
@@ -162,10 +166,43 @@ public class Graphe extends JPanel {
             g.drawString(Integer.toString(x + valeurMin), xDep_V - (5 + String.valueOf(x + valeurMin).length() * 8), y + 5);
         }
 
+        //Affichage des espaces de valeurs positives et supérieures au maximum (température et pression uniquement)
+        valeur = (valeurMax - valeurMin) / 10;
+
+        if (!this.listeMesures.get(0).unite.equals("%")) {
+            for (int i = 1 ; i < 3 ; i++) {
+                int y = yMax - ecart * i;
+                int x = valeurMax + valeur * i;
+                if (i == 0) {
+                    g.drawLine(xDep_V, y - 2, xArr_H, y - 2);
+                    g.drawLine(xDep_V, y - 1, xArr_H, y - 1);
+                    g.drawLine(xDep_V, y + 1, xArr_H, y + 1);
+                }
+                g.drawLine(xDep_V, y, xArr_H, y);
+                g.drawString(Integer.toString(x), xDep_V - (5 + String.valueOf(x).length() * 8), y + 5);
+            }
+        }
+
+        //Affichage des espaces de valeurs négatives (température et pression uniquement)
+        if (this.listeMesures.get(0).unite.equals("°C") || this.listeMesures.get(0).unite.equals("hPa")) {
+            for (int i = 0 ; i < 6 ; i++) {
+                int y = yDep_V + ecart * i;
+                int x = valeurMin - valeur * i;
+                if (i == 0) {
+                    g.drawLine(xDep_V, y - 2, xArr_H, y - 2);
+                    g.drawLine(xDep_V, y - 1, xArr_H, y - 1);
+                    g.drawLine(xDep_V, y + 1, xArr_H, y + 1);
+                }
+                else
+                    g.drawString(Integer.toString(x), xDep_V - (5 + String.valueOf(x).length() * 8), y + 5);
+                g.drawLine(xDep_V, y, xArr_H, y);
+            }
+        }
+
         //Origine
         g.setFont(new Font("Arial", Font.BOLD, 14));
         if (listeMesures.get(0).unite.equals("hPa"))
-            g.drawString("1000", xDep_V - 47, yDep_V + 7);
+            g.drawString("1000", xDep_V - (5 + String.valueOf("1000").length() * 8), yDep_V + 7);
         else
             g.drawString("0", xDep_V - 13, yDep_V + 7);
         g.setFont(saveFont);							//Cette ligne remet les paramètres d'écriture du graphe à la normale.
@@ -338,15 +375,7 @@ public class Graphe extends JPanel {
                         test -= 1000;
                         maximum -= 1000;
                         maximum = maximum * tailleMax / 100;
-                        if (test > 0) {
-                            test = test * tailleMax / 100;
-                        }
-                        else if (test == 0) {
-                            test = 1;
-                        }
-                        else {
-                            //test = test * tailleMax / 100;
-                        }
+                        test = test * tailleMax / 100;
                         break;
 
                     default :
@@ -468,6 +497,7 @@ public class Graphe extends JPanel {
         g.setColor(Color.BLACK);
         int iMax = listeMesures.size();
         tailleMax = 10 * 25;        //Multiple de 10 très fortement conseillé afin de garder des écart de pixel en int et non en float ramenés en int
+        marge = 100;
 
         //X Horizontal
         xDep_H = 120;
@@ -475,8 +505,8 @@ public class Graphe extends JPanel {
 
 
         //Y Vertical
-        yDep_V = 350;
-        yArr_V = yDep_V - (tailleMax + 50);
+        yDep_V = 400;
+        yArr_V = yDep_V - (tailleMax + marge);
         yDep_VNeg = yDep_V;
         yArr_VNeg = yDep_VNeg + 150;
 

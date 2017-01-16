@@ -268,9 +268,17 @@ public class FenetreGraphe extends JFrame {
                                     break;
 
                                 case 3:
-                                    uniteTemps = mots[1];
-                                    if (!verifierType(typeUnite, unite))
-                                        erreurTypage = true;
+                                    if (mots[0].equalsIgnoreCase("temps")) {
+                                        uniteTemps = mots[1];
+                                        if (!verifierType(typeUnite, unite))
+                                            erreurTypage = true;
+                                    }
+                                    else {
+                                        if (!verifTypage(unite, Integer.parseInt(mots[1])))
+                                            erreurTypage = true;
+                                        else
+                                            mesures.add(new Mesure(typeUnite, unite, Integer.parseInt(mots[1]), verifierMax(unite), verifierMin(unite), verifierTemps(uniteTemps)));
+                                    }
                                     break;
 
                                 default:
