@@ -8,17 +8,9 @@ public class AffichageGraphe extends JFrame {
 
     private JPanel droite = new JPanel();
 
-    //private JSplitPane gauche = null;
     private JPanel gauche = new JPanel();
     private JPanel bas = new JPanel();
     private JPanel haut = new JPanel();
-
-    private JLabel labelError = new JLabel();
-
-    private JLabel hautGauche;
-
-    private JLabel id;
-    //private JLabel valID;
 
     private JLabel descriptionLoc = null;
     private JLabel latitude = null;
@@ -26,37 +18,13 @@ public class AffichageGraphe extends JFrame {
     private JLabel batiment = null;
     private JLabel etage = null;
     private JLabel salle = null;
-    //private JLabel valLoc;
 
-    private JLabel test = new JLabel("     Test : ");
-    private JLabel valTest = new JLabel("test n°1");
-
-    private JLabel test2 = new JLabel("Test : ");
-    private JLabel valTest2 = new JLabel("test n°2");
-
-    //private JSplitPane baseGlobale;
     private JPanel baseGlobale = new JPanel();
-
-    //private JPanel ligneBas = new JPanel();
-
-    /*private JPanel ligneHaut = new JPanel();
-
-    private JLabel labelError = new JLabel();
-
-    private JTextField jtfIP = new JTextField();
-    private JLabel label1 = new JLabel("Adresse IP : ");
-
-    private JTextField jtfPORT = new JTextField();
-    private JLabel label2 = new JLabel("     Port : ");
-
-    private JButton buttonConnection = new JButton("Connexion");*/
-    //private JButton button1;
-    //private JButton buttonGraph;
     private JButton buttonClose;
 
     private ArrayList<Graphe> listeGraphes;
     private ArrayList<InformationsCapteur> listeInformationsCapteurs;
-    //private InformationsCapteur capt;
+
     private int typeGraphe = 0;
     private int nbMaxGraphe = 1;
 
@@ -88,14 +56,12 @@ public class AffichageGraphe extends JFrame {
      */
     public void verifLieu(InformationsCapteur capt) {
         if (capt.getLocalisation().lieu == 0) {
-            //LOC += loc.inside.batiment + " " + loc.inside.etage + " " + loc.inside.salle;
             this.descriptionLoc = new JLabel("     LieuCapteur :  Intérieur");
             this.batiment = new JLabel("               Bâtiment " + capt.getLocalisation().inside.batiment);
             this.etage = new JLabel("               " + Integer.toString(capt.getLocalisation().inside.etage) + "ème étage");
             this.salle = new JLabel("               Salle " + Integer.toString(capt.getLocalisation().inside.salle));
         }
         else {
-            //LOC += "Extérieur";
             this.descriptionLoc = new JLabel("     LieuCapteur :  Extérieur");
             this.latitude = new JLabel("          Latitude    :  " + capt.getLocalisation().outside.latitude);
             this.longitude = new JLabel("          Longitude :  " + capt.getLocalisation().outside.longitude);
@@ -286,8 +252,6 @@ public class AffichageGraphe extends JFrame {
 
                     droite.revalidate();
                     droite.repaint();
-
-                    id = new JLabel("     ID : " + listeInformationsCapteurs.get(numCapteur).getType());
 
                     haut.removeAll();
                     haut.setBorder(BorderFactory.createTitledBorder(listeInformationsCapteurs.get(numCapteur).getType()));
