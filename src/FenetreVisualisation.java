@@ -107,10 +107,10 @@ public class FenetreVisualisation extends JFrame {
                     nouveauGraphe.creationGraphique();
                 }
                 catch (FileNotFoundException err) {
-                    System.out.println("2!");
+                    err.getMessage();
                 }
                 catch(InterruptedException err) {
-                    System.out.println("3!");
+                    err.getMessage();
                 }
             }
         });
@@ -121,22 +121,17 @@ public class FenetreVisualisation extends JFrame {
                 super.mouseClicked(e);
                 try {
                     int j = 0;
-                    System.out.println("**************inscription button deb*******************");
                     ArrayList<Capteur> aInscrire = new ArrayList<>();
                     ArrayList<Capteur> aDesinscrire = new ArrayList<>();
                     for (int i = 0; i < localisationArbrePanel.getSelectedItem().size(); i++) {
-                        System.out.println(localisationArbrePanel.getSelectedItem().get(i).getNom());
                         j++;
                     }
                     if (j == 0) {
-                        System.out.println("aucun item selectionné.");
                     }
                     for (int i = 0; i < localisationArbrePanel.getCapteurInscrit().size(); i++) {
-                        System.out.println(localisationArbrePanel.getCapteurInscrit().get(i).getNom() + "------ taille tableau :" + localisationArbrePanel.getCapteurInscrit().size());
                         if (!localisationArbrePanel.getSelectedItem().contains(localisationArbrePanel.getCapteurInscrit().get(i))) {
                             aDesinscrire.add(localisationArbrePanel.getCapteurInscrit().get(i));
                             localisationArbrePanel.getCapteurInscrit().remove(localisationArbrePanel.getCapteurInscrit().get(i));
-                            System.out.println("removed");
                             i--;
                         }
                     }
@@ -144,7 +139,6 @@ public class FenetreVisualisation extends JFrame {
                         if (!localisationArbrePanel.getCapteurInscrit().contains(localisationArbrePanel.getSelectedItem().get(i))) {
                             aInscrire.add(localisationArbrePanel.getSelectedItem().get(i));
                             localisationArbrePanel.getCapteurInscrit().add(localisationArbrePanel.getSelectedItem().get(i));
-                            System.out.println("addeda  zaqezfq");
                         }
                     }
                     protocolManager.desinscriptionCapteurs(aDesinscrire);
@@ -152,7 +146,6 @@ public class FenetreVisualisation extends JFrame {
                 } catch (IOException e1) {
                     //----
                 }
-                System.out.println("**************inscription button fin*******************");
             }
         });
 
@@ -167,7 +160,6 @@ public class FenetreVisualisation extends JFrame {
                     fenetreConnexionIP.setVisible(true);
                     receptionThread.setRunning(false);
                     receptionThread.interrupt();
-                    System.out.println(localisationArbrePanel.getCapteurs().size());
                     clearArbre();
                     tableauDonnees.removeAll();
                 } catch (IOException e1) {
@@ -209,14 +201,10 @@ public class FenetreVisualisation extends JFrame {
     }
 
     private void clearArbre () {
-        System.out.println("bonjour");
         for (Map.Entry<String, Capteur> entry : localisationArbrePanel.getCapteurs().entrySet()) {
-            System.out.println(entry.getValue().getLoc().getType());
             if (entry.getValue().getLoc().getType().equalsIgnoreCase("interieur")) {
-                System.out.println("loli");
                 this.localisationArbrePanel.removeCapteurInt(entry.getKey());
             } else if (entry.getValue().getLoc().getType().equalsIgnoreCase("exterieur")) {
-                System.out.println("lole");
                 this.localisationArbrePanel.removeCapteurExt(Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(0, entry.getValue().getLocalisation())), Double.parseDouble(this.protocolManager.getFieldFromReceivedMessage(1, entry.getValue().getLocalisation())));
             }
         }
