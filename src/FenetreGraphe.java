@@ -1,18 +1,9 @@
 import javax.swing.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.InterruptedException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class FenetreGraphe extends JFrame {
-
-    /*protected InformationsCapteur grapheCapteur;
-
-    public Graphique (InformationsCapteur donnees) {
-        this.grapheCapteur = donnees;
-    }*/
 
     private AffichageGraphe graphe = new AffichageGraphe();
 
@@ -180,48 +171,37 @@ public class FenetreGraphe extends JFrame {
 
         //Création de l'objet File
         File f = new File("Fichiers/test");
+
+        //S'il y a un problème à la création du fichier
         if (f == null) {
             System.out.println("Erreur : Problème lors de la recherche du fichier !");
             setVisible(false);
             dispose();
         }
-
+        //... sinon
         else {
             Scanner scanner = new Scanner(f);
-            int nbMots = 0, taille = 0, nbLignesRestantes = 10;
-            Boolean finFichier = false, erreurTypage = false;
-            String line = null;
+            Boolean finFichier = false, erreurTypage;
+            String line;
 
             ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<>();
 
-            //LieuCapteur where = null;
             Localisation where = null;
-            //Interieur in = null;
-            //Exterieur out = null;
 
             String nom = null;
-            String lieu = null;
-            String batiment = null;
-            int etage = 0, salle = 0;
+            String lieu;
             String typeUnite = null;
             String unite = null;
-            String typeTemps = null;
             String uniteTemps = null;
 
             ArrayList<Mesure> mesures;
 
             String[] mots = null;
-        /*for(int i=0;i<mots.length;i++){
-            System.out.print("Mot["+i+"]="+mots[i]);
-        }*/
 
             while ((scanner.hasNextLine()) && (!finFichier)) {
-                //InformationsCapteur capt = null;
                 int cmpt = 0;
                 Boolean fin = false;
-                mesures = new ArrayList<Mesure>();
-                //in = null;
-                //out = null;
+                mesures = new ArrayList<>();
 
                 erreurTypage = false;
 
@@ -306,8 +286,8 @@ public class FenetreGraphe extends JFrame {
                         line = scanner.nextLine();
                         mots = line.split(" ");
                     }
-                    cmpt = 0;
-                } else if (cmpt > 3) {
+                }
+                else if (cmpt > 3) {
                     if (!scanner.hasNextLine()) {
                         finFichier = true;
                     } else {
@@ -315,9 +295,7 @@ public class FenetreGraphe extends JFrame {
                     }
                     listeInformationsCapteurs.add(new InformationsCapteur(nom, mesures, where));
                 }
-
             }
-
             graphe.creationGraphe(listeInformationsCapteurs);
         }
     }

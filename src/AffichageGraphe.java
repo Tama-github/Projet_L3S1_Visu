@@ -26,9 +26,6 @@ public class AffichageGraphe extends JFrame {
     private ArrayList<Graphe> listeGraphes;
     private ArrayList<InformationsCapteur> listeInformationsCapteurs;
 
-    private int typeGraphe = 0;
-    private int nbMaxGraphe = 1;
-
     private boolean ouvert;
 
 
@@ -98,7 +95,7 @@ public class AffichageGraphe extends JFrame {
         this.setIconImage(iconeFenetre.getImage());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        nbMaxGraphe = listeInformationsCapteurs.size();
+        int nbMaxGraphe = listeInformationsCapteurs.size();
         int taille;
 
         //Récupération de tous les capteurs
@@ -205,8 +202,8 @@ public class AffichageGraphe extends JFrame {
         droite.setPreferredSize(new Dimension(largeurDroite, 600));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
-        droite.add(listeGraphes.get(typeGraphe));
-        droite.add(new JScrollPane(listeGraphes.get(typeGraphe)), BorderLayout.CENTER);
+        droite.add(listeGraphes.get(0));
+        droite.add(new JScrollPane(listeGraphes.get(0)), BorderLayout.CENTER);
 
         baseGlobale.setPreferredSize(new Dimension(800, 650));
         baseGlobale.setLayout(new BoxLayout(baseGlobale, BoxLayout.LINE_AXIS));

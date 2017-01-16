@@ -39,21 +39,19 @@ public class Graphe extends JPanel {
     }
 
 
-    /*** Fonctions ***/
-
     /** Liste des fonctions :
      *
      * public void setValeur (ArrayList<Mesure> liste)
      *
-     * public void traitHorizontal(Graphics g, int xDep_H, int yDep_H, int xArr_H, int yArr_H)
+     * public void traitHorizontal(Graphics g)
      *
-     * public void traitVertical(Graphics g, int xDep_V, int yDep_V, int xArr_V, int yArr_V, int yDep_VNeg, int yArr_VNeg)
+     * public void traitVertical(Graphics g)
      *
-     * public void legende(Graphics g, int xDep_V, int yDep_V, int xArr_V, int yArr_V, int xArr_H, int yArr_H)
+     * public void legende(Graphics g)
      *
-     * public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2)
+     * public void relierPoints(Graphics g)
      *
-     * public void affichageMesures (Graphics g, int xDep_H, int yDep_H, int tailleMax)
+     * public void affichageMesures (Graphics g)
      *
      * public void paint(Graphics g)
      *
@@ -79,7 +77,7 @@ public class Graphe extends JPanel {
     public void traitHorizontal(Graphics g) {
         //Ligne horizontale
         g.drawLine(xDep_H, yDep_H - 1, xArr_H, yArr_H - 1);
-        g.drawLine(xDep_H, yDep_H + 0, xArr_H, yArr_H + 0);
+        g.drawLine(xDep_H, yDep_H, xArr_H, yArr_H);
         g.drawLine(xDep_H, yDep_H + 1, xArr_H, yArr_H + 1);
         g.drawLine(xDep_H, yDep_H + 2, xArr_H, yArr_H + 2);
 
@@ -104,14 +102,14 @@ public class Graphe extends JPanel {
      */
     public void traitVertical(Graphics g) {
         //Ligne verticale
-        g.drawLine(xDep_V + 0, yDep_V, xArr_V + 0, yArr_V);
+        g.drawLine(xDep_V, yDep_V, xArr_V, yArr_V);
         g.drawLine(xDep_V + 1, yDep_V, xArr_V + 1, yArr_V);
         g.drawLine(xDep_V + 2, yDep_V, xArr_V + 2, yArr_V);
         g.drawLine(xDep_V + 3, yDep_V, xArr_V + 3, yArr_V);
         g.drawLine(xDep_V + 4, yDep_V, xArr_V + 4, yArr_V);
 
         //Ligne verticale Négative
-        g.drawLine(xDep_V + 0, yDep_VNeg, xArr_V + 0, yArr_VNeg);
+        g.drawLine(xDep_V, yDep_VNeg, xArr_V, yArr_VNeg);
         g.drawLine(xDep_V + 1, yDep_VNeg, xArr_V + 1, yArr_VNeg);
         g.drawLine(xDep_V + 2, yDep_VNeg, xArr_V + 2, yArr_VNeg);
         g.drawLine(xDep_V + 3, yDep_VNeg, xArr_V + 3, yArr_VNeg);
@@ -257,14 +255,11 @@ public class Graphe extends JPanel {
         int xDeb1;
         int xFin1;
         int yDeb1;
-        int yFin1;
 
         int xPoint1 = 0;
         int yPoint1 = 0;
         int xPoint2;
         int yPoint2;
-
-        boolean verifMax1 = true, verifMax2 = true, supZero = true;
 
         int nbElements = this.listeMesures.size();
         int distance = (xArr_H - xDep_H) / nbElements;
@@ -289,7 +284,7 @@ public class Graphe extends JPanel {
                             AffichageGraphe erreur = new AffichageGraphe();
                             erreur.fermerFenetreErreur();
                         }
-                        maximum = maximum * tailleMax / mesureX.max;;
+                        maximum = maximum * tailleMax / mesureX.max;
                         test = test * tailleMax / mesureX.max;
                         break;
 
@@ -383,7 +378,6 @@ public class Graphe extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.BLACK);
-        int iMax = listeMesures.size();
         tailleMax = 10 * 25;        //Multiple de 10 très fortement conseillé afin de garder des écart de pixel en int et non en float ramenés en int
         marge = 85;
 
