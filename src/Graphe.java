@@ -51,8 +51,6 @@ public class Graphe extends JPanel {
      *
      * public void legende(Graphics g, int xDep_V, int yDep_V, int xArr_V, int yArr_V, int xArr_H, int yArr_H)
      *
-     * public void pointilles(Graphics g, int xDep_V, int xArr_H, int xArr_V, int yArr_V, int yArr_VNeg, int tailleMax)
-     *
      * public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2)
      *
      * public void affichageMesures (Graphics g, int xDep_H, int yDep_H, int tailleMax)
@@ -141,10 +139,15 @@ public class Graphe extends JPanel {
     public void legende(Graphics g) {
         Font saveFont = g.getFont();					//Cette ligne garde en mémoire les paramètres d'écriture du graphe.
 
-        //Type
+        //Affichage du type des valeurs
         g.setFont(new Font("Arial", Font.BOLD, 14));
-        //A modifier : risque de dépassement du cadre en x :
-        g.drawString(listeMesures.get(0).typeUnite, xDep_V - (listeMesures.get(0).typeUnite.length() * 10), yArr_V + 25);
+        String ordonnees = listeMesures.get(0).typeUnite + " (" + listeMesures.get(0).unite + ")";
+        int valX;
+        if ((ordonnees.length() * 8) > xDep_V - 15)
+            valX = 15;
+        else
+            valX = xDep_V + 20 - (ordonnees.length() * 8);
+        g.drawString(ordonnees, valX, yArr_V - 25);
 
         int yMax = yArr_V + marge;
         int ecart = tailleMax / 10;
@@ -209,7 +212,7 @@ public class Graphe extends JPanel {
 
         //Légende axe abscisses
         g.setFont(new Font("Arial", Font.BOLD, 14));
-        g.drawString("Temps (" + listeMesures.get(0).uniteTemps + ")", xArr_H - 15, yArr_H + 30);
+        g.drawString("Temps (" + listeMesures.get(0).uniteTemps + ")", xArr_H + 15, yArr_H + 30);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
 
         int nbElements = listeMesures.size();
@@ -222,51 +225,6 @@ public class Graphe extends JPanel {
             g.drawLine(xDep_H + 8 + i * distance, yDep_H, xDep_H + 8 + i * distance, yDep_H + 5);
         }
     }
-
-
-    /**
-     * La fonction 'pointilles' trace les pointillés correspondants à la valeur max, à la moitié de la valeur max (positive ET négative),
-     * 		ainsi que des pointillés sur la partie négative de l'axe des ordonnées
-     *
-     * @param g : Graphics g est la base du dessin
-     */
-    /*public void pointilles(Graphics g) {
-        int i = 0;
-        int trait = xDep_V - 10 + (i + 1) * 25;
-        int nbTraits = yArr_V + 53;
-
-        //Pointillés des valeurs
-        for (int y = 0 ; y < 3 ; y++) {
-            i = 0;
-            trait = xDep_V - 10 + (i + 1) * 25;
-            while (trait < xArr_H) {
-                if ((y == 0)) {
-                    g.drawLine(trait, nbTraits - 1, trait + 10, nbTraits - 1);
-                    g.drawLine(trait, nbTraits + 1, trait + 10, nbTraits + 1);
-                }
-                g.drawLine(trait, nbTraits, trait + 10, nbTraits);
-                i++;
-                trait = xDep_V - 10 + (i + 1) * 25;
-            }
-            nbTraits = nbTraits + (tailleMax / 2);
-            if (y == 1) {
-                nbTraits = nbTraits + (tailleMax / 2);;
-                nbTraits += 2;
-            }
-        }
-
-        //Pointillés négatifs
-        i = yArr_VNeg + 10;
-        int y;
-        for (y = 0 ; y < 2 ; y++) {
-            g.drawLine(xDep_V + 0, i, xArr_V + 0, i + 10);
-            g.drawLine(xDep_V + 1, i, xArr_V + 1, i + 10);
-            g.drawLine(xDep_V + 2, i, xArr_V + 2, i + 10);
-            g.drawLine(xDep_V + 3, i, xArr_V + 3, i + 10);
-            g.drawLine(xDep_V + 4, i, xArr_V + 4, i + 10);
-            i += 20;
-        }
-    }*/
 
 
     /**
@@ -335,43 +293,7 @@ public class Graphe extends JPanel {
                         test = test * tailleMax / mesureX.max;
                         break;
 
-                    case "°C" :
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 60;
-                        break;
-
-                    case "lum" : //A modifier !!
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 100;
-                        break;
-
-                    case "dB" : //A modifier !!
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 60;
-                        break;
-
-                    case "W" : //A modifier !!
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 3000;
-                        break;
-
-                    case "l" : //A modifier !!
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 60;
-                        break;
-
-                    case "km/h" : //A modifier !!
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 100;
-                        break;
-
-                    case "hPa" : //A modifier !!
+                    case "hPa" :
                         test -= 1000;
                         maximum -= 1000;
                         maximum = maximum * tailleMax / 100;
@@ -379,8 +301,8 @@ public class Graphe extends JPanel {
                         break;
 
                     default :
-                        test *= 2;
-                        System.out.println("Type inconnu...");
+                        maximum = tailleMax;
+                        test = test * tailleMax / mesureX.max;
                         break;
                 }
             }
@@ -389,48 +311,14 @@ public class Graphe extends JPanel {
             else {
                 test = mesureX.val;
 
-                switch (mesureX.unite) {
-                    case "°C" :
-                        maximum = tailleMax;
-                        test = test * tailleMax / mesureX.max;
-                        break;
-
-                    default :
-                        test *= 2;
-                        System.out.println("Type inconnu...");
-                        break;
-                }
+                maximum = tailleMax;
+                test = test * tailleMax / mesureX.max;
 
                 while (test > tailleMax)
                     test = test % tailleMax;
                 if (test == 0)
                     test = tailleMax;
             }
-
-            //Histogramme
-            /*if (test > 0) {
-                yDeb1 = yDep_H - test;
-                yFin1 = test;
-
-                if (test <= maximum)
-                    g.setColor(new Color(58, 137, 35));	//Couleur verte
-                    //g.setColor(Color.GREEN);
-                else if (test > maximum)
-                    g.setColor(Color.RED);
-                g.fillRect(xDeb1, yDeb1, xFin1, yFin1);
-                g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 - 5);
-            }
-            else {
-                yDeb1 = yDep_H + 5;
-                yFin1 = -1 * test;
-
-                g.setColor(Color.BLUE);
-                g.fillRect(xDeb1, yDeb1, xFin1, yFin1);
-                g.setColor(Color.BLACK);
-                g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 + yFin1 + 12);
-                g.setColor(Color.WHITE);
-            }*/
 
             //Courbe
             if (test > 0) {
@@ -497,7 +385,7 @@ public class Graphe extends JPanel {
         g.setColor(Color.BLACK);
         int iMax = listeMesures.size();
         tailleMax = 10 * 25;        //Multiple de 10 très fortement conseillé afin de garder des écart de pixel en int et non en float ramenés en int
-        marge = 100;
+        marge = 85;
 
         //X Horizontal
         xDep_H = 120;
@@ -523,8 +411,6 @@ public class Graphe extends JPanel {
         traitVertical(g);
 
         legende(g);
-
-        //pointilles(g);
 
         affichageMesures(g);
     }

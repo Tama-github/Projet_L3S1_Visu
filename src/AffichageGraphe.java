@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 
@@ -9,7 +11,6 @@ public class AffichageGraphe extends JFrame {
     private JPanel droite = new JPanel();
 
     private JPanel gauche = new JPanel();
-    private JPanel bas = new JPanel();
     private JPanel haut = new JPanel();
 
     private JLabel descriptionLoc = null;
@@ -30,19 +31,31 @@ public class AffichageGraphe extends JFrame {
 
     private boolean ouvert;
 
+
+    /**
+     * Le getter 'isOuvert' renvoie la valeur du booléen 'ouvert'
+     */
     public boolean isOuvert() {
         return this.ouvert;
     }
 
+
+    /**
+     * Le setter 'setOuvert' modifie la valeur du booléen 'ouvert'
+     */
     public void setOuvert(boolean bool) {
         this.ouvert = bool;
     }
+
 
     public AffichageGraphe() {
         setOuvert(false);
     }
 
 
+    /**
+     * La fonction 'fermerFenetreErreur' n'est utilisée que si, pour une raison inconnue, la lecture du fichier laisse passer un pourcentage supérieur à 100%
+     */
     public void fermerFenetreErreur() {
         System.out.println("Erreur logique : pourcentage supérieur à 100 !");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -89,8 +102,8 @@ public class AffichageGraphe extends JFrame {
         nbMaxGraphe = listeInformationsCapteurs.size();
         int taille = 0;
 
+        //Récupération de tous les capteurs
         for (int cmpt = 0 ; cmpt < nbMaxGraphe ; cmpt ++) {
-            //capt = listeInformationsCapteurs.get(cmpt);
             taille = 400 + (2 * listeInformationsCapteurs.get(cmpt).getListeMesures().size() + 1) * 45;
 
             Graphe jc = new Graphe();
@@ -106,39 +119,9 @@ public class AffichageGraphe extends JFrame {
 
         String ID = capt.getType();
         verifLieu(capt);
-        //this.id = new JLabel(ID);
 
 
-        /*Icon icone;
-
-        Image imageClose = Toolkit.getDefaultToolkit().getImage("Images/close.png");
-
-        if (imageClose != null) {
-            icone = new ImageIcon(imageClose);
-            this.buttonClose = new JButton(icone);
-        }
-        else {
-            this.buttonClose = new JButton("Fermer");
-        }*/
-
-        this.buttonClose = new JButton("Fermer");
-
-        this.buttonClose.setMaximumSize(new Dimension(200, 150));
-
-        this.buttonClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                if(e.getSource() == buttonClose){
-                    setVisible(false);
-                    dispose();
-                    setOuvert(false);
-                }
-
-            }
-        });
-
-
-        //Font police = new Font("Arial", Font.BOLD, 12);
-
+        //Informations du capteur
         haut.setMinimumSize(new Dimension(240, 150));
         haut.setMaximumSize(new Dimension(240, 150));
         haut.setBorder(BorderFactory.createTitledBorder(ID));
@@ -158,7 +141,7 @@ public class AffichageGraphe extends JFrame {
         }
         haut.add(new JLabel(" "));
 
-        //La couleur des ensembleCapteurs
+        //ComboBox pour sélectionner le capteur
         JComboBox ensembleCapteurs = new JComboBox();
         ensembleCapteurs.setMaximumSize(new Dimension(200, 60));
         for (int i = 0; i < listeInformationsCapteurs.size() ; i++) {
@@ -176,9 +159,23 @@ public class AffichageGraphe extends JFrame {
         milieu.add(ensembleCapteurs);
         milieu.add(new JLabel(" "));
 
-        //bas.setMaximumSize(new Dimension(200, 300));
-        //bas.setLayout(new BoxLayout(bas, BoxLayout.PAGE_AXIS));
-        //bas.add(this.buttonGraph, BorderLayout.CENTER);
+        //Bouton de fermeture
+        this.buttonClose = new JButton("Fermer");
+        this.buttonClose.setMaximumSize(new Dimension(200, 150));
+
+        //Lorsque l'on clique sur le bouton 'Fermer', la fenêtre doit mettre le booléen 'ouvert' sur 'false'
+        this.buttonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if(e.getSource() == buttonClose){
+                    setVisible(false);
+                    dispose();
+                    setOuvert(false);
+                }
+
+            }
+        });
+
+        JPanel bas = new JPanel();
         bas.setMinimumSize(new Dimension(240, 60));
         bas.setMaximumSize(new Dimension(240, 60));
         bas.setAlignmentX(0);
@@ -187,10 +184,9 @@ public class AffichageGraphe extends JFrame {
         bas.add(this.buttonClose, BorderLayout.SOUTH);
         bas.setAlignmentX(0);
 
+        //Regroupement des informations, de la comboBox et du bouton de fermeture sur la gauche
         int largeurGauche = 240;
 
-        //TODO: gauche -> pas de maximum de taille
-        //gauche.setPreferredSize(new Dimension(200, 600));
         gauche.setMinimumSize(new Dimension(largeurGauche, 620));
         gauche.setPreferredSize(new Dimension(largeurGauche, 620));
         gauche.setMaximumSize(new Dimension(largeurGauche, 4000));
@@ -200,24 +196,20 @@ public class AffichageGraphe extends JFrame {
         gauche.add(new JLabel(" "));
         gauche.add(milieu);
         gauche.add(new JLabel(" "));
-        gauche.add(this.bas);
+        gauche.add(bas);
 
+
+        //Création du graphe sur la droite
         int largeurDroite = 2*120 + listeGraphes.get(0).getxMax();
-
-        //taille = 400 + (2 * listeInformationsCapteurs.get(1).getListeMesures().size() + 1) * 45;
-        //taille = listeGraphes.get(0).getxMax() + 250 + 20;
         taille = largeurGauche + largeurDroite + 30;
 
         droite.setMinimumSize(new Dimension(largeurDroite, 600));
         droite.setPreferredSize(new Dimension(largeurDroite, 600));
-        //droite.setMaximumSize(new Dimension(taille - gauche.getWidth() - 20, 620));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
         droite.add(listeGraphes.get(typeGraphe));
         droite.add(new JScrollPane(listeGraphes.get(typeGraphe)), BorderLayout.CENTER);
 
-        //baseGlobale = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gauche, this.droite);
-        //baseGlobale.setDividerLocation(200);
         baseGlobale.setPreferredSize(new Dimension(800, 650));
         baseGlobale.setLayout(new BoxLayout(baseGlobale, BoxLayout.LINE_AXIS));
         baseGlobale.add(gauche);
@@ -232,16 +224,7 @@ public class AffichageGraphe extends JFrame {
         container.add(baseGlobale);
 
 
-        this.setTitle("Graphe");
-        this.setSize(taille, 650);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
-
-
-
-
-
+        //Modification du graphe lors d'un changement de capteur : on récupère les bonnes informations, on les place dans le graphe, et on l'actualise
         ensembleCapteurs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 if(e.getSource() == ensembleCapteurs){
@@ -277,111 +260,23 @@ public class AffichageGraphe extends JFrame {
         });
 
 
-
-        /*this.buttonGraph.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                if(e.getSource() == buttonGraph){
-                    typeGraphe = (typeGraphe + 1) % nbMaxGraphe;
-                    droite.removeAll();
-					/*droite = new JPanel();
-					droite.setPreferredSize(new Dimension(600, 600));
-					droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS)); * /
-                    droite.add(listeGraphes.get(typeGraphe));
-                    droite.add(new JScrollPane(listeGraphes.get(typeGraphe)), BorderLayout.CENTER);
-
-                    droite.revalidate();
-                    droite.repaint();
-
-                    String ID = "     ID : " + listeInformationsCapteurs.get(typeGraphe).type;
-                    id = new JLabel(ID);
-                    //haut.remove(1);
-                    //haut.add(id, 1);
-
-                    haut.removeAll();
-                    haut.add(new JLabel(" "));
-                    haut.add(id);
-                    haut.add(new JLabel(" "));
-                    verifLieu(listeInformationsCapteurs.get(typeGraphe));
-                    haut.add(descriptionLoc);
-                    if (listeInformationsCapteurs.get(typeGraphe).loc.lieu == 0) {
-                        haut.add(batiment);
-                        haut.add(etage);
-                        haut.add(salle);
-                    }
-                    else {
-                        haut.add(latitude);
-                        haut.add(longitude);
-                    }
-
-
-
-                    haut.revalidate();
-                    haut.repaint();
-                }
-
+        //Lorsque l'on clique sur la croix de fermeture, la fenêtre doit mettre le booléen 'ouvert' sur 'false'
+        this.addWindowListener(new WindowAdapter() {
+            @Override public void windowClosing (WindowEvent e) {
+                super.windowClosing(e);
+                setVisible(false);
+                dispose();
+                setOuvert(false);
             }
-        });*/
+        });
 
-		/*this.button1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				if(e.getSource() == button1){
-					droite = new JPanel();
-					droite.setPreferredSize(new Dimension(600, 600));
-					droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
-					droite.add(listeGraphes.get(typeGraphe));
-					JScrollPane scroll = new JScrollPane(listeGraphes.get(typeGraphe));
-					droite.add(scroll, BorderLayout.CENTER);
 
-					//droite.revalidate();
-					droite.repaint();
-				}
-
-			}
-		});*/
-
-		/*this.buttonGraph.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				if(e.getSource() == buttonClose){
-					typeGraphe = (typeGraphe + 1) % nbMaxGraphe;
-					droite.removeAll();
-					droite.add(listeGraphes.get(typeGraphe));
-					JScrollPane scroll = new JScrollPane(listeGraphes.get(typeGraphe));
-					droite.add(scroll, BorderLayout.CENTER);
-					container.removeAll();
-				    container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
-				    container.add(baseGlobale);
-				}
-
-			}
-		});*/
-
+        //Informations de la fenêtre
         this.getContentPane().add(container);
         this.setVisible(true);
-    }
-
-
-	/*public JTextField getJtfIP() {
-		return this.jtfIP;
-	}
-
-
-	public JTextField getJtfPORT() {
-		return this.jtfPORT;
-	}
-
-
-	public JButton getButtonConnection() {
-		return this.buttonConnection;
-	}
-
-
-	public boolean verifIP () {
-		// À faire
-		return false;
-	}*/
-
-
-    public JButton getButtonClose() {
-        return this.buttonClose;
+        this.setTitle("Graphe");
+        this.setSize(taille, 650);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 }
