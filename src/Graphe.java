@@ -298,7 +298,7 @@ public class Graphe extends JPanel {
                         test = test * tailleMax / mesureX.max;
                         break;
 
-                    case "C" :
+                    case "°C" :
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         //test = test * tailleMax / 60;
@@ -361,7 +361,7 @@ public class Graphe extends JPanel {
                 test = mesureX.val;
 
                 switch (mesureX.unite) {
-                    case "C" :
+                    case "°C" :
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
                         break;

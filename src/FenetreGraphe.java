@@ -39,7 +39,7 @@ public class FenetreGraphe extends JFrame {
     protected static boolean verifTypage(String unite, int valeur) {
         if ((unite.equals("%")) && ((valeur > 100) || (valeur < 0)))
             return false;
-        else if (unite.equals("C")) {
+        else if (unite.equals("°C")) {
             if (valeur < -273)
                 return false;
             return true;
@@ -63,7 +63,7 @@ public class FenetreGraphe extends JFrame {
             case "%" :
                 return 100;
 
-            case "C" :
+            case "°C" :
                 return 50;
 
             case "lum" :
@@ -119,7 +119,7 @@ public class FenetreGraphe extends JFrame {
                     return true;
                 return false;
 
-            case "C" :
+            case "°C" :
                 if (type.equalsIgnoreCase("température") || type.equalsIgnoreCase("temperature"))
                     return true;
                 return false;
@@ -261,6 +261,8 @@ public class FenetreGraphe extends JFrame {
                                 case 2:
                                     typeUnite = mots[0];
                                     unite = mots[1];
+                                    if (unite.equals("C"))
+                                        unite = "°C";
                                     if (!verifierType(typeUnite, unite))
                                         erreurTypage = true;
                                     break;
