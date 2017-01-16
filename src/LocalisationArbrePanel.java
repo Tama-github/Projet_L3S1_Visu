@@ -53,34 +53,21 @@ public class LocalisationArbrePanel {
         this.arbre.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                System.out.println("*******************selection listner deb **********************");
                 if (ctrlPressed) {
-                    System.out.println("ctrl");
-                    //DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
                     TreePath[] tp = e.getPaths();
 
-                    //getAllSelectedLeafs(tmp);
                     for (int i = 0; i < tp.length; i++) {
                         if (e.isAddedPath(i)) {
                             getAllSelectedLeafs((DefaultMutableTreeNode) tp[i].getLastPathComponent());
-                            System.out.println("added");
                         } else {
                             removeLeafOfNode((DefaultMutableTreeNode) tp[i].getLastPathComponent());
                         }
                     }
                 } else {
-                    System.out.println("!ctrl");
                     selectedItem.removeAll(selectedItem);
-                    for (int i = 0; i < selectedItem.size(); i++) {
-                        System.out.println(selectedItem.get(i).getNom());
-                    }
                     DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) arbre.getLastSelectedPathComponent();
                     getAllSelectedLeafs(tmp);
                 }
-                for (int i = 0; i < selectedItem.size(); i++) {
-                    System.out.println(selectedItem.get(i).getNom());
-                }
-                System.out.println("*******************selection listner fin **********************");
             }
         });
 
