@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 
@@ -116,7 +118,7 @@ public class AffichageGraphe extends JFrame {
 
         ImageIcon iconeFenetre = new ImageIcon("Icon.png");
         this.setIconImage(iconeFenetre.getImage());
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         InformationsCapteur capt = null;
 
@@ -161,12 +163,22 @@ public class AffichageGraphe extends JFrame {
 
         this.buttonClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                if(e.getSource() == buttonClose){
+                if (e.getSource() == buttonClose) {
                     setVisible(false);
                     dispose();
                     setOuvert(false);
                 }
 
+            }
+        });
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                setVisible(false);
+                dispose();
+                setOuvert(false);
             }
         });
 
