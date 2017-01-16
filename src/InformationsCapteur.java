@@ -2,18 +2,18 @@ import java.util.ArrayList;
 
 public class InformationsCapteur {
 
-    private String type;
+    private String nom;
     private Localisation loc;
     private ArrayList<Mesure> listeMesures;
 
     public InformationsCapteur(String nom, ArrayList<Mesure> mes, Localisation where) {
-        this.type = nom;
+        this.nom = nom;
         this.loc = where;
         this.listeMesures = mes;
     }
 
     public String getType() {
-        return type;
+        return nom;
     }
 
 

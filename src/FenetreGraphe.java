@@ -51,33 +51,34 @@ public class FenetreGraphe extends JFrame {
      * @return entier : valeur maximale possible suivant le type
      */
     private static int verifierMax(String type) {
+        //Des maximums multiples de 10 sont très fortement recommandés afin de ne pas avoir de soucis d'échelle
         switch (type) {
             case "%" :
-                return 100;
+                return 100; //Ne pas modifier ! Un pourcentage doit avoir un maximum de 100% !
 
             case "°C" :
-                return 50;
+                return 30;    //Choix arbitraire
 
             case "lum" :
-                return 1000;
+                return 1000;    //Choix arbitraire
 
             case "dB" :
-                return 120;
+                return 120;    //Choix arbitraire
 
             case "W" :
-                return 3000;
+                return 3000;    //Choix arbitraire
 
             case "l" :
-                return 100;
+                return 100;    //Choix arbitraire
 
             case "km/h" :
-                return 150;
+                return 150;    //Choix arbitraire
 
             case "hPa" :
-                return 1100;
+                return 1100;    //Choix fait en fonction de la pression atmosphérique moyenne qui est entre 1000 et 1050 hPA
 
             default :
-                return 0;
+                return 100;
         }
     }
 

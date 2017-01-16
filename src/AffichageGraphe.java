@@ -86,8 +86,7 @@ public class AffichageGraphe extends JFrame {
      *
      * @param lC : cette liste contient tous les capteurs à visualiser
      */
-    //public creationGraphe(String nom, ArrayList<Mesure> listeMesures, LieuCapteur loc) {
-    public void creationGraphe(ArrayList<InformationsCapteur> lC) { //, int choice) {
+    public void creationGraphe(ArrayList<InformationsCapteur> lC) {
         listeInformationsCapteurs = lC;
         listeGraphes = new ArrayList<>();
 
@@ -202,8 +201,8 @@ public class AffichageGraphe extends JFrame {
         droite.setPreferredSize(new Dimension(largeurDroite, 600));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
-        droite.add(listeGraphes.get(0));
-        droite.add(new JScrollPane(listeGraphes.get(0)), BorderLayout.CENTER);
+        //droite.add(listeGraphes.get(0));
+        droite.add(new JScrollPane(listeGraphes.get(0)));
 
         baseGlobale.setPreferredSize(new Dimension(800, 650));
         baseGlobale.setLayout(new BoxLayout(baseGlobale, BoxLayout.LINE_AXIS));
@@ -213,7 +212,6 @@ public class AffichageGraphe extends JFrame {
 
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         container.setMinimumSize(new Dimension(800, 700));
-        container.setMaximumSize(new Dimension(1000, 800));
         container.setPreferredSize(new Dimension(800, 750));
         container.setMaximumSize(new Dimension(1920, 1080));
         container.add(baseGlobale);
@@ -270,7 +268,7 @@ public class AffichageGraphe extends JFrame {
         this.getContentPane().add(container);
         this.setVisible(true);
         this.setTitle("Graphe");
-        this.setSize(taille, 650);
+        this.setSize(taille, 680);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
