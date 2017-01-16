@@ -39,7 +39,7 @@ public class FenetreGraphe extends JFrame {
     protected static boolean verifTypage(String unite, int valeur) {
         if ((unite.equals("%")) && ((valeur > 100) || (valeur < 0)))
             return false;
-        else if (unite.equals("°C")) {
+        else if (unite.equals("C")) {
             if (valeur < -273)
                 return false;
             return true;
@@ -63,7 +63,7 @@ public class FenetreGraphe extends JFrame {
             case "%" :
                 return 100;
 
-            case "°C" :
+            case "C" :
                 return 50;
 
             case "lum" :
@@ -119,7 +119,7 @@ public class FenetreGraphe extends JFrame {
                     return true;
                 return false;
 
-            case "°C" :
+            case "C" :
                 if (type.equalsIgnoreCase("température") || type.equalsIgnoreCase("temperature"))
                     return true;
                 return false;
@@ -171,14 +171,14 @@ public class FenetreGraphe extends JFrame {
         if ((unite.equals("ms")) || (unite.equals("s")) || (unite.equals("min")) || (unite.equals("h")) || (unite.equals("jour")) || (unite.equals("mois")) || (unite.equals("annee"))) {
             return unite;
         }
-        return "?";
+        return "s";
     }
 
 
     public void creationGraphique () throws FileNotFoundException, InterruptedException {
 
         //Création de l'objet File
-        File f = new File("Images/test");
+        File f = new File("Fichiers/test");
         if (f == null) {
             System.out.println("Erreur : Problème lors de la recherche du fichier !");
             setVisible(false);
@@ -288,6 +288,7 @@ public class FenetreGraphe extends JFrame {
 
                 if (erreurTypage) {
                     System.out.println("Type de valeur non reconnu...");
+                    System.out.println("Unite : " + unite + ", type : " + typeUnite);
                     while (!mots[0].equals("end")) {
                         line = scanner.nextLine();
                         mots = line.split(" ");
