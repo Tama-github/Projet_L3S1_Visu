@@ -5,7 +5,7 @@ import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Graphique extends JFrame {
+public class FenetreGraphe extends JFrame {
 
     /*protected InformationsCapteur grapheCapteur;
 
@@ -13,7 +13,18 @@ public class Graphique extends JFrame {
         this.grapheCapteur = donnees;
     }*/
 
-    public Graphique() {
+    private AffichageGraphe graphe = new AffichageGraphe();
+
+    public boolean isOuvert() {
+        return graphe.isOuvert();
+    }
+
+    public void setOuvert(boolean bool) {
+        graphe.setOuvert(bool);
+    }
+
+    public FenetreGraphe() {
+        graphe.setOuvert(false);
     }
 
 
@@ -76,6 +87,20 @@ public class Graphique extends JFrame {
             default :
                 return 0;
         }
+    }
+
+
+    /**
+     * La fonction 'verifierMin' renvoie la valeur représentée sur l'axe des abscisses suivant le type
+     *
+     * @param type	: type des valeurs observées
+     */
+    private static int verifierMin(String type) {
+        if (type.equals("hPa")) {
+            return 1000;
+        }
+        else
+            return 0;
     }
 
 
@@ -166,7 +191,6 @@ public class Graphique extends JFrame {
             Boolean finFichier = false, erreurTypage = false;
             String line = null;
 
-            AffichageGraphe graphe = new AffichageGraphe();
             ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<InformationsCapteur>();
 
             LieuCapteur where = null;
@@ -251,7 +275,7 @@ public class Graphique extends JFrame {
                                     if (!verifTypage(unite, Integer.parseInt(mots[1])))
                                         erreurTypage = true;
                                     else
-                                        mesures.add(new Mesure(typeUnite, unite, Integer.parseInt(mots[1]), verifierMax(unite), verifierTemps(uniteTemps)));
+                                        mesures.add(new Mesure(typeUnite, unite, Integer.parseInt(mots[1]), verifierMax(unite), verifierMin(unite), verifierTemps(uniteTemps)));
                                     break;
                             }
 

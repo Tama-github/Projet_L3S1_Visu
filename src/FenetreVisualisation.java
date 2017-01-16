@@ -17,6 +17,7 @@ import static javax.swing.Box.createVerticalGlue;
  * Credit icone Maxim Basinski
  */
 public class FenetreVisualisation extends JFrame {
+    private FenetreGraphe nouveauGraphe = new FenetreGraphe();
 
     private LocalisationArbrePanel localisationArbrePanel;
     private TableauDonnees tableauDonnees;
@@ -103,8 +104,11 @@ public class FenetreVisualisation extends JFrame {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 try {
-                    Graphique nouveauGraphe = new Graphique();
-                    nouveauGraphe.creationGraphique();
+                    if((mouseEvent.getSource() == graphique) && (!nouveauGraphe.isOuvert())) {
+                        nouveauGraphe = new FenetreGraphe();
+                        nouveauGraphe.creationGraphique();
+                        nouveauGraphe.setOuvert(true);
+                    }
                 }
                 catch (FileNotFoundException err) {
                     err.getMessage();

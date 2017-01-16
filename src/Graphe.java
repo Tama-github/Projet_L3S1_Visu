@@ -5,6 +5,27 @@ import java.util.ListIterator;
 
 public class Graphe extends JPanel {
     /*** Paramètre ***/
+    private int tailleMax;				//Distance verticale [origine ; valeurMax]
+
+    //X Horizontal
+    private int xDep_H;					//Coordonnée 'x' de départ (trait horizontal)
+    private int xArr_H;
+
+
+    //Y Vertical
+    private int yDep_V;					//Coordonnée 'y' de départ (trait vertical)
+    private int yArr_V;		        	//Coordonnée 'y' d'arrivée (trait vertical)
+    private int yDep_VNeg;				//Coordonnée 'y' de départ (trait vertical négatif)
+    private int yArr_VNeg;				//Coordonnée 'y' d'arrivée (trait vertical négatif)
+
+    //Y Horizontal
+    private int yDep_H;					//Coordonnée 'y' de départ (trait horizontal)
+    private int yArr_H;					//Coordonnée 'y' d'arrivée (trait horizontal)
+
+    //X Vertical
+    private int xDep_V;					//Coordonnée 'x' de départ (trait vertical)
+    private int xArr_V;					//Coordonnée 'x' d'arrivée (trait vertical)
+
     private ArrayList<Mesure> listeMesures;	//Contient la liste des mesures faites par le InformationsCapteur
     private int xMax = 250;
 
@@ -55,31 +76,25 @@ public class Graphe extends JPanel {
      * La fonction 'traitHorizontal' trace le trait des abscisses et sa flèche
      *
      * @param g : Graphics g est la base du dessin
-     *
-     * @param xDep_H	: coordonnée 'x' de départ (trait horizontal)
-     * @param yDep_H	: coordonnée 'y' de départ (trait horizontal)
-     * @param xArr_H	: coordonnée 'x' d'arrivée (trait horizontal)
-     * @param yArr_H	: coordonnée 'y' d'arrivée (trait horizontal)
      */
-    public void traitHorizontal(Graphics g, int xDep_H, int yDep_H, int xArr_H, int yArr_H) {
+    public void traitHorizontal(Graphics g) {
         //Ligne horizontale
-        g.drawLine(xDep_H - 5, yDep_H + 0, xArr_H, yArr_H + 0);
-        g.drawLine(xDep_H - 5, yDep_H + 1, xArr_H, yArr_H + 1);
-        g.drawLine(xDep_H - 5, yDep_H + 2, xArr_H, yArr_H + 2);
-        g.drawLine(xDep_H - 5, yDep_H + 3, xArr_H, yArr_H + 3);
-        g.drawLine(xDep_H - 5, yDep_H + 4, xArr_H, yArr_H + 4);
+        g.drawLine(xDep_H, yDep_H - 1, xArr_H, yArr_H - 1);
+        g.drawLine(xDep_H, yDep_H + 0, xArr_H, yArr_H + 0);
+        g.drawLine(xDep_H, yDep_H + 1, xArr_H, yArr_H + 1);
+        g.drawLine(xDep_H, yDep_H + 2, xArr_H, yArr_H + 2);
 
         //Flèche horizontale
-        g.drawLine(xArr_H, yDep_H - 9, xArr_H + 12, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H - 8, xArr_H + 11, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H - 7, xArr_H + 10, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H - 6, xArr_H + 9, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H - 5, xArr_H + 8, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H + 9, xArr_H + 8, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H + 10, xArr_H + 9, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H + 11, xArr_H + 10, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H + 12, xArr_H + 11, yArr_H + 2);
-        g.drawLine(xArr_H, yDep_H + 13, xArr_H + 12, yArr_H + 2);
+        g.drawLine(xArr_H, yDep_H - 11, xArr_H + 12, yArr_H);
+        g.drawLine(xArr_H, yDep_H - 10, xArr_H + 11, yArr_H);
+        g.drawLine(xArr_H, yDep_H - 9, xArr_H + 10, yArr_H);
+        g.drawLine(xArr_H, yDep_H - 8, xArr_H + 9, yArr_H);
+        g.drawLine(xArr_H, yDep_H - 7, xArr_H + 8, yArr_H);
+        g.drawLine(xArr_H, yDep_H + 7, xArr_H + 8, yArr_H);
+        g.drawLine(xArr_H, yDep_H + 8, xArr_H + 9, yArr_H);
+        g.drawLine(xArr_H, yDep_H + 9, xArr_H + 10, yArr_H);
+        g.drawLine(xArr_H, yDep_H + 10, xArr_H + 11, yArr_H);
+        g.drawLine(xArr_H, yDep_H + 11, xArr_H + 12, yArr_H);
     }
 
 
@@ -87,16 +102,8 @@ public class Graphe extends JPanel {
      * La fonction 'traitVertical' trace le trait des ordonnées et sa flèche
      *
      * @param g : Graphics g est la base du dessin
-     *
-     * @param xDep_V	: coordonnée 'x' de départ (trait vertical positif)
-     * @param yDep_V	: coordonnée 'y' de départ (trait vertical positif)
-     * @param xArr_V	: coordonnée 'x' d'arrivée (trait vertical positif)
-     * @param yArr_V	: coordonnée 'y' d'arrivée (trait vertical positif)
-     *
-     * @param yDep_VNeg : coordonnée 'y' de départ (trait vertical négatif)
-     * @param yArr_VNeg : coordonnée 'y' d'arrivée (trait vertical négatif)
      */
-    public void traitVertical(Graphics g, int xDep_V, int yDep_V, int xArr_V, int yArr_V, int yDep_VNeg, int yArr_VNeg) {
+    public void traitVertical(Graphics g) {
         //Ligne verticale
         g.drawLine(xDep_V + 0, yDep_V, xArr_V + 0, yArr_V);
         g.drawLine(xDep_V + 1, yDep_V, xArr_V + 1, yArr_V);
@@ -129,13 +136,8 @@ public class Graphe extends JPanel {
      * La fonction 'legende' écrit sur le graphe la légende des abscisses et des ordonnées
      *
      * @param g : Graphics g est la base du dessin
-     *
-     * @param xDep_V	: coordonnée 'x' de départ (trait vertical positif)
-     * @param yDep_V	: coordonnée 'y' de départ (trait vertical positif)
-     * @param xArr_V	: coordonnée 'x' d'arrivée (trait vertical positif)
-     * @param yArr_V	: coordonnée 'y' d'arrivée (trait vertical positif)
      */
-    public void legende(Graphics g, int xDep_V, int yDep_V, int xArr_V, int yArr_V, int xArr_H, int yArr_H) {
+    public void legende(Graphics g) {
         Font saveFont = g.getFont();					//Cette ligne garde en mémoire les paramètres d'écriture du graphe.
 
         //Type
@@ -143,32 +145,45 @@ public class Graphe extends JPanel {
         //A modifier : risque de dépassement du cadre en x :
         g.drawString(listeMesures.get(0).typeUnite, xDep_V - (listeMesures.get(0).typeUnite.length() * 10), yArr_V + 25);
 
-        //Max
-        int tailleVal = 0, i = listeMesures.get(0).max;
-        while (i > 0) {
-            tailleVal++;
-            i = i/10;
+        int yMax = yArr_V + 50;
+        int ecart = tailleMax / 10;
+        int valeurMax = listeMesures.get(0).max;
+        int valeurMin = listeMesures.get(0).min;
+        int valeur = valeurMax - valeurMin;
+        for (int i = 9 ; i > -1 ; i--) {
+            int y = yMax + ecart * i;
+            int x = valeur - valeur * i / 10;
+            if (i == 0) {
+                g.drawLine(xDep_V, y - 2, xArr_H, y - 2);
+                g.drawLine(xDep_V, y - 1, xArr_H, y - 1);
+                g.drawLine(xDep_V, y + 1, xArr_H, y + 1);
+            }
+            g.drawLine(xDep_V, y, xArr_H, y);
+            g.drawString(Integer.toString(x + valeurMin), xDep_V - (5 + String.valueOf(x + valeurMin).length() * 8), y + 5);
         }
-        g.drawString(Integer.toString(listeMesures.get(0).max), xDep_V - 14 * tailleVal, yArr_V + 58);
 
         //Origine
         g.setFont(new Font("Arial", Font.BOLD, 14));
         if (listeMesures.get(0).unite.equals("hPa"))
-            g.drawString("1000", xDep_V - 56, yDep_V + 7);
+            g.drawString("1000", xDep_V - 47, yDep_V + 7);
         else
-            g.drawString("0", xDep_V - 22, yDep_V + 7);
+            g.drawString("0", xDep_V - 13, yDep_V + 7);
         g.setFont(saveFont);							//Cette ligne remet les paramètres d'écriture du graphe à la normale.
-
-        g.drawLine(xDep_V - 5, yArr_V + 51, xArr_V, yArr_V + 51);
-        g.drawLine(xDep_V - 5, yArr_V + 52, xArr_V, yArr_V + 52);
-        g.drawLine(xDep_V - 5, yArr_V + 53, xArr_V, yArr_V + 53);
-        g.drawLine(xDep_V - 5, yArr_V + 54, xArr_V, yArr_V + 54);
-        g.drawLine(xDep_V - 5, yArr_V + 55, xArr_V, yArr_V + 55);
 
         //Légende axe abscisses
         g.setFont(new Font("Arial", Font.BOLD, 14));
         g.drawString("Temps (" + listeMesures.get(0).uniteTemps + ")", xArr_H - 15, yArr_H + 30);
         g.setFont(new Font("Arial", Font.PLAIN, 12));
+
+        int nbElements = listeMesures.size();
+        int distance = (xArr_H - xDep_H) / nbElements;
+        for (int i = 0 ; i < nbElements ; i++) {
+            if ((i % 5 == 0) && (i > 0)) {
+                g.drawString(Integer.toString(i), xDep_H + 7 + i * distance - String.valueOf(i).length() * 3, yDep_H + 20);
+            }
+            g.drawLine(xDep_H + 7 + i * distance, yDep_H, xDep_H + 7 + i * distance, yDep_H + 5);
+            g.drawLine(xDep_H + 8 + i * distance, yDep_H, xDep_H + 8 + i * distance, yDep_H + 5);
+        }
     }
 
 
@@ -177,17 +192,8 @@ public class Graphe extends JPanel {
      * 		ainsi que des pointillés sur la partie négative de l'axe des ordonnées
      *
      * @param g : Graphics g est la base du dessin
-     *
-     * @param xDep_V	: coordonnée 'x' de départ (trait vertical positif)
-     * @param xArr_H	: coordonnée 'x' d'arrivée (trait horizontal)
-     * @param xArr_V	: coordonnée 'x' d'arrivée (trait vertical positif)
-     * @param yArr_V	: coordonnée 'y' d'arrivée (trait vertical positif)
-     *
-     * @param yArr_VNeg : coordonnée 'y' d'arrivée (trait vertical négatif)
-     *
-     * @param tailleMax	: distance [origine ; valeurMax]
      */
-    public void pointilles(Graphics g, int xDep_V, int xArr_H, int xArr_V, int yArr_V, int yArr_VNeg, int tailleMax) {
+    /*public void pointilles(Graphics g) {
         int i = 0;
         int trait = xDep_V - 10 + (i + 1) * 25;
         int nbTraits = yArr_V + 53;
@@ -223,7 +229,7 @@ public class Graphe extends JPanel {
             g.drawLine(xDep_V + 4, i, xArr_V + 4, i + 10);
             i += 20;
         }
-    }
+    }*/
 
 
     /**
@@ -236,17 +242,7 @@ public class Graphe extends JPanel {
      * @param xPoint2	: coordonnée 'x' du deuxième point
      * @param yPoint2	: coordonnée 'y' du deuxième point
      */
-    public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2) {//}, boolean verif1, boolean verif2, boolean supZero) {
-        /*if ((verif1) && (verif2))
-            g.setColor(new Color(58, 137, 35));  //Couleur verte
-        else if ((!verif1) && (!verif2)) {
-            if (supZero)
-                g.setColor(Color.RED);
-            else
-                g.setColor(Color.BLUE);
-        }
-        else
-            g.setColor(new Color(157, 69, 18));  //Couleur jaune*/
+    public void relierPoints(Graphics g, int xPoint1, int yPoint1, int xPoint2, int yPoint2) {
 
         g.setColor(new Color(58, 137, 35));  //Couleur verte
         g.drawLine(xPoint1, yPoint1, xPoint2, yPoint2);
@@ -261,13 +257,8 @@ public class Graphe extends JPanel {
      * La fonction 'affichageMesures' affiche toutes les mesures relevées dans la base de données (température, humidité, etc.)
      *
      * @param g : Graphics g est la base du dessin
-     *
-     * @param xDep_H	: coordonnée 'x' de départ (trait horizontal)
-     * @param yDep_H	: coordonnée 'y' de départ (trait horizontal)
-     *
-     * @param tailleMax	: distance [origine ; valeurMax]
      */
-    public void affichageMesures (Graphics g, int xDep_H, int xArr_H, int yDep_H, int tailleMax) {
+    public void affichageMesures (Graphics g) {
         int xDeb1;
         int xFin1;
         int yDeb1;
@@ -292,14 +283,6 @@ public class Graphe extends JPanel {
             Mesure mesureX = iter.next();
             int maximum = mesureX.max;
             int test;
-
-            //Vérification des valeurs mesurées en fonction des unités
-            /*test = Graphique.verifTypage(mesureX, tailleMax);
-
-            if (mesureX.unite.equals("hPa")) {
-                maximum -= 1000;
-                maximum = maximum * tailleMax / 100;
-            }*/
 
             if (mesureX.val >= 0) {
                 test = mesureX.val;
@@ -369,8 +352,6 @@ public class Graphe extends JPanel {
                     default :
                         test *= 2;
                         System.out.println("Type inconnu...");
-                        //System.out.println("Erreur : Type inconnu...");
-                        //System.exit(99);
                         break;
                 }
             }
@@ -383,14 +364,11 @@ public class Graphe extends JPanel {
                     case "°C" :
                         maximum = tailleMax;
                         test = test * tailleMax / mesureX.max;
-                        //test = test * tailleMax / 60;
                         break;
 
                     default :
                         test *= 2;
                         System.out.println("Type inconnu...");
-                        //System.out.println("Erreur : Type inconnu...");
-                        //System.exit(99);
                         break;
                 }
 
@@ -428,77 +406,52 @@ public class Graphe extends JPanel {
             //Courbe
             if (test > 0) {
                 yDeb1 = yDep_H - test;
-                yFin1 = 10;
-                //supZero = true;
 
                 if (test <= maximum) {
                     g.setColor(new Color(58, 137, 35));    //Couleur verte
-                    //g.setColor(Color.GREEN);
-                    //verifMax2 = true;
                 }
                 else if (test > maximum) {
                     g.setColor(Color.RED);
-                    //verifMax2 = false;
                 }
                 xDeb1 = xDeb1 + (xFin1 / 2);
-                yDeb1 = yDeb1 + (yFin1 / 2);
                 g.fillRect(xDeb1, yDeb1, 2, 2);
-                //g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 - 5);
 
                 if (i > 0) {
                     xPoint2 = xDeb1;
                     yPoint2 = yDeb1;
-                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);//, verifMax1, verifMax2, supZero);
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
                     xPoint1 = xPoint2;
                     yPoint1 = yPoint2;
-                    //verifMax1 = verifMax2;
                 }
                 else {
-                    /*if (test <= maximum)
-                        verifMax1 = true;
-                    else
-                        verifMax1 = false;*/
                     xPoint1 = xDeb1;
                     yPoint1 = yDeb1;
                 }
-                g.setColor(Color.BLACK);
             }
             else {
                 yDeb1 = yDep_H - test;
-                yFin1 = 10;
-                //supZero = false;
+                xDeb1 = xDeb1 + (xFin1 / 2);
 
                 g.setColor(Color.BLUE);
                 g.fillRect(xDeb1, yDeb1, 2, 2);
-                //g.drawString(Integer.toString(mesureX.val) + mesureX.unite, xDeb1 + 8, yDeb1 + yFin1 + 12);
-                //g.setColor(Color.WHITE);
 
                 if (i > 0) {
                     xPoint2 = xDeb1;
                     yPoint2 = yDeb1;
-                    //verifMax2 = false;
-                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);//, verifMax1, verifMax2, supZero);
+                    relierPoints(g, xPoint1, yPoint1, xPoint2, yPoint2);
                     xPoint1 = xPoint2;
                     yPoint1 = yPoint2;
-                    verifMax1 = verifMax2;
                 }
                 else {
-                    //verifMax1 = false;
                     xPoint1 = xDeb1;
                     yPoint1 = yDeb1;
                 }
-                g.setColor(Color.BLACK);
             }
 
-            //g.drawString(mesureX.typeUnite, xDeb1 + 5, yDep_H + 30);
             g.setColor(Color.BLACK);
 
-            /*g.drawLine(xDeb1 + 20, yDep_H, xDeb1 + 20, yDep_H + 10);
-            g.drawLine(xDeb1 + 21, yDep_H, xDeb1 + 21, yDep_H + 10);
-            g.drawLine(xDeb1 + 22, yDep_H, xDeb1 + 22, yDep_H + 10);
-            g.drawLine(xDeb1 + 23, yDep_H, xDeb1 + 23, yDep_H + 10);
-            g.drawLine(xDeb1 + 24, yDep_H, xDeb1 + 24, yDep_H + 10);*/
-
+            if ((i % 5 == 0) && (i > 0))
+                g.drawString(Integer.toString(i), xDep_H + 7 + i * distance - String.valueOf(i).length() * 3, yDep_H + 20);
             i++;
         }
     }
@@ -513,37 +466,37 @@ public class Graphe extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.BLACK);
-        int iMax = listeMesures.size();		//Nombre d'éléments dans la liste des mesures
-        int tailleMax = 250;				//Distance verticale [origine ; valeurMax]
+        int iMax = listeMesures.size();
+        tailleMax = 10 * 25;        //Multiple de 10 très fortement conseillé afin de garder des écart de pixel en int et non en float ramenés en int
 
         //X Horizontal
-        int xDep_H = 120;								//Coordonnée 'x' de départ (trait horizontal)
-        int xArr_H = xDep_H + this.xMax;
+        xDep_H = 120;
+        xArr_H = xDep_H + this.xMax;
 
 
         //Y Vertical
-        int yDep_V = 350;								//Coordonnée 'y' de départ (trait vertical)
-        int yArr_V = yDep_V - (tailleMax + 50);			//Coordonnée 'y' d'arrivée (trait vertical)
-        int yDep_VNeg = yDep_V;							//Coordonnée 'y' de départ (trait vertical négatif)
-        int yArr_VNeg = yDep_VNeg + 150;				//Coordonnée 'y' d'arrivée (trait vertical négatif)
+        yDep_V = 350;
+        yArr_V = yDep_V - (tailleMax + 50);
+        yDep_VNeg = yDep_V;
+        yArr_VNeg = yDep_VNeg + 150;
 
         //Y Horizontal
-        int yDep_H = yDep_V;							//Coordonnée 'y' de départ (trait horizontal)
-        int yArr_H = yDep_V;							//Coordonnée 'y' d'arrivée (trait horizontal)
+        yDep_H = yDep_V;
+        yArr_H = yDep_V;
 
         //X Vertical
-        int xDep_V = xDep_H;							//Coordonnée 'x' de départ (trait vertical)
-        int xArr_V = xDep_H;							//Coordonnée 'x' d'arrivée (trait vertical)
+        xDep_V = xDep_H;
+        xArr_V = xDep_H;
 
-        traitHorizontal(g, xDep_H, yDep_H, xArr_H, yArr_H);
+        traitHorizontal(g);
 
-        traitVertical(g, xDep_V, yDep_V, xArr_V, yArr_V, yDep_VNeg, yArr_VNeg);
+        traitVertical(g);
 
-        legende(g, xDep_V, yDep_V, xArr_V, yArr_V, xArr_H, yArr_H);
+        legende(g);
 
-        pointilles(g, xDep_V, xArr_H, xArr_V, yArr_V, yArr_VNeg, tailleMax);
+        //pointilles(g);
 
-        affichageMesures(g, xDep_H, xArr_H, yDep_H, tailleMax);
+        affichageMesures(g);
     }
 }
 

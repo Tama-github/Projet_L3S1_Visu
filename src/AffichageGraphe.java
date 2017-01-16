@@ -60,8 +60,18 @@ public class AffichageGraphe extends JFrame {
     private int typeGraphe = 0;
     private int nbMaxGraphe = 1;
 
-    public AffichageGraphe() {
+    private boolean ouvert;
 
+    public boolean isOuvert() {
+        return this.ouvert;
+    }
+
+    public void setOuvert(boolean bool) {
+        this.ouvert = bool;
+    }
+
+    public AffichageGraphe() {
+        setOuvert(false);
     }
 
 
@@ -154,6 +164,7 @@ public class AffichageGraphe extends JFrame {
                 if(e.getSource() == buttonClose){
                     setVisible(false);
                     dispose();
+                    setOuvert(false);
                 }
 
             }
@@ -257,7 +268,7 @@ public class AffichageGraphe extends JFrame {
 
         this.setTitle("Graphe");
         this.setSize(taille, 650);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
 
