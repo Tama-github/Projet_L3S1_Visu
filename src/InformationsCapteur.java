@@ -3,13 +3,10 @@ import java.util.ArrayList;
 public class InformationsCapteur {
 
     private String type;
-    private LieuCapteur loc;
-    /*protected String typeUnite;
-    protected String unite;
-    protected int valeur;*/
+    private Localisation loc;
     private ArrayList<Mesure> listeMesures;
 
-    public InformationsCapteur(String nom, ArrayList<Mesure> mes, LieuCapteur where) {
+    public InformationsCapteur(String nom, ArrayList<Mesure> mes, Localisation where) {
         this.type = nom;
         this.loc = where;
         this.listeMesures = mes;
@@ -20,7 +17,7 @@ public class InformationsCapteur {
     }
 
 
-    public LieuCapteur getLocalisation() {
+    public Localisation getLocalisation() {
         return loc;
     }
 

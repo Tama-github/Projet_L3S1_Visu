@@ -67,17 +67,19 @@ public class AffichageGraphe extends JFrame {
      *
      * @param capt : il s'agit du InformationsCapteur à visualiser
      */
-    public void verifLieu(InformationsCapteur capt) {
-        if (capt.getLocalisation().lieu == 0) {
+    private void verifLieu(InformationsCapteur capt) {
+        String[] informations = capt.getLocalisation().getString().split(";");
+
+        if (capt.getLocalisation().getType().equals("Interieur")) {
             this.descriptionLoc = new JLabel("     LieuCapteur :  Intérieur");
-            this.batiment = new JLabel("               Bâtiment " + capt.getLocalisation().inside.batiment);
-            this.etage = new JLabel("               " + Integer.toString(capt.getLocalisation().inside.etage) + "ème étage");
-            this.salle = new JLabel("               Salle " + Integer.toString(capt.getLocalisation().inside.salle));
+            this.batiment = new JLabel("               Bâtiment " + informations[0]);
+            this.etage = new JLabel("               " + informations[1] + "ème étage");
+            this.salle = new JLabel("               Salle " + informations[2]);
         }
         else {
             this.descriptionLoc = new JLabel("     LieuCapteur :  Extérieur");
-            this.latitude = new JLabel("          Latitude    :  " + capt.getLocalisation().outside.latitude);
-            this.longitude = new JLabel("          Longitude :  " + capt.getLocalisation().outside.longitude);
+            this.latitude = new JLabel("          Latitude    :  " + informations[0]);
+            this.longitude = new JLabel("          Longitude :  " + informations[1]);
         }
     }
 
@@ -89,18 +91,15 @@ public class AffichageGraphe extends JFrame {
      */
     //public creationGraphe(String nom, ArrayList<Mesure> listeMesures, LieuCapteur loc) {
     public void creationGraphe(ArrayList<InformationsCapteur> lC) { //, int choice) {
-
         listeInformationsCapteurs = lC;
-        listeGraphes = new ArrayList<Graphe>();
+        listeGraphes = new ArrayList<>();
 
         ImageIcon iconeFenetre = new ImageIcon("Icon.png");
         this.setIconImage(iconeFenetre.getImage());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        InformationsCapteur capt = null;
-
         nbMaxGraphe = listeInformationsCapteurs.size();
-        int taille = 0;
+        int taille;
 
         //Récupération de tous les capteurs
         for (int cmpt = 0 ; cmpt < nbMaxGraphe ; cmpt ++) {
@@ -115,11 +114,10 @@ public class AffichageGraphe extends JFrame {
             listeGraphes.add(jc);
         }
 
-        capt = listeInformationsCapteurs.get(0);
+        InformationsCapteur capt = listeInformationsCapteurs.get(0);
 
         String ID = capt.getType();
         verifLieu(capt);
-
 
         //Informations du capteur
         haut.setMinimumSize(new Dimension(240, 150));
@@ -130,7 +128,7 @@ public class AffichageGraphe extends JFrame {
         haut.setBackground(Color.WHITE);
         haut.add(new JLabel(" "));
         haut.add(this.descriptionLoc);
-        if (capt.getLocalisation().lieu == 0) {
+        if (capt.getLocalisation().getType().equals("Interieur")) {
             haut.add(this.batiment);
             haut.add(this.etage);
             haut.add(this.salle);
@@ -241,7 +239,7 @@ public class AffichageGraphe extends JFrame {
                     haut.add(new JLabel(" "));
                     verifLieu(listeInformationsCapteurs.get(numCapteur));
                     haut.add(descriptionLoc);
-                    if (listeInformationsCapteurs.get(numCapteur).getLocalisation().lieu == 0) {
+                    if (listeInformationsCapteurs.get(numCapteur).getLocalisation().getType().equals("Interieur")) {
                         haut.add(batiment);
                         haut.add(etage);
                         haut.add(salle);

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.InterruptedException;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class FenetreGraphe extends JFrame {
@@ -175,7 +176,7 @@ public class FenetreGraphe extends JFrame {
     }
 
 
-    public void creationGraphique () throws FileNotFoundException, InterruptedException {
+    public void creationGraphique () throws Exception {
 
         //Création de l'objet File
         File f = new File("Fichiers/test");
@@ -191,11 +192,12 @@ public class FenetreGraphe extends JFrame {
             Boolean finFichier = false, erreurTypage = false;
             String line = null;
 
-            ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<InformationsCapteur>();
+            ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<>();
 
-            LieuCapteur where = null;
-            Interieur in = null;
-            Exterieur out = null;
+            //LieuCapteur where = null;
+            Localisation where = null;
+            //Interieur in = null;
+            //Exterieur out = null;
 
             String nom = null;
             String lieu = null;
@@ -206,7 +208,7 @@ public class FenetreGraphe extends JFrame {
             String typeTemps = null;
             String uniteTemps = null;
 
-            ArrayList<Mesure> mesures = new ArrayList<Mesure>();
+            ArrayList<Mesure> mesures;
 
             String[] mots = null;
         /*for(int i=0;i<mots.length;i++){
@@ -218,8 +220,8 @@ public class FenetreGraphe extends JFrame {
                 int cmpt = 0;
                 Boolean fin = false;
                 mesures = new ArrayList<Mesure>();
-                in = null;
-                out = null;
+                //in = null;
+                //out = null;
 
                 erreurTypage = false;
 
@@ -246,13 +248,14 @@ public class FenetreGraphe extends JFrame {
                                 case 1:
                                     lieu = mots[0];
 
-
                                     if (lieu.equalsIgnoreCase("Interieur") || lieu.equalsIgnoreCase("Intérieur")) {
-                                        in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
-                                        where = new LieuCapteur(0, in, out);
+                                        //in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
+                                        //where = new LieuCapteur(0, in, out);
+                                        where = new LocalisationInterieur("Interieur", mots[1], mots[2], mots[3], null);
                                     } else if (lieu.equalsIgnoreCase("Exterieur") || lieu.equalsIgnoreCase("Extérieur")) {
-                                        out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
-                                        where = new LieuCapteur(1, in, out);
+                                        //out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
+                                        //where = new LieuCapteur(1, in, out);
+                                        where = new LocalisationExterieur("Exterieur", Double.parseDouble(mots[1]), Double.parseDouble(mots[2]));
                                     } else
                                         erreurTypage = true;
 
@@ -311,19 +314,11 @@ public class FenetreGraphe extends JFrame {
                         scanner.nextLine();
                     }
                     listeInformationsCapteurs.add(new InformationsCapteur(nom, mesures, where));
-                    //capt.listeMesures = mesures;
-                    //capt.loc = where;
                 }
 
             }
 
             graphe.creationGraphe(listeInformationsCapteurs);
-            //test = new creationGraphe(listeInformationsCapteurs.get(0));
         }
     }
-
-    /*public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-        creationGraphique();
-    }*/
-
 }
