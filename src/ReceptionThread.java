@@ -24,13 +24,11 @@ public class ReceptionThread extends Thread implements Runnable {
         try {
             while (this.running) {
                 recu = this.protocolManager.receptionVisu();
-                System.out.println(recu);
                 if (recu == null) {
                     this.setRunning(false);
                     this.interrupt();
                 }
                 type = this.protocolManager.getTypeOfReceivedMessage(recu);
-                System.out.println("message recu : " + recu);
                 if (!recu.equals("pas connecte")) {
                     if (type.equals("CapteurPresent")) { /* Reception d'un message destiner a mettre a jour l'arbre */
                         if (!this.protocolManager.getFieldFromReceivedMessage(6, recu).equals(";erreur;")) {
@@ -80,7 +78,6 @@ public class ReceptionThread extends Thread implements Runnable {
                             i++;
                             id = this.protocolManager.getFieldFromReceivedMessage(i, recu);
                         }
-                        System.out.println(this.localisationArbrePanel.getCapteurs());
                         //remplir le tableau
                     } else if (type.equals("InscriptionCapteurOK")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
@@ -88,13 +85,6 @@ public class ReceptionThread extends Thread implements Runnable {
 
                     } else if (type.equals("DesinscriptionCapteurOK")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
-                        System.out.println();
-                        System.out.println("Liste des capteurs inscrits");
-                        for (int i = 0; i < this.localisationArbrePanel.getCapteurInscrit().size(); i++)
-                        {
-                            System.out.print(this.localisationArbrePanel.getCapteurInscrit().get(i).getNom() + ", ");
-                        }
-                        System.out.println();
                     } else if (type.equals("DesinscriptionCapteurKO")) {
                         this.tableauDonnees.suppressionCapteursNonInscrits(this.localisationArbrePanel.getCapteurInscrit());
                     } else if (type.equals("ValeurCapteur")) { /* Reception d'un message destiné a mettre à jour le tableau */
