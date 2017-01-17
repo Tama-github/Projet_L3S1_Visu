@@ -173,11 +173,10 @@ public class FenetreGraphe extends JFrame {
     public void creationGraphique () throws Exception {
 
         //Création de l'objet File
-        File f = new File("Fichiers/test");
+        File f = new File("Fichiers/HistoriqueCapteurs");
 
         //S'il y a un problème à la création du fichier
         if (f == null) {
-            System.out.println("Erreur : Problème lors de la recherche du fichier !");
             setVisible(false);
             dispose();
         }
@@ -231,15 +230,11 @@ public class FenetreGraphe extends JFrame {
                                 case 1:
                                     lieu = mots[0];
 
-                                    if (lieu.equalsIgnoreCase("Interieur") || lieu.equalsIgnoreCase("Intérieur")) {
-                                        //in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
-                                        //where = new LieuCapteur(0, in, out);
+                                    if (lieu.equalsIgnoreCase("Interieur") || lieu.equalsIgnoreCase("Intérieur"))
                                         where = new LocalisationInterieur("Interieur", mots[1], mots[2], mots[3], null);
-                                    } else if (lieu.equalsIgnoreCase("Exterieur") || lieu.equalsIgnoreCase("Extérieur")) {
-                                        //out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
-                                        //where = new LieuCapteur(1, in, out);
+                                    else if (lieu.equalsIgnoreCase("Exterieur") || lieu.equalsIgnoreCase("Extérieur"))
                                         where = new LocalisationExterieur("Exterieur", Double.parseDouble(mots[1]), Double.parseDouble(mots[2]));
-                                    } else
+                                    else
                                         erreurTypage = true;
 
                                     break;
@@ -283,8 +278,6 @@ public class FenetreGraphe extends JFrame {
                 }
 
                 if (erreurTypage) {
-                    System.out.println("Type de valeur non reconnu...");
-                    System.out.println("Unite : " + unite + ", type : " + typeUnite);
                     while (!mots[0].equals("end")) {
                         line = scanner.nextLine();
                         mots = line.split(" ");

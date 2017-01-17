@@ -206,7 +206,7 @@ public class Graphe extends JPanel {
             g.drawString("1000", xDep_V - (5 + String.valueOf("1000").length() * 8), yDep_V + 7);
         else
             g.drawString("0", xDep_V - 13, yDep_V + 7);
-        g.setFont(saveFont);							//Cette ligne remet les paramètres d'écriture du graphe à la normale.
+        g.setFont(saveFont);	//Cette ligne remet les paramètres d'écriture du graphe à la normale.
 
         //Légende axe abscisses
         g.setFont(new Font("Arial", Font.BOLD, 14));

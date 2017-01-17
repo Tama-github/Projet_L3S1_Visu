@@ -201,7 +201,6 @@ public class AffichageGraphe extends JFrame {
         droite.setPreferredSize(new Dimension(largeurDroite, 600));
         droite.setLayout(new BoxLayout(droite, BoxLayout.LINE_AXIS));
         droite.setBorder(BorderFactory.createTitledBorder("Graphique"));
-        //droite.add(listeGraphes.get(0));
         droite.add(new JScrollPane(listeGraphes.get(0)));
 
         baseGlobale.setPreferredSize(new Dimension(800, 650));
