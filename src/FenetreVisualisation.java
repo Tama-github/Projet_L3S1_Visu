@@ -110,11 +110,8 @@ public class FenetreVisualisation extends JFrame {
                         nouveauGraphe.setOuvert(true);
                     }
                 }
-                catch (FileNotFoundException err) {
-                    err.getMessage();
-                }
-                catch(InterruptedException err) {
-                    err.getMessage();
+                catch(Exception err) {
+                    System.out.println(err);
                 }
             }
         });

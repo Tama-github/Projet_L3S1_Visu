@@ -2,18 +2,10 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FenetreGraphe extends JFrame {
-
-    /*protected InformationsCapteur grapheCapteur;
-
-    public Graphique (InformationsCapteur donnees) {
-        this.grapheCapteur = donnees;
-    }*/
 
     private AffichageGraphe graphe = new AffichageGraphe();
 
@@ -61,33 +53,34 @@ public class FenetreGraphe extends JFrame {
      * @return entier : valeur maximale possible suivant le type
      */
     private static int verifierMax(String type) {
+        //Des maximums multiples de 10 sont très fortement recommandés afin de ne pas avoir de soucis d'échelle
         switch (type) {
             case "%" :
-                return 100;
+                return 100; //Ne pas modifier ! Un pourcentage doit avoir un maximum de 100% !
 
             case "°C" :
-                return 50;
+                return 30;    //Choix arbitraire
 
             case "lum" :
-                return 1000;
+                return 1000;    //Choix arbitraire
 
             case "dB" :
-                return 120;
+                return 120;    //Choix arbitraire
 
             case "W" :
-                return 3000;
+                return 3000;    //Choix arbitraire
 
             case "l" :
-                return 100;
+                return 100;    //Choix arbitraire
 
             case "km/h" :
-                return 150;
+                return 150;    //Choix arbitraire
 
             case "hPa" :
-                return 1100;
+                return 1100;    //Choix fait en fonction de la pression atmosphérique moyenne qui est entre 1000 et 1050 hPA
 
             default :
-                return 0;
+                return 100;
         }
     }
 
@@ -177,51 +170,41 @@ public class FenetreGraphe extends JFrame {
     }
 
 
-    public void creationGraphique () throws FileNotFoundException, InterruptedException {
+    public void creationGraphique () throws Exception {
 
         //Création de l'objet File
         File f = new File("Fichiers/test");
+
+        //S'il y a un problème à la création du fichier
         if (f == null) {
             System.out.println("Erreur : Problème lors de la recherche du fichier !");
             setVisible(false);
             dispose();
         }
-
+        //... sinon
         else {
             Scanner scanner = new Scanner(f);
-            int nbMots = 0, taille = 0, nbLignesRestantes = 10;
-            Boolean finFichier = false, erreurTypage = false;
-            String line = null;
+            Boolean finFichier = false, erreurTypage;
+            String line;
 
-            ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<InformationsCapteur>();
+            ArrayList<InformationsCapteur> listeInformationsCapteurs = new ArrayList<>();
 
-            LieuCapteur where = null;
-            Interieur in = null;
-            Exterieur out = null;
+            Localisation where = null;
 
             String nom = null;
-            String lieu = null;
-            String batiment = null;
-            int etage = 0, salle = 0;
+            String lieu;
             String typeUnite = null;
             String unite = null;
-            String typeTemps = null;
             String uniteTemps = null;
 
-            ArrayList<Mesure> mesures = new ArrayList<Mesure>();
+            ArrayList<Mesure> mesures;
 
             String[] mots = null;
-        /*for(int i=0;i<mots.length;i++){
-            System.out.print("Mot["+i+"]="+mots[i]);
-        }*/
 
             while ((scanner.hasNextLine()) && (!finFichier)) {
-                //InformationsCapteur capt = null;
                 int cmpt = 0;
                 Boolean fin = false;
-                mesures = new ArrayList<Mesure>();
-                in = null;
-                out = null;
+                mesures = new ArrayList<>();
 
                 erreurTypage = false;
 
@@ -248,13 +231,14 @@ public class FenetreGraphe extends JFrame {
                                 case 1:
                                     lieu = mots[0];
 
-
                                     if (lieu.equalsIgnoreCase("Interieur") || lieu.equalsIgnoreCase("Intérieur")) {
-                                        in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
-                                        where = new LieuCapteur(0, in, out);
+                                        //in = new Interieur(mots[1], Integer.parseInt(mots[2]), Integer.parseInt(mots[3]));
+                                        //where = new LieuCapteur(0, in, out);
+                                        where = new LocalisationInterieur("Interieur", mots[1], mots[2], mots[3], null);
                                     } else if (lieu.equalsIgnoreCase("Exterieur") || lieu.equalsIgnoreCase("Extérieur")) {
-                                        out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
-                                        where = new LieuCapteur(1, in, out);
+                                        //out = new Exterieur(Integer.parseInt(mots[1]), Integer.parseInt(mots[2]));
+                                        //where = new LieuCapteur(1, in, out);
+                                        where = new LocalisationExterieur("Exterieur", Double.parseDouble(mots[1]), Double.parseDouble(mots[2]));
                                     } else
                                         erreurTypage = true;
 
@@ -305,27 +289,17 @@ public class FenetreGraphe extends JFrame {
                         line = scanner.nextLine();
                         mots = line.split(" ");
                     }
-                    cmpt = 0;
-                } else if (cmpt > 3) {
+                }
+                else if (cmpt > 3) {
                     if (!scanner.hasNextLine()) {
                         finFichier = true;
                     } else {
                         scanner.nextLine();
                     }
                     listeInformationsCapteurs.add(new InformationsCapteur(nom, mesures, where));
-                    //capt.listeMesures = mesures;
-                    //capt.loc = where;
                 }
-
             }
-
             graphe.creationGraphe(listeInformationsCapteurs);
-            //test = new creationGraphe(listeInformationsCapteurs.get(0));
         }
     }
-
-    /*public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-        creationGraphique();
-    }*/
-
 }
