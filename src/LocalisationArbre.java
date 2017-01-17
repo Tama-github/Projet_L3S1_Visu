@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * Created by msi on 19/12/2016.
+ * Created by Ludovic Burg on 19/12/2016.
  */
 public class LocalisationArbre {
     private DefaultMutableTreeNode arbre;

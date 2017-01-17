@@ -1,7 +1,7 @@
 import java.io.IOException;
 
 /**
- * Thread qui gere l'envoi des donnees au serveur
+ * Thread qui gere la reception des donnees du serveur
  * @autor Ludovic BURG
  */
 public class ReceptionThread extends Thread implements Runnable {

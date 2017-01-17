@@ -1,5 +1,5 @@
 /**
- * Created by msi on 23/11/2016.
+ * Created by Ludovic Burg on 23/11/2016.
  */
 public class LocalisationInterieur extends Localisation {
     private String batiment;

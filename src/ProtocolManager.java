@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by msi on 19/12/2016.
+ * Created by Ludovic Burg on 19/12/2016.
  */
 public class ProtocolManager {
     private ServicesReseau servicesReseau;

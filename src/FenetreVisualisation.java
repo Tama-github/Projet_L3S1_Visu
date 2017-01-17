@@ -12,7 +12,7 @@ import static javax.swing.Box.createRigidArea;
 import static javax.swing.Box.createVerticalGlue;
 
 /**
- * Created by msi on 20/12/2016.
+ * Created by Ludovic BURG on 20/12/2016.
  *
  * Credit icone Maxim Basinski
  */
