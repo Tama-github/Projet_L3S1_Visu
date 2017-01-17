@@ -11,6 +11,7 @@ public class RenduCell extends DefaultTableCellRenderer
         this.modele = modele;
     }
 
+    //Permet de mettre en rouge ou blanc les lignes de mon tableau ayant des valeurs modifiée, en fonction de la couleur renvoyer par la fonction getRowColor de la classe ModeleTab
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {

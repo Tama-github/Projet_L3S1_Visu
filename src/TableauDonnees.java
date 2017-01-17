@@ -91,7 +91,7 @@ public class TableauDonnees{
 
     }
 
-
+    //permet de faire une sauvegarde des valeurs du tableau, utile pour filtrer le tableau par exemple
     private void backup()
     {
         int i,j;
@@ -104,7 +104,7 @@ public class TableauDonnees{
         }
     }
 
-
+    //Permet de filtrer les valeurs du tableau en fonction du type ou de la localisation
     private void filtrageTableau(String loc, String type)
     {
         removeAll();
@@ -149,7 +149,7 @@ public class TableauDonnees{
         return pGlobal;
     }
 
-
+    //Initialise la comboBox comboType
     private void remplirComboType()
     {
         int i;
@@ -160,6 +160,7 @@ public class TableauDonnees{
         }
     }
 
+    //Initialise la comboBox comboLoc
     public void remplirComboLoc()
     {
         int i;
@@ -170,18 +171,21 @@ public class TableauDonnees{
         }
     }
 
-
+    //permet d'ajouter une ligne à mon tableau
     public void ajoutLigne(Object[] ligne)
     {
         ((ModeleTab) tableau.getModel()).addRow(ligne);
     }
 
 
+    //permet de rafraichir mon taleau en cas de modification de celui-ci
     public void raffraichirDonnees()
     {
         ((ModeleTab) tableau.getModel()).fireTableDataChanged();
     }
 
+
+    //Vide l'integralité du tableau
     public void removeAll()
     {
         int nbLignes = tableau.getRowCount() - 1;
@@ -191,12 +195,14 @@ public class TableauDonnees{
         }
     }
 
+    //Permet de supprimer une ligne
     public void supprimerLigne(int ligne)
     {
         ((ModeleTab) tableau.getModel()).removeRow(ligne);
         backup();
     }
 
+    //Permet de changer la valeur d'un capteur déjà présent dans le tableau
     public void changerValeur(String idCapteur, String valeur)
     {
         int i;
@@ -212,6 +218,7 @@ public class TableauDonnees{
         }
     }
 
+    //Determine si un capteur se trouve dans ma liste de capteurs
     private boolean contient(ArrayList<Capteur> listeCapteurs, String valeur)
     {
         int i;
@@ -225,6 +232,7 @@ public class TableauDonnees{
         return false;
     }
 
+    //Permet de supprimer les capteurs non présent dans la liste listeCapteurs
     public void suppressionCapteursNonInscrits(ArrayList<Capteur> listeCapteurs)
     {
         int i;
@@ -239,6 +247,7 @@ public class TableauDonnees{
         }
     }
 
+    //Determine si un capteur est présent dans le tableau
     public boolean existe(String capteur)
     {
         int i;
@@ -253,6 +262,7 @@ public class TableauDonnees{
         return false;
     }
 
+    //Permet d'ajouter tous les capteurs non déjà présent de la liste en parametre dans le tableau
     public void ajoutListeCapteurs(ArrayList<Capteur> listeCapteurs)
     {
         Capteur capteurCourant;

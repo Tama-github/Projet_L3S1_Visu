@@ -31,23 +31,6 @@ public class AlerteData {
         this.type = type;
     }
 
-    public void setInferieurA(String inferieurA) {
-        this.inferieurA = inferieurA;
-    }
-
-    public void setsuperieurA(String superieurA) {
-        this.superieurA = superieurA;
-    }
-
-    public double getInferieurDouble()
-    {
-        return Double.parseDouble(inferieurA);
-    }
-
-    public double getSuperieurDouble()
-    {
-        return Double.parseDouble(superieurA);
-    }
 
     @Override
     public boolean equals(Object data)

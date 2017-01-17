@@ -87,6 +87,7 @@ public class ModeleTab extends AbstractTableModel {
         this.fireTableDataChanged();
     }
 
+    //Renvoie la couleur désiré d'une ligne en fonction des alertes et des valeurs du tableau
     public Color getRowColor(int row)
     {
         ArrayList<AlerteData> listeAlertes = alerte.getListeAlerte();

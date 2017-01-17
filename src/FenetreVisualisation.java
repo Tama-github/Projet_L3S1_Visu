@@ -94,7 +94,6 @@ public class FenetreVisualisation extends JFrame {
         panGeneral.add(createHorizontalGlue());
         panGeneral.add(hAlerteBoutons);
 
-        //this.fenetreConnexionIP.setIconImage(new ImageIcon("Icon.png").getImage());
 
         this.add(panGeneral);
         this.setVisible(false);
@@ -111,7 +110,7 @@ public class FenetreVisualisation extends JFrame {
                     }
                 }
                 catch(Exception err) {
-                    System.out.println(err);
+                    err.printStackTrace();
                 }
             }
         });

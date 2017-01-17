@@ -93,7 +93,7 @@ public class Alerte{
 
         remplirListeType();
 
-
+        //Evenement sur le bouton supprimer
         supprimer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent annulerEvent) {
@@ -112,7 +112,7 @@ public class Alerte{
             }
         });
 
-
+        //Evenement sur le bouton ajouter
         ajouter.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent appliMouse) {
@@ -184,7 +184,7 @@ public class Alerte{
 
     }
 
-
+    //Permet d'afficher un message d'erreur via un JLabel
     private void setErreur(boolean isErreur, String msg)
     {
         if (isErreur) {
@@ -199,6 +199,7 @@ public class Alerte{
     }
 
 
+    //Permet de detecter des incohérences d'intervalles entre les alertes existantes et la nouvelle
     public boolean coherenceAjout(AlerteData nouveau)
     {
         int i;
@@ -234,6 +235,7 @@ public class Alerte{
         return true;
     }
 
+    //Permet de supprimer les incoherences d'intervalles des alertes entre les alertes existantes et la nouvelle alerte
     private void supprimerIncoherence(AlerteData nouveau)
     {
         int i;
@@ -266,6 +268,7 @@ public class Alerte{
         }
     }
 
+    //Permet de remplir la comboBox des alertes à partir de la liste d'alerteData
     private void remplirComboListe()
     {
         AlerteData courant;
@@ -277,7 +280,7 @@ public class Alerte{
         }
     }
 
-
+    //Retourne un objet alerteData à partir d'une chaine de caractere contenu dans la comboBox des alertes
     private AlerteData parseChaineComboBoxToChaineListe(String chaine)
     {
         char courant;
@@ -446,11 +449,9 @@ public class Alerte{
         return (new AlerteData(type, inf, sup));
     }
 
+    //créer un String à mettre dans la comboBox des alrtes à partir de données d'alerteData
     private String creerChaineComboBox(String inf, String sup, String type)
     {
-         /* 10 < Température < 50  */
-        /*  Température < 10    */
-        /* Température > 50   */
         if (inf.equals("") && !sup.equals("") && !type.equals(""))
         {
             return type + " > " + sup;
@@ -470,6 +471,7 @@ public class Alerte{
         }
     }
 
+    //Rempli la comboBox typeDonnees avec les types de données existants
     private void remplirListeType()
     {
         int i;
@@ -490,12 +492,7 @@ public class Alerte{
 
     }
 
-
-    public JButton getAjouter() {
-        return ajouter;
-    }
-
-
+    //verifie que le champ inferieur à est plus petit que le champssuperieur à
     private boolean verifInterval(double min, double max)
      {
          if (max < min)
@@ -509,6 +506,12 @@ public class Alerte{
              return true;
          }
      }
+
+     //Guetteurs d'objets importants
+
+    public JButton getAjouter() {
+        return ajouter;
+    }
 
     public JButton getSupprimer() {
         return supprimer;
